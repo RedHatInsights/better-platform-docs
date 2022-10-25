@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "watch:compose": "node watchers/compose-mdx.mjs",
+    "dev:compose": "concurrently \"npm run watch:compose\" \"npm run dev\""
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.5",
@@ -23,6 +25,7 @@
     "@types/node": "18.11.5",
     "@types/react": "18.0.22",
     "@types/react-dom": "18.0.7",
+    "concurrently": "^7.5.0",
     "eslint": "8.26.0",
     "eslint-config-next": "12.3.1",
     "fs-extra": "^10.1.0",
