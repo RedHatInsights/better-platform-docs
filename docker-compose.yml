@@ -1,0 +1,9 @@
+version: '2'
+services:
+  platform-docs:
+    command: sh -c "npm run dev"
+    ports:
+      - "3000:3000"
+    image: quay.io/mmarosi/platform-docs
+    volumes:
+      - ./docs:/pages/<repo-name>
