@@ -1,0 +1,32 @@
+{
+  "name": "platform-docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mdx-js/loader": "^2.1.5",
+    "@mdx-js/react": "^2.1.5",
+    "@patternfly/react-core": "4.250.1",
+    "@patternfly/react-icons": "4.92.6",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-jss": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.5",
+    "@types/react": "18.0.22",
+    "@types/react-dom": "18.0.7",
+    "eslint": "8.26.0",
+    "eslint-config-next": "12.3.1",
+    "glob": "^8.0.3",
+    "next-transpile-modules": "^9.1.0",
+    "remark-gfm": "^3.0.1",
+    "typescript": "4.8.4"
+  }
+}
