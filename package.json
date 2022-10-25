@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "watch:compose": "node watchers/compose-mdx.mjs",
-    "dev:compose": "concurrently \"npm run watch:compose\" \"npm run dev\""
+    "dev:compose": "npm ci && concurrently \"npm run watch:compose\" \"npm run dev\""
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.5",
