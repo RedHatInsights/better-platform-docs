@@ -10,7 +10,8 @@
     "generate:all": "node generators/generate-all.mjs",
     "watch:compose": "node watchers/compose-mdx.mjs",
     "watch:nav": "node watchers/nav-watcher.mjs",
-    "dev:compose": "concurrently \"npm run watch:compose\" \"npm run watch:nav\" \"npm run dev\""
+    "watch:sections": "node watchers/sections-watcher.mjs",
+    "dev:compose": "concurrently \"npm run watch:compose\" \"npm run watch:nav\" \"npm run watch:sections\" \"npm run dev\""
   },
   "dependencies": {
     "@mdx-js/loader": "^2.1.5",

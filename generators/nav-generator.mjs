@@ -2,8 +2,7 @@ import fsExtra from "fs-extra";
 import glob from "glob";
 import path from "path";
 import { fileURLToPath } from "url";
-
-fsExtra.readdirSync;
+import { capitalize, getSections } from "./common.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,7 +17,6 @@ const NAVIGATIONS_FOLDER = path.resolve(
   "../components/Navigation/schemas"
 );
 
-const capitalize = (str = "") => str[0].toUpperCase() + str.slice(1);
 const sanitizePage = (page = "") => {
   let title = page
     .split("/")
@@ -40,12 +38,6 @@ const sanitizePage = (page = "") => {
   };
 };
 
-const getSections = () =>
-  fsExtra
-    .readdirSync(SECTIONS_GLOB, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map(({ name }) => name);
-
 const getPages = () => glob.sync(ALL_PAGES_GLOB).map(sanitizePage);
 const getPageSection = (page) =>
   page.split("/pages").slice(1).pop().split("/").slice(1).shift();
@@ -59,7 +51,7 @@ const storeSection = (section, nav) => {
 
 function getMetaData() {
   return {
-    sections: getSections(),
+    sections: getSections(SECTIONS_GLOB),
     pages: getPages(),
   };
 }
