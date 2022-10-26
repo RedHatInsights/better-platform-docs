@@ -4,6 +4,7 @@ import { PropsWithChildren, useState } from "react";
 import { createUseStyles } from "react-jss";
 import Image from "next/image";
 import Navigation from "../../Navigation";
+import useNavSchema from "../../Navigation/useNavSchema";
 
 const useStyles = createUseStyles({
   page: {
@@ -34,6 +35,7 @@ const schema = {
 const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const [isNavOpen, setIsnavOpen] = useState(true);
   const classes = useStyles();
+  const { section, items: navItems } = useNavSchema();
   const Header = (
     <PageHeader
       logo={
@@ -52,7 +54,12 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <Page
       sidebar={
-        <PageSidebar isNavOpen={isNavOpen} nav={<Navigation {...schema} />} />
+        navItems.length > 0 ? (
+          <PageSidebar
+            isNavOpen={isNavOpen}
+            nav={<Navigation section={section} items={navItems} />}
+          />
+        ) : undefined
       }
       className={classes.page}
       header={Header}

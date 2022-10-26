@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { Button } from "@patternfly/react-core";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -13,6 +14,9 @@ const Home: NextPage = () => {
 
       <main>
         <Button>Foo bar</Button>
+        <Link href="/contributing">
+          <a>Contributing</a>
+        </Link>
       </main>
     </div>
   );

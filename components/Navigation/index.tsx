@@ -27,14 +27,15 @@ const NavLink: React.FC<{ href?: string; title: ReactNode }> = ({
   );
 };
 
-const Navigation: React.FC<{
+export type NavigationProps = {
   items: { title: string; href: string }[];
-  index: { title: string };
-}> = ({ items, index }) => {
+  section: string;
+};
+
+const Navigation: React.FC<NavigationProps> = ({ items, section }) => {
   return (
-    <Nav title={index.title} ouiaId="docs-nav">
+    <Nav title={section} ouiaId="docs-nav">
       <NavList>
-        <NavLink {...index} />
         {items.map(({ title, href }) => (
           <NavLink key={href} href={href} title={title} />
         ))}
