@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
-import React, { Fragment } from 'react';
-import Document, { Head, Html, Main, NextScript } from 'next/document';
-import { JssProvider, SheetsRegistry, createGenerateId } from 'react-jss';
+import React, { Fragment } from "react";
+import Document, { Head, Html, Main, NextScript } from "next/document";
+import { JssProvider, SheetsRegistry, createGenerateId } from "react-jss";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: any) {
@@ -36,8 +36,16 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
-          <link rel="stylesheet" type="text/css" href="https://unpkg.com/@patternfly/patternfly@latest/patternfly.min.css" />
-          <link rel="stylesheet" type="text/css" href="https://unpkg.com/@patternfly/patternfly@latest/patternfly-addons.css" />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://unpkg.com/@patternfly/patternfly@latest/patternfly.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://unpkg.com/@patternfly/patternfly@latest/patternfly-addons.css"
+          />
         </Head>
         <body>
           <Main />

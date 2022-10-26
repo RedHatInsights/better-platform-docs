@@ -87,11 +87,11 @@ const A: React.FC<
         React.AnchorHTMLAttributes<HTMLAnchorElement>,
         HTMLAnchorElement
       >
-    > & { href: string },
+    >,
     "ref"
   >
-> = ({ children, target, ...props }) => (
-  <Link {...props}>
+> = ({ children, href, target, ...props }) => (
+  <Link href={href || "#"} {...props}>
     <a target={target}>{children}</a>
   </Link>
 );
@@ -162,7 +162,7 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
   </TextContent>
 );
 
-const components = {
+const MDXProviderComponents = {
   a: A,
   h1: H1,
   h2: H2,
@@ -175,4 +175,4 @@ const components = {
   p: Paragraph,
 };
 
-export default components;
+export default MDXProviderComponents;
