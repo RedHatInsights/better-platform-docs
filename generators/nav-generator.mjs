@@ -2,20 +2,13 @@ import fsExtra from "fs-extra";
 import glob from "glob";
 import path from "path";
 import { fileURLToPath } from "url";
-import { capitalize, getSections } from "./common.mjs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const SECTIONS_GLOB = path.resolve(__dirname, "../pages");
-const ALL_PAGES_GLOB = path.resolve(
-  __dirname,
-  "../pages/*/**/*.{md,mdx,js,jsx,ts,tsx}"
-);
-const NAVIGATIONS_FOLDER = path.resolve(
-  __dirname,
-  "../components/Navigation/schemas"
-);
+import {
+  ALL_PAGES_GLOB,
+  capitalize,
+  getSections,
+  NAVIGATIONS_FOLDER,
+  SECTIONS_GLOB,
+} from "./common.mjs";
 
 const sanitizePage = (page = "") => {
   let title = page
@@ -70,9 +63,9 @@ export function generateAll() {
   fsExtra.ensureDirSync(NAVIGATIONS_FOLDER);
 
   // write schemas for all pages sections
-  Object.entries(schemas).forEach(([section, nav]) => {
-    storeSection(section, nav);
-  });
+  Object.entries(schemas).forEach(([section, nav]) =>
+    storeSection(section, nav)
+  );
 }
 
 const getSectionNavigation = (section) => {
