@@ -10,28 +10,31 @@ const PAGES_GLOB = path.resolve(
   __dirname,
   "../pages/*/**/*.{md,mdx,js,jsx,ts,tsx}"
 );
-// make sure navigation files exist
-generateAll();
 
-// start watching
-const watcher = chokidar.watch(PAGES_GLOB, { ignoreInitial: true });
+// run in timeout after initial copy file wathcer has done its business
+setTimeout(() => {
+  // make sure navigation files exist
+  generateAll();
+  // start watching
+  const watcher = chokidar.watch(PAGES_GLOB, { ignoreInitial: true });
 
-const log = console.log.bind(console);
+  const log = console.log.bind(console);
 
-watcher
-  .on("add", (path) => {
-    try {
-      mutateItem(path, "add");
-      log(`File ${path} was added to nav`);
-    } catch (error) {
-      log(`Unable to add ${path} to nav!`, error);
-    }
-  })
-  .on("unlink", (path) => {
-    try {
-      mutateItem(path, "remove");
-      log(`File ${path} has been removed from nav`);
-    } catch (error) {
-      log(`Unable to remove ${path} from nav!`, error);
-    }
-  });
+  watcher
+    .on("add", (path) => {
+      try {
+        mutateItem(path, "add");
+        log(`File ${path} was added to nav`);
+      } catch (error) {
+        log(`Unable to add ${path} to nav!`, error);
+      }
+    })
+    .on("unlink", (path) => {
+      try {
+        mutateItem(path, "remove");
+        log(`File ${path} has been removed from nav`);
+      } catch (error) {
+        log(`Unable to remove ${path} from nav!`, error);
+      }
+    });
+});
