@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 const SECTIONS_GLOB = path.resolve(__dirname, "../pages");
 const ALL_PAGES_GLOB = path.resolve(
   __dirname,
-  "../pages/*/**/*.{md,mdx,js,jsx}"
+  "../pages/*/**/*.{md,mdx,js,jsx,ts,tsx}"
 );
 const NAVIGATIONS_FOLDER = path.resolve(
   __dirname,
@@ -47,6 +47,15 @@ const getSections = () =>
     .map(({ name }) => name);
 
 const getPages = () => glob.sync(ALL_PAGES_GLOB).map(sanitizePage);
+const getPageSection = (page) =>
+  page.split("/pages").slice(1).pop().split("/").slice(1).shift();
+
+const storeSection = (section, nav) => {
+  fsExtra.writeJSONSync(`${NAVIGATIONS_FOLDER}/${section}.json`, nav, {
+    // pretty JSON
+    spaces: 2,
+  });
+};
 
 function getMetaData() {
   return {
@@ -60,7 +69,7 @@ export function generateAll() {
   const schemas = sections.reduce(
     (acc, curr) => ({
       ...acc,
-      [curr]: pages.filter(({ href }) => href.includes(`/${curr}`)),
+      [curr]: pages.filter(({ href }) => href.match(RegExp(`^/${curr}`))),
     }),
     {}
   );
@@ -70,9 +79,56 @@ export function generateAll() {
 
   // write schemas for all pages sections
   Object.entries(schemas).forEach(([section, nav]) => {
-    fsExtra.writeJSONSync(`${NAVIGATIONS_FOLDER}/${section}.json`, nav, {
-      // pretty JSON
-      spaces: 2,
-    });
+    storeSection(section, nav);
   });
+}
+
+const getSectionNavigation = (section) => {
+  const sectionFile = `${NAVIGATIONS_FOLDER}/${section}.json`;
+  fsExtra.ensureFileSync(sectionFile);
+  // file might not be in json format, read as normal file;
+  const data = fsExtra.readFileSync(sectionFile, { encoding: "utf-8" });
+  let jsonData;
+  try {
+    jsonData = JSON.parse(data);
+  } catch (error) {
+    // file was not JSON and is empty
+    jsonData = [];
+  }
+  return jsonData;
+};
+
+function addItemToNav(path) {
+  const sectionName = getPageSection(path);
+  const page = sanitizePage(path);
+  let section = getSectionNavigation(sectionName);
+  const index = section.findIndex(({ href }) => href === page.href);
+  if (index === -1) {
+    // new item
+    section.push(page);
+  } else {
+    section[index] = page;
+  }
+  section = section.sort((a, b) => (a.href > b.href ? 1 : -1));
+  storeSection(sectionName, section);
+}
+
+function removeItemFromNav(path) {
+  const sectionName = getPageSection(path);
+  const page = sanitizePage(path);
+  let section = getSectionNavigation(sectionName);
+  section = section.filter(
+    (item) => JSON.stringify(item) !== JSON.stringify(page)
+  );
+  storeSection(sectionName, section);
+}
+
+export function mutateItem(path, type) {
+  if (type === "add") {
+    addItemToNav(path);
+  }
+
+  if (type === "remove") {
+    removeItemFromNav(path);
+  }
 }
