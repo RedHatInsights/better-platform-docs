@@ -1,34 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Getting started
 
-## Getting Started
+1. make sure you have an LTS node installed (16.x.x)
+2. to test "external mode", make sure you have docker-compose installed and can pull images from https://quay.io
 
-First, run the development server:
+## Local development
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+1. install dependencies with `npm install`
+2. run `npm run dev:compose` to kickstarts development server
+3. open your browser at http://locahost:300
+4. add/change `.mdx?` files in the `pages` directory
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## External development
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. In the desired repository add a `docker-compose.yml`. You can copy the `docker-compose.yml` from this repository.
+2. In the copied `docker-compose.yml`, change the `<repo-name>` for your project name. The name will be used as a root section route.
+3. In your project create `docs` directory.
+4. In the `docs` directory create Markdown files with documentation content.
+5. Run `docker-compose up` to spin the development environment.
+6. Open your browser at `http://locahost:3000/<repo-name>`.
+7. Continue editing content inside the `docs` directory.
