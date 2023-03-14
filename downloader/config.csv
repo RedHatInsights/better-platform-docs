@@ -1,2 +1,3 @@
-RedHatInsights,frontend-components,master,/packages/docs/pages/fec
-RedHatInsights,frontend-components,master,/packages/docs/pages/feature-flags
+gh org,repository,branch,path to docs,title
+RedHatInsights,frontend-components,master,/packages/docs/pages/fec,Platform experience
+RedHatInsights,frontend-components,master,/packages/docs/pages/feature-flags,Platform experience

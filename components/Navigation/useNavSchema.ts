@@ -10,10 +10,11 @@ const useNavSchema = () => {
   });
 
   useEffect(() => {
-    const section = router.pathname.split("/").slice(1).shift();
+    const section = router.pathname.split("/").slice(1);
+    const currSection = section.pop() || "";
     if (section && section.length > 0) {
-      import(`./schemas/${section}.json`)
-        .then((mod) => setSchema({ items: mod.default, section }))
+      import(`./schemas/${section}/${currSection}.json`)
+        .then((mod) => setSchema({ items: mod.default, section: currSection }))
         .catch((error) => {
           // silet error
           console.log("No schema found: ", error);

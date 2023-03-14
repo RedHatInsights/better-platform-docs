@@ -8,11 +8,20 @@ const __dirname = path.dirname(__filename);
 export const capitalize = (str = "") =>
   `${str[0].toUpperCase()}${str.slice(1)}`;
 
-export const getSections = (SECTIONS_GLOB) =>
+const readSubDir = (SECTIONS_GLOB) =>
   fse
     .readdirSync(SECTIONS_GLOB, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map(({ name }) => name);
+    .filter((dirent) => dirent.isDirectory());
+
+export const getSections = (SECTIONS_GLOB) => {
+  return readSubDir(SECTIONS_GLOB).flatMap(({ name }) => {
+    return readSubDir(`${SECTIONS_GLOB}/${name}`).map(({ name: subDir }) => ({
+      name: subDir,
+      path: `${name}/${subDir}`,
+      parent: name,
+    }));
+  });
+};
 
 export const ALL_PAGES_GLOB = path.resolve(
   __dirname,
