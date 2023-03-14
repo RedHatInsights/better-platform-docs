@@ -1,0 +1,9 @@
+# ignore everything except document files
+
+*
+!.gitignore
+!components
+!contributing
+!_app.tsx
+!index.tsx
+!_document.tsx
