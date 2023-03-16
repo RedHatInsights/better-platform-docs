@@ -1,36 +1,61 @@
-import { Page, PageHeader, PageSidebar } from "@patternfly/react-core";
+import {
+  Page,
+  PageHeader,
+  PageSidebar,
+  Split,
+  SplitItem,
+  Stack,
+  StackItem,
+} from "@patternfly/react-core";
 import Link from "next/link";
+import classnames from "clsx";
 import { PropsWithChildren, useState } from "react";
 import { createUseStyles } from "react-jss";
 import Image from "next/image";
 import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
+import TableOfContents from "../../table-of-contents";
 
 const useStyles = createUseStyles({
   page: {
-    height: "100vh",
+    height: "100vh !important",
   },
-  brandLink: {
+  logo: {
+    width: 100,
+  },
+  platExGuy: {
+    maxHeight: "100%",
+  },
+  content: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "calc(100% - 16px * 2)",
     display: "flex",
+    flexDirection: "column",
+  },
+  tableOfContents: {
+    display: "none",
+  },
+  "@media (min-width: 1200px)": {
+    content: {
+      width: 900,
+    },
+    tableOfContents: {
+      display: "block",
+    },
+  },
+  link: {
+    textDecoration: "none",
+    color: "var(--pf-global--BackgroundColor--100)",
+  },
+  footer: {
+    height: "auto",
+    background: "var(--pf-global--BackgroundColor--dark-100)",
+  },
+  contentWrapper: {
+    flex: 1,
   },
 });
-
-const schema = {
-  index: {
-    title: "To home",
-    href: "/",
-  },
-  items: [
-    {
-      title: "Bar",
-      href: "/foo",
-    },
-    {
-      title: "Baz",
-      href: "/baz",
-    },
-  ],
-};
 
 const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const [isNavOpen, setIsnavOpen] = useState(true);
@@ -40,7 +65,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
     <PageHeader
       logo={
         <Link href="/">
-          <a className={classes.brandLink}>
+          <a className={classes.logo}>
             <Image width={100} height={50} src="/logo.svg" alt="logo" />
           </a>
         </Link>
@@ -64,7 +89,18 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       className={classes.page}
       header={Header}
     >
-      {children}
+      <Split style={{ minHeight: "76.9vh" }} hasGutter>
+        <SplitItem isFilled>
+          <div className={classnames("pf-u-p-md", classes.content)}>
+            <Stack hasGutter>
+              <StackItem id="docs-content">{children}</StackItem>
+            </Stack>
+          </div>
+        </SplitItem>
+        <SplitItem className={classes.tableOfContents}>
+          <TableOfContents />
+        </SplitItem>
+      </Split>
     </Page>
   );
 };
