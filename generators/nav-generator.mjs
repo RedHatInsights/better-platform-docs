@@ -27,7 +27,7 @@ const sanitizePage = (page = "") => {
       .pop()
       .replace(/\.(mdx?|jsx?|tsx?)/, "")
       .replace(/\/index$/, ""),
-    title: capitalize(title),
+    title: capitalize(title).replace(/-/gi, " "),
   };
 };
 
@@ -57,7 +57,7 @@ export function generateAll() {
   const schemas = sections.reduce(
     (acc, curr) => ({
       ...acc,
-      [curr.name]: pages.filter(({ href }) =>
+      [curr.path]: pages.filter(({ href }) =>
         href.match(RegExp(`^/${curr.path}`))
       ),
     }),

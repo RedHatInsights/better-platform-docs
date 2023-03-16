@@ -36,7 +36,6 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const [isNavOpen, setIsnavOpen] = useState(true);
   const classes = useStyles();
   const { section, items: navItems } = useNavSchema();
-  console.log(navItems, 'this is navItems!');
   const Header = (
     <PageHeader
       logo={
