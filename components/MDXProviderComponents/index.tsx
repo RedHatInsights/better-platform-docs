@@ -21,10 +21,8 @@ import React, {
   DetailedHTMLProps,
   HTMLAttributes,
   PropsWithChildren,
-  ReactHTML,
-  ReactNode,
 } from "react";
-import CodeHighlight from "./code-highlight";
+import CodeHighlight from "../example-component/code-highlight";
 import { Language } from "prism-react-renderer";
 
 const useAnchorStyles = createUseStyles({
