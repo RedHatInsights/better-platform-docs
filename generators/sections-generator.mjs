@@ -10,10 +10,22 @@ import {
 
 export const generateSections = () => {
   const sections = getSections(SECTIONS_GLOB);
-  const schema = sections.map((name) => ({
-    title: capitalize(name),
-    href: `/${name}`,
-  }));
+  const schema = sections.reduce(
+    (acc, { name, path, parent }) => ({
+      ...acc,
+      [parent]: {
+        title: capitalize(parent).replace(/-/gi, " "),
+        items: [
+          ...(acc[parent]?.items || []),
+          {
+            title: capitalize(name),
+            href: `/${path}`,
+          },
+        ],
+      },
+    }),
+    {}
+  );
   fsExtra.ensureDirSync(SECTIONS_DIR);
   fsExtra.writeJsonSync(`${SECTIONS_DIR}/sections.json`, schema, { spaces: 2 });
 };

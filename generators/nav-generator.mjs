@@ -27,7 +27,7 @@ const sanitizePage = (page = "") => {
       .pop()
       .replace(/\.(mdx?|jsx?|tsx?)/, "")
       .replace(/\/index$/, ""),
-    title: capitalize(title),
+    title: capitalize(title).replace(/-/gi, " "),
   };
 };
 
@@ -36,6 +36,9 @@ const getPageSection = (page) =>
   page.split("/pages").slice(1).pop().split("/").slice(1).shift();
 
 const storeSection = (section, nav) => {
+  const subFolders = section.split("/");
+  subFolders.pop();
+  fsExtra.ensureDirSync(`${NAVIGATIONS_FOLDER}/${subFolders.join("/")}`);
   fsExtra.writeJSONSync(`${NAVIGATIONS_FOLDER}/${section}.json`, nav, {
     // pretty JSON
     spaces: 2,
@@ -54,7 +57,9 @@ export function generateAll() {
   const schemas = sections.reduce(
     (acc, curr) => ({
       ...acc,
-      [curr]: pages.filter(({ href }) => href.match(RegExp(`^/${curr}`))),
+      [curr.path]: pages.filter(({ href }) =>
+        href.match(RegExp(`^/${curr.path}`))
+      ),
     }),
     {}
   );

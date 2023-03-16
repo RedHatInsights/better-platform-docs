@@ -17,7 +17,15 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { LinkIcon } from "@patternfly/react-icons";
 import Link from "next/link";
-import React, { PropsWithChildren, ReactHTML, ReactNode } from "react";
+import React, {
+  DetailedHTMLProps,
+  HTMLAttributes,
+  PropsWithChildren,
+  ReactHTML,
+  ReactNode,
+} from "react";
+import CodeHighlight from "./code-highlight";
+import { Language } from "prism-react-renderer";
 
 const useAnchorStyles = createUseStyles({
   anchorIcon: {
@@ -137,6 +145,18 @@ export const Table: React.FC = (props) => {
   );
 };
 
+const Code: React.FC<
+  DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
+> = ({ children, className }) =>
+  /language-(\w+)/.exec(className || "") ? (
+    <CodeHighlight
+      language={(className ? className.split("-").pop() : "") as Language}
+      sourceCode={children as string}
+    />
+  ) : (
+    <code>{children}</code>
+  );
+
 const Li: React.FC<PropsWithChildren> = ({ children }) => (
   <TextListItem component={TextListItemVariants.li}>{children}</TextListItem>
 );
@@ -169,6 +189,7 @@ const MDXProviderComponents = {
   h3: H3,
   h4: H4,
   table: Table,
+  code: Code,
   li: Li,
   ol: OrderedList,
   ul: UnorderedList,
