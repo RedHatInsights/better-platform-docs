@@ -1,4 +1,22 @@
-gh org,repository,branch,path to docs,title,is public
-RedHatInsights,frontend-components,master,/packages/docs/pages/fec,Platform experience
-RedHatInsights,frontend-components,master,/packages/docs/pages/feature-flags,Platform experience
+gh org,repository,branch,path to docs,title
+RedHatInsights,frontend-components,master,/packages/docs/pages/analytics,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/chrome,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/common-issues,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/contributing,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/csc,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/deployment-process,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/fed,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/frontend-components-config,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/hac,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/insights-standalone,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/inventory-components,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/landing-page,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/new-app-ui,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/platform-experience,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/proxies,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/quickstarts,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/ui-onboarding,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/fec,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/feature-flags,Frontend components
 RedHatInsights,frontend-components,master,/packages/docs/public/feature-flags,public
+RedHatInsights,frontend-components,master,/packages/docs/examples,examples

@@ -12,6 +12,8 @@ do
   FOLDER=`echo $folder | tr ' ' '-' | tr '[:upper:]' '[:lower:]'`
   if [ "$FOLDER" = "public" ]; then
     rsync -a -v /tmp/${repo}-${branch}/${path} $SCRIPTPATH/../public
+  elif [ "$FOLDER" = "examples" ]; then
+    rsync -a -v /tmp/${repo}-${branch}/${path} $SCRIPTPATH/../components
   else
     rsync -a -v /tmp/${repo}-${branch}/${path} $SCRIPTPATH/../pages/$FOLDER
   fi

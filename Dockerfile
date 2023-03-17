@@ -3,7 +3,7 @@ COPY . .
 USER root
 RUN chmod -R 777 components
 RUN downloader/downloader.sh
-RUN npm ci && npm run build
+RUN npm ci --legacy-peer-deps && npm run build
 RUN rm -rf /node_modules
 EXPOSE 3000
 USER 1001
