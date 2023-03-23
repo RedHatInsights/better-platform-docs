@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import PropTypes from "prop-types";
 import { Card, CardBody } from "@patternfly/react-core";
 import dynamic from "next/dynamic";
@@ -25,13 +25,14 @@ const ExampleComponent: React.FC<{
   name?: string;
   codeOnly: boolean;
 }> = ({ language = "jsx", source, name, codeOnly }) => {
-  const { current: Component } = useRef(
-    dynamic(import(`@docs/examples/${source}`))
-  );
+  const [Component, setComponent] = useState<React.ComponentType | null>(null);
   const [sourceCode, setSourceCode] = useState("");
   const classes = useStyles();
 
   useEffect(() => {
+    import(`@docs/examples/${source}`).then((cmp) =>
+      setComponent(() => cmp.default)
+    );
     import(`!raw-loader!@docs/examples/${source}`).then((file) => {
       setSourceCode(file.default);
     });

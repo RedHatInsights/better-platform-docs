@@ -1,4 +1,5 @@
 gh org,repository,branch,path to docs,title
+RedHatInsights,frontend-components,master,/packages/docs/public/feature-flags,public
 RedHatInsights,frontend-components,master,/packages/docs/pages/analytics,Frontend components
 RedHatInsights,frontend-components,master,/packages/docs/pages/chrome,Frontend components
 RedHatInsights,frontend-components,master,/packages/docs/pages/common-issues,Frontend components
@@ -18,5 +19,4 @@ RedHatInsights,frontend-components,master,/packages/docs/pages/quickstarts,Front
 RedHatInsights,frontend-components,master,/packages/docs/pages/ui-onboarding,Frontend components
 RedHatInsights,frontend-components,master,/packages/docs/pages/fec,Frontend components
 RedHatInsights,frontend-components,master,/packages/docs/pages/feature-flags,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/public/feature-flags,public
 RedHatInsights,frontend-components,master,/packages/docs/examples,examples
