@@ -1,22 +1,19 @@
 gh org,repository,branch,path to docs,title
-RedHatInsights,frontend-components,master,/packages/docs/public/feature-flags,public
-RedHatInsights,frontend-components,master,/packages/docs/pages/analytics,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/chrome,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/common-issues,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/contributing,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/csc,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/deployment-process,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/fed,Frontend components
 RedHatInsights,frontend-components,master,/packages/docs/pages/frontend-components-config,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/hac,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/insights-standalone,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/inventory-components,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/landing-page,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/new-app-ui,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/platform-experience,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/proxies,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/quickstarts,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/ui-onboarding,Frontend components
 RedHatInsights,frontend-components,master,/packages/docs/pages/fec,Frontend components
-RedHatInsights,frontend-components,master,/packages/docs/pages/feature-flags,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/proxies,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/insights-standalone,Frontend components
+RedHatInsights,frontend-components,master,/packages/docs/pages/common-issues,Frontend tips and tricks
+RedHatInsights,frontend-components,master,/packages/docs/pages/fed,Frontend tips and tricks
+RedHatInsights,frontend-components,master,/packages/docs/pages/analytics,Chroming service
+RedHatInsights,frontend-components,master,/packages/docs/pages/chrome,Chroming service
+RedHatInsights,frontend-components,master,/packages/docs/pages/deployment-process,Deployment
+RedHatInsights,frontend-components,master,/packages/docs/pages/csc,Deployment
+RedHatInsights,frontend-components,master,/packages/docs/pages/hac,Hac initiative
+RedHatInsights,frontend-components,master,/packages/docs/pages/landing-page,Landing page
+RedHatInsights,frontend-components,master,/packages/docs/pages/platform-experience,Platform experience
+RedHatInsights,frontend-components,master,/packages/docs/pages/quickstarts,Platform experience
+RedHatInsights,frontend-components,master,/packages/docs/pages/ui-onboarding,Platform experience
+RedHatInsights,frontend-components,master,/packages/docs/pages/feature-flags,Platform experience
 RedHatInsights,frontend-components,master,/packages/docs/examples,examples
+RedHatInsights,frontend-components,master,/packages/docs/public/feature-flags,public

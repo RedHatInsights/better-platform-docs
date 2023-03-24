@@ -2,6 +2,8 @@ import Link from "next/link";
 import sections from "./sections/sections.json";
 import {
   Bullseye,
+  Gallery,
+  GalleryItem,
   Grid,
   GridItem,
   Card,
@@ -44,28 +46,24 @@ const useStyles = createUseStyles({
 const SectionNavigation = () => {
   const classes = useStyles();
   return (
-    <Bullseye className="pf-u-p-md">
-      <Grid hasGutter>
-        {Object.entries(sections).map(([parentKey, { title, items }]) => (
-          <GridItem key={parentKey} span={4}>
-            <Card key={parentKey} className={classes.card} isSelectable>
-              <CardTitle className="pf-u-pb-lg">{title}</CardTitle>
-              <CardBody>
-                <List isPlain>
-                  {items.map(({ title, href }, key) => (
-                    <ListItem key={`${parentKey}-${key}`}>
-                      <Link href={href}>
-                        <a>{title}</a>
-                      </Link>
-                    </ListItem>
-                  ))}
-                </List>
-              </CardBody>
-            </Card>
-          </GridItem>
-        ))}
-      </Grid>
-    </Bullseye>
+    <Gallery hasGutter>
+      {Object.entries(sections).map(([parentKey, { title, items }]) => (
+        <GalleryItem key={parentKey}>
+          <Card key={parentKey} className={classes.card} isSelectable>
+            <CardTitle className="pf-u-pb-lg">{title}</CardTitle>
+            <CardBody>
+              <List isPlain>
+                {items.map(({ title, href }, key) => (
+                  <ListItem key={`${parentKey}-${key}`}>
+                    <Link href={href}>{title}</Link>
+                  </ListItem>
+                ))}
+              </List>
+            </CardBody>
+          </Card>
+        </GalleryItem>
+      ))}
+    </Gallery>
   );
 };
 export default SectionNavigation;
