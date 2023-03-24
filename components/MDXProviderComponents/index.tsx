@@ -98,7 +98,7 @@ const A: React.FC<
   >
 > = ({ children, href, target, ...props }) => (
   <Link href={href || "#"} {...props}>
-    <a target={target}>{children}</a>
+    {children}
   </Link>
 );
 

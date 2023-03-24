@@ -21,14 +21,13 @@ const NavLink: React.FC<{ href?: string; title: ReactNode }> = ({
   }
   return (
     <li className="pf-c-nav__item" id={href}>
-      <Link href={href}>
-        <a
-          className={clsx("pf-c-nav__link", {
-            "pf-m-current": href === pathname,
-          })}
-        >
-          {title}
-        </a>
+      <Link
+        href={href}
+        className={clsx("pf-c-nav__link", {
+          "pf-m-current": href === pathname,
+        })}
+      >
+        {title}
       </Link>
     </li>
   );
