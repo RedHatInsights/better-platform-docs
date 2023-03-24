@@ -14,13 +14,14 @@
     "dev:compose": "concurrently \"npm run watch:compose\" \"npm run watch:nav\" \"npm run watch:sections\" \"npm run dev\""
   },
   "dependencies": {
-    "@mdx-js/loader": "^2.1.5",
-    "@mdx-js/react": "^2.1.5",
+    "@mdx-js/loader": "^2.3.0",
+    "@mdx-js/react": "^2.3.0",
     "@patternfly/react-core": "^4.250.1",
     "@patternfly/react-icons": "4.92.6",
     "@patternfly/react-table": "^4.112.39",
-    "@redhat-cloud-services/frontend-components": "3.9.32",
-    "@redhat-cloud-services/frontend-components-utilities": "^3.3.13",
+    "@redhat-cloud-services/frontend-components": "3.9.33",
+    "@redhat-cloud-services/frontend-components-utilities": "^3.3.14",
+    "@textea/json-viewer": "^2.15.0",
     "chokidar": "^3.5.3",
     "clsx": "^1.2.1",
     "codesandbox": "^2.2.3",
@@ -28,8 +29,7 @@
     "prism-react-renderer": "^1.3.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-json-view": "^1.21.3",
-    "react-jss": "^10.9.2"
+    "react-jss": "^10.10.0"
   },
   "devDependencies": {
     "@types/node": "18.11.5",

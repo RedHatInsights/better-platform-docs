@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Nav, NavItem, NavItemProps, NavList } from "@patternfly/react-core";
+import {
+  Nav,
+  NavItem,
+  NavItemProps,
+  NavList,
+  NavGroup,
+  NavExpandable,
+} from "@patternfly/react-core";
 import clsx from "clsx";
 import { ReactNode } from "react";
 
@@ -27,8 +34,17 @@ const NavLink: React.FC<{ href?: string; title: ReactNode }> = ({
   );
 };
 
+export type NavItem = {
+  title?: string;
+  href?: string;
+};
+
 export type NavigationProps = {
-  items: { title: string; href: string }[];
+  items: (NavItem & {
+    groups?: NavItem[];
+    groupName?: string;
+    groupTitle?: string;
+  })[];
   section: string;
 };
 
@@ -36,9 +52,17 @@ const Navigation: React.FC<NavigationProps> = ({ items, section }) => {
   return (
     <Nav title={section} ouiaId="docs-nav">
       <NavList>
-        {items.map(({ title, href }) => (
-          <NavLink key={href} href={href} title={title} />
-        ))}
+        {items.map(({ title, href, groupName, groupTitle, groups }) =>
+          groupName ? (
+            <NavExpandable title={groupTitle || ""}>
+              {groups?.map(({ title: navTitle, href: navHref }) => (
+                <NavLink key={navHref} href={navHref} title={navTitle} />
+              ))}
+            </NavExpandable>
+          ) : (
+            <NavLink key={href} href={href} title={title} />
+          )
+        )}
       </NavList>
     </Nav>
   );

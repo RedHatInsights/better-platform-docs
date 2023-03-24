@@ -2,9 +2,11 @@ import React, { Validator } from "react";
 import PropTypes from "prop-types";
 import dynamic from "next/dynamic";
 import { createUseStyles } from "react-jss";
-import { ReactJsonViewProps, ThemeKeys, ThemeObject } from "react-json-view";
 
-const ReactJson = dynamic<any>(() => import("react-json-view"), { ssr: false });
+const ReactJson = dynamic<any>(
+  () => import("@textea/json-viewer").then(({ JsonViewer }) => JsonViewer),
+  { ssr: false }
+);
 
 const useStyles = createUseStyles({
   jsonContainer: {

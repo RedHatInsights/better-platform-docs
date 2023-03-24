@@ -35,14 +35,42 @@ const getPages = () => glob.sync(ALL_PAGES_GLOB).map(sanitizePage);
 const getPageSection = (page) =>
   page.split("/pages").slice(1).pop().split("/").slice(1).shift();
 
+const groupNav = (nav) =>
+  nav.reduce((acc, curr) => {
+    const split = curr.href.split("/");
+    if (split.length > 4) {
+      const elem = split.pop();
+      const group = split.pop();
+      const currGroup = acc.find(({ groupName }) => groupName === group);
+      if (currGroup) {
+        currGroup.groups.push(curr);
+        return acc;
+      } else {
+        return [
+          ...acc,
+          {
+            groupName: group,
+            groupTitle: capitalize(group).replace(/-/gi, " "),
+            groups: [curr],
+          },
+        ];
+      }
+    }
+    return [...acc, curr];
+  }, []);
+
 const storeSection = (section, nav) => {
   const subFolders = section.split("/");
   subFolders.pop();
   fsExtra.ensureDirSync(`${NAVIGATIONS_FOLDER}/${subFolders.join("/")}`);
-  fsExtra.writeJSONSync(`${NAVIGATIONS_FOLDER}/${section}.json`, nav, {
-    // pretty JSON
-    spaces: 2,
-  });
+  fsExtra.writeJSONSync(
+    `${NAVIGATIONS_FOLDER}/${section}.json`,
+    groupNav(nav),
+    {
+      // pretty JSON
+      spaces: 2,
+    }
+  );
 };
 
 function getMetaData() {

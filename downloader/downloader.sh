@@ -17,7 +17,7 @@ do
   
   FOLDER=`echo $folder | tr ' ' '-' | tr '[:upper:]' '[:lower:]'`
   if [ "$FOLDER" = "public" ]; then
-    rsync -a -v /tmp/${repo}-${branch}/${path} $SCRIPTPATH/../public
+    cp -r /tmp/${repo}-${branch}/${path} $SCRIPTPATH/../public
   elif [ "$FOLDER" = "examples" ]; then
     rsync -a -v /tmp/${repo}-${branch}/${path} $SCRIPTPATH/../components
   else
@@ -25,8 +25,4 @@ do
   fi
 done <<< $INPUT
 
-while read owner repo branch
-do
-  rm -rf /tmp/${repo}-${branch}
-done <<< $INPUT
 IFS=$OLDIFS
