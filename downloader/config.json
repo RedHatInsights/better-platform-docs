@@ -1,0 +1,142 @@
+[
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/frontend-components-config",
+    "title": "Frontend components"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/fec",
+    "title": "Frontend components"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/public/feature-flags",
+    "title": "public"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/examples",
+    "title": "examples"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/feature-flags",
+    "title": "Platform experience"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/platform-experience",
+    "title": "Platform experience"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/quickstarts",
+    "title": "Platform experience"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/ui-onboarding",
+    "title": "Platform experience"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/landing-page",
+    "title": "Landing page"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/hac",
+    "title": "Hac initiative"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/csc",
+    "title": "Deployment"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/deployment-process",
+    "title": "Deployment"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/chrome",
+    "title": "Chroming service"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/analytics",
+    "title": "Chroming service"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/fed",
+    "title": "Frontend tips and tricks"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/common-issues",
+    "title": "Frontend tips and tricks"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/insights-standalone",
+    "title": "Frontend components"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/proxies",
+    "title": "Frontend components"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/fec",
+    "title": "Frontend components"
+  },
+  {
+    "owner": "RedHatInsights",
+    "repository": "frontend-components",
+    "branch": "master",
+    "path": "/packages/docs/pages/frontend-components-config",
+    "title": "Frontend components"
+  }
+]
