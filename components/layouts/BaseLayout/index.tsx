@@ -15,6 +15,7 @@ import Image from "next/image";
 import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
+import Landing from './Landing';
 
 const useStyles = createUseStyles({
   page: {
@@ -87,7 +88,9 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       className={classes.page}
       header={Header}
     >
-      <Split style={{ minHeight: "76.9vh" }} hasGutter>
+      <Landing />
+      
+{/*      <Split style={{ minHeight: "76.9vh" }} hasGutter>
         <SplitItem isFilled>
           <div className={classnames("pf-u-p-md", classes.content)}>
             <Stack hasGutter>
@@ -98,7 +101,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
         <SplitItem className={classes.tableOfContents}>
           <TableOfContents />
         </SplitItem>
-      </Split>
+      </Split>*/}
     </Page>
   );
 };
