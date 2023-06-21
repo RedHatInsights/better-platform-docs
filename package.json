@@ -43,10 +43,12 @@
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
     "next-transpile-modules": "^10.0.0",
+    "node-stream-zip": "^1.15.0",
     "prettier": "2.7.1",
     "prettier-eslint": "^15.0.1",
     "raw-loader": "^4.0.2",
     "remark-gfm": "^3.0.1",
+    "tar": "^6.1.15",
     "typescript": "4.8.4"
   }
 }
