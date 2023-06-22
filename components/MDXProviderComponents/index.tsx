@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardBody,
+  CardHeader,
   Text,
   TextContent,
   TextList,
@@ -103,34 +104,50 @@ const A: React.FC<
 );
 
 export const H1 = addLinkAnchor(({ className, ...props }) => (
-  <Title
-    className={clsx(className, "pf-u-mb-lg")}
-    headingLevel="h1"
-    {...props}
-  />
+  <Card style={{borderBottom: 'none', marginTop: '15px'}}>
+    <CardHeader style={{paddingBottom: '5px'}}>
+      <Title
+        className={clsx(className, "pf-u-mb-lg")}
+        headingLevel="h1"
+        {...props}
+      />
+    </CardHeader>
+  </Card>
 ));
 
 export const H2 = addLinkAnchor(({ className, ...props }) => (
-  <Title
-    className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
-    headingLevel="h2"
-    {...props}
-  />
+  <Card style={{borderTopStyle: 'none', marginTop: '15px'}}>
+    <CardHeader style={{paddingBottom: '5px'}}>
+      <Title
+        className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
+        headingLevel="h2"
+        {...props}
+      />
+    </CardHeader>
+  </Card>
 ));
 
 export const H3 = addLinkAnchor(({ className, ...props }) => (
-  <Title
-    className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
-    headingLevel="h3"
-    {...props}
-  />
+  <Card style={{borderBottom: 'none', marginTop: '15px'}}>
+    <CardHeader style={{paddingBottom: '5px'}}>
+      <Title
+        className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
+        headingLevel="h3"
+        {...props}
+      />
+    </CardHeader>
+  </Card>
 ));
 export const H4 = addLinkAnchor(({ className, ...props }) => (
-  <Title
-    className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
-    headingLevel="h4"
-    {...props}
-  />
+  <Card style={{borderBottom: 'none', marginTop: '15px'}}>
+    <CardHeader style={{paddingBottom: '5px'}}>
+      <Title
+        className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
+        headingLevel="h4"
+        {...props}
+      />
+    </CardHeader>
+  </Card>
 ));
 export const Table: React.FC = (props) => {
   const classes = useTableStyles();
@@ -147,12 +164,20 @@ const Code: React.FC<
   DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 > = ({ children, className }) =>
   /language-(\w+)/.exec(className || "") ? (
-    <CodeHighlight
-      language={(className ? className.split("-").pop() : "") as Language}
-      sourceCode={children as string}
-    />
+    <Card style={{ paddingTop: '0px', background: 'white', borderTop: 'none' }}>
+      <CardBody style={{ paddingTop: '0px' }}>
+        <CodeHighlight
+          language={(className ? className.split("-").pop() : "") as Language}
+          sourceCode={children as string}
+        />
+      </CardBody>
+    </Card>
   ) : (
-    <code>{children}</code>
+    <Card isPlain style={{ paddingTop: '0px', background: 'white', }}>
+      <CardBody style={{ paddingTop: '0px' }}>
+        <code>{children}</code>
+      </CardBody>
+    </Card>
   );
 
 const Li: React.FC<PropsWithChildren> = ({ children }) => (
@@ -160,24 +185,36 @@ const Li: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
-  <TextContent>
-    <TextList component={TextListVariants.ol}>{children}</TextList>
-  </TextContent>
+  <Card isPlain>
+    <CardBody style={{ paddingTop: '0px' }}>
+      <TextContent>
+        <TextList component={TextListVariants.ol}>{children}</TextList>
+      </TextContent>
+    </CardBody>
+  </Card>
 );
 
 export const UnorderedList: React.FC<PropsWithChildren> = ({ children }) => (
-  <TextContent>
-    <TextList component={TextListVariants.ul}>{children}</TextList>
-  </TextContent>
+  <Card isPlain style={{  paddingTop: '0px', background: 'white'}}>
+    <CardBody style={{ paddingTop: '0px' }}>
+      <TextContent>
+        <TextList component={TextListVariants.ul}>{children}</TextList>
+      </TextContent>
+    </CardBody>
+  </Card>
 );
 
 export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => (
-  <TextContent className={className}>
-    <Text component={TextVariants.p}>{children}</Text>
-  </TextContent>
+  <Card style={{ paddingTop: '0px', background: 'white', borderTop: 'none' }}>
+    <CardBody style={{ paddingTop: '0px' }}>
+      <TextContent className={className}>
+        <Text component={TextVariants.p}>{children}</Text>
+      </TextContent>
+    </CardBody>
+  </Card>
 );
 
 const MDXProviderComponents = {
