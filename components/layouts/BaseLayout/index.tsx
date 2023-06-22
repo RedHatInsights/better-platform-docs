@@ -27,7 +27,6 @@ import FilterIcon from "@patternfly/react-icons/dist/js/icons/filter-icon";
 import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
-import Landing from "./Landing";
 
 const useStyles = createUseStyles({
   page: {
@@ -38,15 +37,28 @@ const useStyles = createUseStyles({
       "url(https://console.redhat.com/apps/frontend-assets/platform-doc/ExternalDocsSiteBackground.svg)",
   },
   banner_content: {
-    maxWidth: "1300px",
+    maxWidth: "1000px",
+    margin: "auto",
   },
   icon: {
-    paddingLeft: "10px",
-    Top: "60px",
+    position: "absolute",
+    marginLeft: "var(--pf-global--spacer--sm)",
+    marginTop: "var(--pf-global--spacer--sm)",
     zIndex: "2",
   },
   filter: {
-    maxWidth: "360px",
+    width: "360px",
+    "& svg": {
+      display: "none",
+    },
+  },
+  search_wrapper: {
+    position: "relative",
+    width: "360px",
+    margin: "auto",
+  },
+  tableOfContent: {
+    display: "none",
   },
 });
 
@@ -57,7 +69,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const Header = (
     <PageHeader
       logo={
-        <Link href="/" className={classes.logo}>
+        <Link href="/">
           <Image width={100} height={50} src="/logo.svg" alt="logo" />
         </Link>
       }
@@ -80,9 +92,9 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       className={classes.page}
       header={Header}
     >
-      <PageSection isFilled={false} className={classes.banner}>
+      <PageSection isFilled={false} className={classes.banner} hasShadowBottom>
         <div className={classes.banner_content}>
-          <TextContent>
+          <TextContent className="pf-u-text-align-center pf-u-mb-md">
             <Text component="h1" className="pf-u-pt-xl">
               Welcome to the Platform Experience internal docs site!
             </Text>
@@ -92,7 +104,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
             </Text>
           </TextContent>
-          <Hint className="pf-u-m-2xl">
+          <Hint className="pf-u-mb-2xl">
             <HintTitle>News and announcements</HintTitle>
             <HintBody>
               React router v6 upgrade HMR available in development
@@ -100,27 +112,24 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
           </Hint>
         </div>
       </PageSection>
-      <PageSection
-        id="docs-content"
-        padding={{ default: "noPadding", md: "padding", lg: "padding" }}
-      >
+      <PageSection id="docs-content">
         <TextContent className="pf-u-pt-md pf-u-text-align-center">
           <Text component="h1">All PlatEx documentation</Text>
         </TextContent>
-        <Icon className={classes.icon}>
-          <FilterIcon />
-        </Icon>
-        <SearchInput
-          className={classnames(
-            classes.filter,
-            "pf-u-mt-md pf-u-mb-xl pf-u-m-auto"
-          )}
-          data-ouia-component-id="app-filter-search"
-          placeholder="Find documentation ..."
-        />
-
+        <div className={classes.search_wrapper}>
+          <Icon className={classes.icon}>
+            <FilterIcon />
+          </Icon>
+          <SearchInput
+            className={classnames(classes.filter, "pf-u-mt-md pf-u-mb-xl")}
+            data-ouia-component-id="app-filter-search"
+            placeholder="Find documentation ..."
+          />
+        </div>
         {children}
-        <TableOfContents />
+        <div className={classes.tableOfContent}>
+          <TableOfContents />
+        </div>
       </PageSection>
     </Page>
   );
