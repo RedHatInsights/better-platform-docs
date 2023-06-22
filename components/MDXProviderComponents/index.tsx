@@ -104,7 +104,7 @@ const A: React.FC<
 );
 
 export const H1 = addLinkAnchor(({ className, ...props }) => (
-  <Card style={{borderBottom: 'none', marginTop: '15px'}}>
+  <Card style={{background: 'white', boxShadow: '0 0 5px rgba(0,0,0,0.1)', clipPath: 'inset(-1px -1px 0px -1px)', marginTop: '15px'}}>
     <CardHeader style={{paddingBottom: '5px'}}>
       <Title
         className={clsx(className, "pf-u-mb-lg")}
@@ -116,7 +116,7 @@ export const H1 = addLinkAnchor(({ className, ...props }) => (
 ));
 
 export const H2 = addLinkAnchor(({ className, ...props }) => (
-  <Card style={{borderTopStyle: 'none', marginTop: '15px'}}>
+  <Card style={{background: 'white', boxShadow: '0 0 5px rgba(0,0,0,0.1)', clipPath: 'inset(-1px -1px 0px -1px)', marginTop: '15px'}}>
     <CardHeader style={{paddingBottom: '5px'}}>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
@@ -128,7 +128,7 @@ export const H2 = addLinkAnchor(({ className, ...props }) => (
 ));
 
 export const H3 = addLinkAnchor(({ className, ...props }) => (
-  <Card style={{borderBottom: 'none', marginTop: '15px'}}>
+  <Card style={{background: 'white', boxShadow: '0 0 5px rgba(0,0,0,0.1)', clipPath: 'inset(-1px -1px 0px -1px)', marginTop: '15px'}}>
     <CardHeader style={{paddingBottom: '5px'}}>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
@@ -164,7 +164,7 @@ const Code: React.FC<
   DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 > = ({ children, className }) =>
   /language-(\w+)/.exec(className || "") ? (
-    <Card style={{ paddingTop: '0px', background: 'white', borderTop: 'none' }}>
+    <Card style={{ background: 'white', boxShadow: '0 0 5px rgba(0,0,0,0.1)', clipPath: 'inset(0px -1px -1px -1px)' }}>
       <CardBody style={{ paddingTop: '0px' }}>
         <CodeHighlight
           language={(className ? className.split("-").pop() : "") as Language}
@@ -173,11 +173,7 @@ const Code: React.FC<
       </CardBody>
     </Card>
   ) : (
-    <Card isPlain style={{ paddingTop: '0px', background: 'white', }}>
-      <CardBody style={{ paddingTop: '0px' }}>
         <code>{children}</code>
-      </CardBody>
-    </Card>
   );
 
 const Li: React.FC<PropsWithChildren> = ({ children }) => (
@@ -185,7 +181,7 @@ const Li: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
-  <Card isPlain>
+  <Card style={{ background: 'white', boxShadow: 'none' }}>
     <CardBody style={{ paddingTop: '0px' }}>
       <TextContent>
         <TextList component={TextListVariants.ol}>{children}</TextList>
@@ -195,7 +191,7 @@ const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 export const UnorderedList: React.FC<PropsWithChildren> = ({ children }) => (
-  <Card isPlain style={{  paddingTop: '0px', background: 'white'}}>
+  <Card style={{ background: 'white', boxShadow: 'none' }}>
     <CardBody style={{ paddingTop: '0px' }}>
       <TextContent>
         <TextList component={TextListVariants.ul}>{children}</TextList>
@@ -208,7 +204,7 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => (
-  <Card style={{ paddingTop: '0px', background: 'white', borderTop: 'none' }}>
+  <Card style={{ background: 'white', boxShadow: '0 0 5px rgba(0,0,0,0.1)', clipPath: 'inset(0px -1px -1px -1px)' }}>
     <CardBody style={{ paddingTop: '0px' }}>
       <TextContent className={className}>
         <Text component={TextVariants.p}>{children}</Text>
