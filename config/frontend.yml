@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: platform-docs
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: platform-docs
+    spec:
+      envName: ${ENV_NAME}
+      title: platform-docs
+      deploymentRepo: https://github.com/RedHatInsights/better-platform-docs
+      image: ${IMAGE}:${IMAGE_TAG}
+      navItems:
+        - appID: "platform-docs"
+          title: "Platform docs"
+          href: "/apps/platform-docs"
+      module:
+        manifestLocation: "/apps/platform-docs/fed-mods.json"
+        modules:
+          - id: "platform-docs"
+            module: "./RootApp"
+            routes:
+              - pathname: /apps/platform-docs
+
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: quay.io/cloudservices/better-platform-docs
