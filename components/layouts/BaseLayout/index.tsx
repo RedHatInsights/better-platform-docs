@@ -65,7 +65,12 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
     <PageHeader
       logo={
         <Link href="/" className={classes.logo}>
-          <Image width={100} height={50} src="/logo.svg" alt="logo" />
+          <Image
+            width={100}
+            height={50}
+            src="/apps/platform-docs/logo.svg"
+            alt="logo"
+          />
         </Link>
       }
       showNavToggle={navItems.length !== 0}
