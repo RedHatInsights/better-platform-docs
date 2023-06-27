@@ -17,6 +17,7 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { LinkIcon } from "@patternfly/react-icons";
 import Link from "next/link";
+import Image from "next/image";
 import React, {
   DetailedHTMLProps,
   HTMLAttributes,
@@ -180,6 +181,20 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
   </TextContent>
 );
 
+export const Img: React.FC<
+  PropsWithChildren<{ src?: string; alt?: string }>
+> = ({ src, alt, ...props }) => {
+  return (
+    <Image
+      src={`/apps/platform-docs${src}`}
+      width={Number.MAX_SAFE_INTEGER}
+      height={Number.MAX_SAFE_INTEGER}
+      alt={alt || ""}
+      {...props}
+    />
+  );
+};
+
 const MDXProviderComponents = {
   a: A,
   h1: H1,
@@ -192,6 +207,7 @@ const MDXProviderComponents = {
   ol: OrderedList,
   ul: UnorderedList,
   p: Paragraph,
+  img: Img,
 };
 
 export default MDXProviderComponents;

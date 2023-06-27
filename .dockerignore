@@ -1,2 +1,13 @@
 node_modules
 .git
+.next
+components/Navigation/schemas
+components/Navigation/sections
+components/examples
+pages/*
+!pages/.gitignore
+!pages/components
+!pages/contributing
+!pages/_app.tsx
+!pages/index.tsx
+!pages/_document.tsx

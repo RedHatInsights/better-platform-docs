@@ -36,6 +36,9 @@ const useStyles = createUseStyles({
   },
 });
 
+type SectionType = keyof typeof sections;
+type SectionItem = { title: string; href: string };
+
 const SectionNavigation = () => {
   const classes = useStyles();
 
@@ -44,7 +47,7 @@ const SectionNavigation = () => {
       className={classnames(classes.gallery, "pf-u-display-block")}
       hasGutter
     >
-      {Object.entries(sections).map(([parentKey, { title, items }]) => (
+      {Object.keys(sections).map((parentKey) => (
         <GalleryItem key={parentKey}>
           <Card
             key={parentKey}
@@ -55,7 +58,7 @@ const SectionNavigation = () => {
             isSelectable
           >
             <CardTitle className="pf-u-pb-md">
-              {title}
+              {(sections[parentKey as SectionType] as { title: string }).title}
               <Label
                 color="orange"
                 className={classnames(classes.label, "pf-u-float-right")}
@@ -65,7 +68,11 @@ const SectionNavigation = () => {
               {/*<Label color="purple" className={classnames(classes.label, "pf-u-float-right")}><PenToolIcon/></Label>*/}
             </CardTitle>
             <CardBody>
-              {items.map(({ title, href }, key) => (
+              {(
+                sections[parentKey as SectionType] as {
+                  items: SectionItem[];
+                }
+              ).items.map(({ title, href }, key) => (
                 <TextContent
                   key={`${parentKey}-${key}`}
                   className="pf-u-font-size-sm pf-u-pb-sm"
