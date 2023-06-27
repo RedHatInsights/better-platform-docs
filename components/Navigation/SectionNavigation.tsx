@@ -12,14 +12,12 @@ import {
   ListItem,
   CardBody,
   CardTitle,
-  Text,
-  TextContent,
   TextVariants,
 } from "@patternfly/react-core";
 import { createUseStyles } from "react-jss";
 import classnames from "clsx";
 import CommandLineIcon from "./command-line";
-// import PenToolIcon from './pen-tool';
+import PenToolIcon from "./pen-tool";
 
 const useStyles = createUseStyles({
   gallery: {
@@ -41,7 +39,6 @@ type SectionItem = { title: string; href: string };
 
 const SectionNavigation = () => {
   const classes = useStyles();
-
   return (
     <Gallery
       className={classnames(classes.gallery, "pf-u-display-block")}
@@ -68,24 +65,20 @@ const SectionNavigation = () => {
               {/*<Label color="purple" className={classnames(classes.label, "pf-u-float-right")}><PenToolIcon/></Label>*/}
             </CardTitle>
             <CardBody>
-              {(
-                sections[parentKey as SectionType] as {
-                  items: SectionItem[];
-                }
-              ).items.map(({ title, href }, key) => (
-                <TextContent
-                  key={`${parentKey}-${key}`}
-                  className="pf-u-font-size-sm pf-u-pb-sm"
-                >
-                  <Text
-                    href={href}
-                    component={TextVariants.a}
-                    className="pf-u-mb-md"
+              <List isPlain>
+                {(
+                  sections[parentKey as SectionType] as {
+                    items: SectionItem[];
+                  }
+                ).items.map(({ title, href }, key) => (
+                  <ListItem
+                    key={`${parentKey}-${key}`}
+                    className="pf-u-font-size-sm pf-u-pb-sm"
                   >
-                    {title}
-                  </Text>
-                </TextContent>
-              ))}
+                    <Link href={href}>{title}</Link>
+                  </ListItem>
+                ))}
+              </List>
             </CardBody>
           </Card>
         </GalleryItem>

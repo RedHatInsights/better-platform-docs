@@ -32,6 +32,9 @@ const useStyles = createUseStyles({
   page: {
     height: "100vh !important",
   },
+  logo: {
+    width: 100,
+  },
   banner: {
     backgroundImage:
       "url(https://console.redhat.com/apps/frontend-assets/platform-doc/ExternalDocsSiteBackground.svg)",
@@ -69,8 +72,13 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const Header = (
     <PageHeader
       logo={
-        <Link href="/">
-          <Image width={100} height={50} src="/logo.svg" alt="logo" />
+        <Link href="/" className={classes.logo}>
+          <Image
+            width={100}
+            height={50}
+            src="/apps/platform-docs/logo.svg"
+            alt="logo"
+          />
         </Link>
       }
       showNavToggle={navItems.length !== 0}
