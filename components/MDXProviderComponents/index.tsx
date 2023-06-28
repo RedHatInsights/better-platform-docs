@@ -25,6 +25,7 @@ import React, {
 } from "react";
 import CodeHighlight from "../example-component/code-highlight";
 import { Language } from "prism-react-renderer";
+import { useRouter } from "next/router";
 
 const useAnchorStyles = createUseStyles({
   anchorIcon: {
@@ -184,9 +185,10 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
 export const Img: React.FC<
   PropsWithChildren<{ src?: string; alt?: string }>
 > = ({ src, alt, ...props }) => {
+  const { basePath } = useRouter();
   return (
     <Image
-      src={`/apps/platform-docs${src}`}
+      src={`${basePath}${src}`}
       width={Number.MAX_SAFE_INTEGER}
       height={Number.MAX_SAFE_INTEGER}
       alt={alt || ""}
