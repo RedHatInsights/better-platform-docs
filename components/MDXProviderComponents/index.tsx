@@ -186,7 +186,7 @@ export const Img: React.FC<
 > = ({ src, alt, ...props }) => {
   return (
     <Image
-      src={`/apps/platform-docs${src}`}
+      src={`/docs/platform-docs${src}`}
       width={Number.MAX_SAFE_INTEGER}
       height={Number.MAX_SAFE_INTEGER}
       alt={alt || ""}
