@@ -56,7 +56,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
           <Image
             width={100}
             height={50}
-            src={`${basePath}/logo.svg`}
+            src="/docs/platform-docs/logo.svg"
             alt="logo"
           />
         </Link>
