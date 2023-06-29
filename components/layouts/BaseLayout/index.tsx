@@ -28,9 +28,6 @@ const useStyles = createUseStyles({
     height: "100vh",
     overflow: "auto",
   },
-  tableOfContents: {
-    display: "none",
-  },
 });
 
 const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
