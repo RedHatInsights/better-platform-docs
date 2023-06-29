@@ -1,11 +1,11 @@
 import {
   Page,
   PageHeader,
+  PageSection,
   PageSidebar,
-  Split,
-  SplitItem,
-  Stack,
-  StackItem,
+  Sidebar,
+  SidebarContent,
+  SidebarPanel,
 } from "@patternfly/react-core";
 import Link from "next/link";
 import classnames from "clsx";
@@ -24,23 +24,12 @@ const useStyles = createUseStyles({
   logo: {
     width: 100,
   },
-  content: {
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: "calc(100% - 16px * 2)",
-    display: "flex",
-    flexDirection: "column",
+  sidebar: {
+    height: "100vh",
+    overflow: "auto",
   },
   tableOfContents: {
     display: "none",
-  },
-  "@media (min-width: 1200px)": {
-    content: {
-      width: 900,
-    },
-    tableOfContents: {
-      display: "block",
-    },
   },
 });
 
@@ -81,18 +70,17 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       header={Header}
     >
       {route !== "/" ? (
-        <Split style={{ minHeight: "76.9vh" }} hasGutter>
-          <SplitItem isFilled>
-            <div className={classnames("pf-u-p-md", classes.content)}>
-              <Stack hasGutter>
-                <StackItem id="docs-content">{children}</StackItem>
-              </Stack>
-            </div>
-          </SplitItem>
-          <SplitItem className={classes.tableOfContents}>
+        <Sidebar className={classes.sidebar} isPanelRight hasGutter>
+          <SidebarPanel
+            variant="sticky"
+            className="pf-u-background-color-200 pf-u-pl-lg pf-u-pl-0-on-lg"
+          >
             <TableOfContents />
-          </SplitItem>
-        </Split>
+          </SidebarPanel>
+          <SidebarContent id="docs-content">
+            <PageSection>{children}</PageSection>
+          </SidebarContent>
+        </Sidebar>
       ) : (
         children
       )}
