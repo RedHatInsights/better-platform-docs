@@ -13,7 +13,7 @@ objects:
           - v1
       frontend:
         paths:
-          - /docs/platform-docs
+          - /platform-docs
       envName: ${ENV_NAME}
       title: platform-docs
       deploymentRepo: https://github.com/RedHatInsights/better-platform-docs
@@ -21,14 +21,14 @@ objects:
       navItems:
         - appID: "platform-docs"
           title: "Platform docs"
-          href: "/docs/platform-docs"
+          href: "/platform-docs"
       module:
-        manifestLocation: "/docs/platform-docs/fed-mods.json"
+        manifestLocation: "/platform-docs/fed-mods.json"
         modules:
           - id: "platform-docs"
             module: "./RootApp"
             routes:
-              - pathname: /docs/platform-docs
+              - pathname: /platform-docs
 
 parameters:
   - name: ENV_NAME
