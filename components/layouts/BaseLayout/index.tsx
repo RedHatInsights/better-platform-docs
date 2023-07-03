@@ -2,10 +2,14 @@ import {
   Page,
   PageHeader,
   PageSection,
+  PageSectionVariants,
   PageSidebar,
   Sidebar,
   SidebarContent,
   SidebarPanel,
+  Text,
+  TextContent,
+  TextVariants,
 } from "@patternfly/react-core";
 import Link from "next/link";
 import classnames from "clsx";
@@ -68,6 +72,19 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       }
       className={classes.page}
       header={Header}
+      groupProps={{
+        stickyOnBreakpoint: { default: "top" },
+      }}
+      additionalGroupedContent={
+        navItems.length > 0 ? (
+          <PageSection variant={PageSectionVariants.light} isWidthLimited>
+            <TextContent>
+              <Text component="h1">Section name</Text>
+              <Text component="p">Section Description</Text>
+            </TextContent>
+          </PageSection>
+        ) : undefined
+      }
     >
       {route !== "/" ? (
         <Sidebar className={classes.sidebar} isPanelRight hasGutter>
