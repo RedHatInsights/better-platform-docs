@@ -1,4 +1,5 @@
 import {
+  Card,
   Page,
   PageHeader,
   PageSidebar,
@@ -91,7 +92,9 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
         <SplitItem isFilled>
           <div className={classnames("pf-u-p-md", classes.content)}>
             <Stack hasGutter>
-              <StackItem id="docs-content">{children}</StackItem>
+              <StackItem id="docs-content">
+                <Card>{children}</Card>
+              </StackItem>
             </Stack>
           </div>
         </SplitItem>
