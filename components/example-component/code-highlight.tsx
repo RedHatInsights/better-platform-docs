@@ -7,7 +7,6 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   pre: {
-    maxWidth: "100vw",
     textAlign: "left",
     margin: "1em 0",
     padding: 16,
@@ -16,6 +15,7 @@ const useStyles = createUseStyles({
     "& .token-line": {
       lineHeight: "1.3em",
       height: "1.3em",
+      width: "100px",
     },
   },
 });
