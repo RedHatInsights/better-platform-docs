@@ -199,7 +199,7 @@ export const Img = ({
 }: PropsWithChildren<{ src?: string; alt?: string }>) => {
   return (
     <Image
-      src={`/docs/platform-docs${src}`}
+      src={`${basePath}${src}`}
       width={Number.MAX_SAFE_INTEGER}
       height={Number.MAX_SAFE_INTEGER}
       alt={alt || ""}

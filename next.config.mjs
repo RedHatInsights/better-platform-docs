@@ -51,13 +51,13 @@ export default withTM({
   experimental: {
     esmExternals: true,
   },
-  basePath: "/docs/platform-docs",
-  assetPrefix: "/docs/platform-docs",
+  basePath: "/platform-docs",
+  assetPrefix: "/platform-docs",
   async redirects() {
     return [
       {
         source: "/",
-        destination: "/docs/platform-docs",
+        destination: "/platform-docs",
         basePath: false,
         permanent: false,
       },
