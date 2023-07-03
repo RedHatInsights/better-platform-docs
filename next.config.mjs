@@ -1,7 +1,7 @@
 import remarkGfm from "remark-gfm";
 
 import path from "path";
-import glob from "glob";
+import { glob } from "glob";
 import withTMConfig from "next-transpile-modules";
 
 const withTM = withTMConfig([

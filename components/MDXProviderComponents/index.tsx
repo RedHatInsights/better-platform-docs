@@ -13,15 +13,17 @@ import {
   TextVariants,
   Title,
 } from "@patternfly/react-core";
+import type { Components } from "@mdx-js/react/lib/index";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { LinkIcon } from "@patternfly/react-icons";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import Image from "next/image";
 import React, {
   DetailedHTMLProps,
   HTMLAttributes,
   PropsWithChildren,
+  TableHTMLAttributes,
 } from "react";
 import CodeHighlight from "../example-component/code-highlight";
 import { Language } from "prism-react-renderer";
@@ -45,9 +47,11 @@ const useAnchorStyles = createUseStyles({
   },
 });
 
+type NoRefProps<P = unknown> = Omit<PropsWithChildren<P>, "ref">;
+
 function addLinkAnchor(
-  Component: React.FC<PropsWithChildren<{ className?: string }>>
-): React.FC<PropsWithChildren<{ className?: string }>> {
+  Component: React.FC<NoRefProps<{ className?: string }>>
+): (props: NoRefProps<{ className?: string }>) => React.JSX.Element {
   return ({ className, ...props }) => {
     const classes = useAnchorStyles();
     if (typeof props?.children !== "undefined") {
@@ -88,17 +92,17 @@ const useTableStyles = createUseStyles({
   },
 });
 
-const A: React.FC<
-  Omit<
-    PropsWithChildren<
-      React.DetailedHTMLProps<
-        React.AnchorHTMLAttributes<HTMLAnchorElement>,
-        HTMLAnchorElement
-      >
-    >,
-    "ref"
+const A = ({
+  children,
+  href,
+  target,
+  ...props
+}: NoRefProps<
+  React.DetailedHTMLProps<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
   >
-> = ({ children, href, target, ...props }) => (
+>) => (
   <Link href={href || "#"} {...props}>
     {children}
   </Link>
@@ -134,7 +138,12 @@ export const H4 = addLinkAnchor(({ className, ...props }) => (
     {...props}
   />
 ));
-export const Table: React.FC = (props) => {
+export const Table = (
+  props: DetailedHTMLProps<
+    TableHTMLAttributes<HTMLTableElement>,
+    HTMLTableElement
+  >
+) => {
   const classes = useTableStyles();
   return (
     <Card className={clsx("pf-u-mb-lg", classes.card)}>
@@ -145,9 +154,10 @@ export const Table: React.FC = (props) => {
   );
 };
 
-const Code: React.FC<
-  DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
-> = ({ children, className }) =>
+const Code = ({
+  children,
+  className,
+}: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) =>
   /language-(\w+)/.exec(className || "") ? (
     <CodeHighlight
       language={(className ? className.split("-").pop() : "") as Language}
@@ -157,35 +167,36 @@ const Code: React.FC<
     <code>{children}</code>
   );
 
-const Li: React.FC<PropsWithChildren> = ({ children }) => (
+const Li = ({ children }: PropsWithChildren) => (
   <TextListItem component={TextListItemVariants.li}>{children}</TextListItem>
 );
 
-const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
+const OrderedList = ({ children }: PropsWithChildren) => (
   <TextContent>
     <TextList component={TextListVariants.ol}>{children}</TextList>
   </TextContent>
 );
 
-export const UnorderedList: React.FC<PropsWithChildren> = ({ children }) => (
+export const UnorderedList = ({ children }: PropsWithChildren) => (
   <TextContent>
     <TextList component={TextListVariants.ul}>{children}</TextList>
   </TextContent>
 );
 
-export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
+export const Paragraph = ({
   children,
   className,
-}) => (
+}: PropsWithChildren<{ className?: string }>) => (
   <TextContent className={className}>
     <Text component={TextVariants.p}>{children}</Text>
   </TextContent>
 );
 
-export const Img: React.FC<
-  PropsWithChildren<{ src?: string; alt?: string }>
-> = ({ src, alt, ...props }) => {
-  const { basePath } = useRouter();
+export const Img = ({
+  src,
+  alt,
+  ...props
+}: PropsWithChildren<{ src?: string; alt?: string }>) => {
   return (
     <Image
       src={`/docs/platform-docs${src}`}
@@ -197,7 +208,7 @@ export const Img: React.FC<
   );
 };
 
-const MDXProviderComponents = {
+const MDXProviderComponents: Components = {
   a: A,
   h1: H1,
   h2: H2,
