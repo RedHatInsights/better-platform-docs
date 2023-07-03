@@ -188,7 +188,7 @@ export const Img: React.FC<
   const { basePath } = useRouter();
   return (
     <Image
-      src={`/docs/platform-docs${src}`}
+      src={`${basePath}${src}`}
       width={Number.MAX_SAFE_INTEGER}
       height={Number.MAX_SAFE_INTEGER}
       alt={alt || ""}
