@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run generate:all && next build",
-    "start": "next start -p 8000",
+    "start": "next start -p 3000",
     "lint": "next lint",
     "generate:all": "node generators/generate-all.mjs",
     "watch:compose": "node watchers/compose-mdx.mjs",
