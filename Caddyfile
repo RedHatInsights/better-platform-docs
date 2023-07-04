@@ -16,4 +16,8 @@
         reverse_proxy localhost:3000
     }
 
+    handle /platform-docs {
+        reverse_proxy localhost:3000
+    }
+
 }
