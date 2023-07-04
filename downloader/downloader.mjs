@@ -3,53 +3,60 @@ import follow from "follow-redirects";
 import StreamZip from "node-stream-zip";
 import fs from "fs";
 import { exec } from "child_process";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+const dir = "./tmp";
+
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
+
+const safePath = (location) => {
+  return path.resolve(__dirname, location.replaceAll("//", "/"));
+};
 
 data.forEach(({ owner, repository, branch, path, title }) => {
   console.log(`Repository: ${owner}/${repository}`);
-  console.log(`Using branch ${branch}`);
   const onGenerate = () => {
     if (title === "public") {
       console.log(
         "Extracting to public folder: ",
-        `${`./tmp/${repository}-${branch}/${path}`.replaceAll("//", "/")}`
+        `${safePath(`../tmp/${repository}-${branch}/${path}`)}`
       );
       exec(
-        `cp -r ${`./tmp/${repository}-${branch}/${path}`.replaceAll(
-          "//",
-          "/"
-        )} ./public`
+        `cp -r ${safePath(`../tmp/${repository}-${branch}/${path}`)} ${safePath(
+          "../public"
+        )}`
       );
     } else if (title === "examples") {
       console.log(
         "Extracting to components folder: ",
-        `${`./tmp/${repository}-${branch}/${path}`.replaceAll("//", "/")}`
+        `${safePath(`../tmp/${repository}-${branch}/${path}`)}`
       );
       exec(
-        `rsync -a -v ${`./tmp/${repository}-${branch}/${path}`.replaceAll(
-          "//",
-          "/"
-        )} ./components`
+        `rsync -a -v ${safePath(
+          `../tmp/${repository}-${branch}/${path}`
+        )} ${safePath("../components")}`
       );
     } else {
       console.log(
-        `Extracting to ../pages/${title
-          .replaceAll(" ", "-")
-          .replaceAll("//", "/")
-          .toLowerCase()}`,
-        `${`./tmp/${repository}-${branch}/${path}`.replaceAll("//", "/")}`
+        `Extracting`,
+        `${safePath(`../tmp/${repository}-${branch}/${path}`)}`,
+        `to ${safePath(`../pages/${title.replaceAll(" ", "-").toLowerCase()}`)}`
       );
       exec(
-        `rsync -a -v ${`./tmp/${repository}-${branch}/${path}`.replaceAll(
-          "//",
-          "/"
-        )} ./pages/${title
-          .replaceAll(" ", "-")
-          .replaceAll("//", "/")
-          .toLowerCase()}`
+        `rsync -a -v ${safePath(
+          `../tmp/${repository}-${branch}/${path}`
+        )} ${safePath(`../pages/${title.replaceAll(" ", "-").toLowerCase()}`)}`
       );
     }
   };
-  if (fs.existsSync(`./tmp/${repository}-${branch}`)) {
+  if (fs.existsSync(safePath(`../tmp/${repository}-${branch}`))) {
     console.log("folder exists!");
     onGenerate();
   } else {
@@ -57,7 +64,7 @@ data.forEach(({ owner, repository, branch, path, title }) => {
       "Downloading files",
       `https://github.com/${owner}/${repository}/archive/refs/heads/${branch}.zip`
     );
-    const file = fs.createWriteStream(`./tmp/${repository}.zip`);
+    const file = fs.createWriteStream(safePath(`../tmp/${repository}.zip`));
     follow.https.get(
       `https://github.com/${owner}/${repository}/archive/refs/heads/${branch}.zip`,
       function (response) {

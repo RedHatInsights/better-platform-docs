@@ -82,6 +82,7 @@ function getMetaData() {
 
 export function generateAll() {
   const { sections, pages } = getMetaData();
+  console.log("Active pages: ", pages);
   const schemas = sections.reduce(
     (acc, curr) => ({
       ...acc,
