@@ -73,8 +73,10 @@ data.forEach(({ owner, repository, branch, path, title }) => {
         file.on("finish", () => {
           file.close();
           const zip = new StreamZip.async({ file: `./tmp/${repository}.zip` });
-          zip.extract(null, "./tmp");
-          onGenerate();
+          zip.extract(null, safePath("../tmp")).then(() => {
+            onGenerate();
+            zip.close();
+          });
         });
       }
     );
