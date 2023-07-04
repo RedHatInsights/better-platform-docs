@@ -10,6 +10,7 @@ import {
 
 export const generateSections = () => {
   const sections = getSections(SECTIONS_GLOB);
+  console.log("list of sections: ", sections);
   const schema = sections.reduce(
     (acc, { name, path, parent }) => ({
       ...acc,
