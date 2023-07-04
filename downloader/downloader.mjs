@@ -11,23 +11,40 @@ data.forEach(({ owner, repository, branch, path, title }) => {
     if (title === "public") {
       console.log(
         "Extracting to public folder: ",
-        `./tmp/${repository}-${branch}/${path}`
+        `${`./tmp/${repository}-${branch}/${path}`.replaceAll("//", "/")}`
       );
-      exec(`cp -r ./tmp/${repository}-${branch}/${path} ./public`);
+      exec(
+        `cp -r ${`./tmp/${repository}-${branch}/${path}`.replaceAll(
+          "//",
+          "/"
+        )} ./public`
+      );
     } else if (title === "examples") {
       console.log(
         "Extracting to components folder: ",
-        `./tmp/${repository}-${branch}/${path}`
-      );
-      exec(`rsync -a -v ./tmp/${repository}-${branch}/${path} ./components`);
-    } else {
-      console.log(
-        `Extracting to ./pages/${title.replaceAll(" ", "-").toLowerCase()}`,
-        `./tmp/${repository}-${branch}/${path}`
+        `${`./tmp/${repository}-${branch}/${path}`.replaceAll("//", "/")}`
       );
       exec(
-        `rsync -a -v ./tmp/${repository}-${branch}/${path} ./pages/${title
+        `rsync -a -v ${`./tmp/${repository}-${branch}/${path}`.replaceAll(
+          "//",
+          "/"
+        )} ./components`
+      );
+    } else {
+      console.log(
+        `Extracting to ../pages/${title
           .replaceAll(" ", "-")
+          .replaceAll("//", "/")
+          .toLowerCase()}`,
+        `${`./tmp/${repository}-${branch}/${path}`.replaceAll("//", "/")}`
+      );
+      exec(
+        `rsync -a -v ${`./tmp/${repository}-${branch}/${path}`.replaceAll(
+          "//",
+          "/"
+        )} ./pages/${title
+          .replaceAll(" ", "-")
+          .replaceAll("//", "/")
           .toLowerCase()}`
       );
     }
