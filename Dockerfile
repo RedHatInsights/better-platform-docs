@@ -1,8 +1,11 @@
-FROM registry.access.redhat.com/ubi8/nodejs-16
+FROM quay.io/cloudservices/releaser:875ee35
 COPY . .
 USER root
+COPY ./Caddyfile /opt/app-root/src/Caddyfile
 RUN chmod -R 777 components
-RUN npm ci && node downloader/downloader.mjs && npm run build
-EXPOSE 3000
-USER 1001
-CMD npm run start
+RUN npm ci 
+RUN node downloader/downloader.mjs
+RUN npm run build
+EXPOSE 3000 8000
+# USER 1001
+CMD ./start.sh
