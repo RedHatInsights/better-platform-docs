@@ -1,6 +1,6 @@
 {
   "extends": "next/core-web-vitals",
-  "ignorePatterns": ["components/examples"],
+  "ignorePatterns": ["components/examples", "lib"],
   "plugins": [
     "prettier"
   ],

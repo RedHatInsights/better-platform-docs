@@ -51,6 +51,18 @@ export default withTM({
   experimental: {
     esmExternals: true,
   },
+  basePath: "/platform-docs",
+  assetPrefix: "/platform-docs",
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/platform-docs",
+        basePath: false,
+        permanent: false,
+      },
+    ];
+  },
   webpack: (config) => {
     config.resolve.alias = {
       "@docs/example-component": path.resolve(

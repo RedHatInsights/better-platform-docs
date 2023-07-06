@@ -18,6 +18,7 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { LinkIcon } from "@patternfly/react-icons";
 import Link from "next/link";
+import Image from "next/image";
 import React, {
   DetailedHTMLProps,
   HTMLAttributes,
@@ -25,6 +26,7 @@ import React, {
 } from "react";
 import CodeHighlight from "../example-component/code-highlight";
 import { Language } from "prism-react-renderer";
+import { useRouter } from "next/router";
 
 const useAnchorStyles = createUseStyles({
   anchorIcon: {
@@ -105,14 +107,13 @@ const A: React.FC<
 
 export const H1 = addLinkAnchor(({ className, ...props }) => (
   <Card
+    isPlain
     style={{
       background: "white",
-      boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-      clipPath: "inset(-1px -1px 0px -1px)",
       marginTop: "15px",
     }}
   >
-    <CardHeader style={{ paddingBottom: "5px" }}>
+    <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-lg")}
         headingLevel="h1"
@@ -124,14 +125,12 @@ export const H1 = addLinkAnchor(({ className, ...props }) => (
 
 export const H2 = addLinkAnchor(({ className, ...props }) => (
   <Card
+    isPlain
     style={{
       background: "white",
-      boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-      clipPath: "inset(-1px -1px 0px -1px)",
-      marginTop: "15px",
     }}
   >
-    <CardHeader style={{ paddingBottom: "5px" }}>
+    <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
         headingLevel="h2"
@@ -143,14 +142,12 @@ export const H2 = addLinkAnchor(({ className, ...props }) => (
 
 export const H3 = addLinkAnchor(({ className, ...props }) => (
   <Card
+    isPlain
     style={{
       background: "white",
-      boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-      clipPath: "inset(-1px -1px 0px -1px)",
-      marginTop: "15px",
     }}
   >
-    <CardHeader style={{ paddingBottom: "5px" }}>
+    <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
         headingLevel="h3"
@@ -160,8 +157,8 @@ export const H3 = addLinkAnchor(({ className, ...props }) => (
   </Card>
 ));
 export const H4 = addLinkAnchor(({ className, ...props }) => (
-  <Card style={{ borderBottom: "none", marginTop: "15px" }}>
-    <CardHeader style={{ paddingBottom: "5px" }}>
+  <Card isPlain style={{ background: "white" }}>
+    <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
         headingLevel="h4"
@@ -186,10 +183,9 @@ const Code: React.FC<
 > = ({ children, className }) =>
   /language-(\w+)/.exec(className || "") ? (
     <Card
+      isPlain
       style={{
         background: "white",
-        boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-        clipPath: "inset(0px -1px -1px -1px)",
       }}
     >
       <CardBody style={{ paddingTop: "0px" }}>
@@ -208,7 +204,7 @@ const Li: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
-  <Card style={{ background: "white", boxShadow: "none" }}>
+  <Card isPlain style={{ background: "white", boxShadow: "none" }}>
     <CardBody style={{ paddingTop: "0px" }}>
       <TextContent>
         <TextList component={TextListVariants.ol}>{children}</TextList>
@@ -232,10 +228,9 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
   className,
 }) => (
   <Card
+    isPlain
     style={{
       background: "white",
-      boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-      clipPath: "inset(0px -1px -1px -1px)",
     }}
   >
     <CardBody style={{ paddingTop: "0px" }}>
@@ -245,6 +240,21 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
     </CardBody>
   </Card>
 );
+
+export const Img: React.FC<
+  PropsWithChildren<{ src?: string; alt?: string }>
+> = ({ src, alt, ...props }) => {
+  const { basePath } = useRouter();
+  return (
+    <Image
+      src={`${basePath}${src}`}
+      width={Number.MAX_SAFE_INTEGER}
+      height={Number.MAX_SAFE_INTEGER}
+      alt={alt || ""}
+      {...props}
+    />
+  );
+};
 
 const MDXProviderComponents = {
   a: A,
@@ -258,6 +268,7 @@ const MDXProviderComponents = {
   ol: OrderedList,
   ul: UnorderedList,
   p: Paragraph,
+  img: Img,
 };
 
 export default MDXProviderComponents;

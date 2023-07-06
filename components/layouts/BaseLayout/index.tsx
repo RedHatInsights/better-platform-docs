@@ -2,11 +2,15 @@ import {
   Card,
   Page,
   PageHeader,
+  PageSection,
+  PageSectionVariants,
   PageSidebar,
-  Split,
-  SplitItem,
-  Stack,
-  StackItem,
+  Sidebar,
+  SidebarContent,
+  SidebarPanel,
+  Text,
+  TextContent,
+  TextVariants,
 } from "@patternfly/react-core";
 import Link from "next/link";
 import classnames from "clsx";
@@ -16,6 +20,8 @@ import Image from "next/image";
 import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
+import { useRouter } from "next/router";
+import React from "react";
 
 const useStyles = createUseStyles({
   page: {
@@ -24,37 +30,9 @@ const useStyles = createUseStyles({
   logo: {
     width: 100,
   },
-  platExGuy: {
-    maxHeight: "100%",
-  },
-  content: {
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: "calc(100% - 16px * 2)",
-    display: "flex",
-    flexDirection: "column",
-  },
-  tableOfContents: {
-    display: "none",
-  },
-  "@media (min-width: 1200px)": {
-    content: {
-      width: 900,
-    },
-    tableOfContents: {
-      display: "block",
-    },
-  },
-  link: {
-    textDecoration: "none",
-    color: "var(--pf-global--BackgroundColor--100)",
-  },
-  footer: {
-    height: "auto",
-    background: "var(--pf-global--BackgroundColor--dark-100)",
-  },
-  contentWrapper: {
-    flex: 1,
+  sidebar: {
+    height: "100vh",
+    overflow: "auto",
   },
 });
 
@@ -62,11 +40,17 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const [isNavOpen, setIsnavOpen] = useState(true);
   const classes = useStyles();
   const { section, items: navItems } = useNavSchema();
+  const { route, basePath } = useRouter();
   const Header = (
     <PageHeader
       logo={
         <Link href="/" className={classes.logo}>
-          <Image width={100} height={50} src="/logo.svg" alt="logo" />
+          <Image
+            width={100}
+            height={50}
+            src={`${basePath}/logo.svg`}
+            alt="logo"
+          />
         </Link>
       }
       showNavToggle={navItems.length !== 0}
@@ -87,21 +71,35 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       }
       className={classes.page}
       header={Header}
+      groupProps={{
+        stickyOnBreakpoint: { default: "top" },
+      }}
+      additionalGroupedContent={
+        navItems.length > 0 ? (
+          <PageSection variant={PageSectionVariants.light} isWidthLimited>
+            <TextContent>
+              <Text component="h1">Section name</Text>
+              <Text component="p">Section Description</Text>
+            </TextContent>
+          </PageSection>
+        ) : undefined
+      }
     >
-      <Split style={{ minHeight: "76.9vh" }} hasGutter>
-        <SplitItem isFilled>
-          <div className={classnames("pf-u-p-md", classes.content)}>
-            <Stack hasGutter>
-              <StackItem id="docs-content">
-                <Card>{children}</Card>
-              </StackItem>
-            </Stack>
-          </div>
-        </SplitItem>
-        <SplitItem className={classes.tableOfContents}>
-          <TableOfContents />
-        </SplitItem>
-      </Split>
+      {route !== "/" ? (
+        <Sidebar className={classes.sidebar} isPanelRight hasGutter>
+          <SidebarPanel
+            variant="sticky"
+            className="pf-u-background-color-200 pf-u-pl-lg pf-u-pl-0-on-lg"
+          >
+            <TableOfContents />
+          </SidebarPanel>
+          <SidebarContent id="docs-content">
+            <PageSection>{children}</PageSection>
+          </SidebarContent>
+        </Sidebar>
+      ) : (
+        children
+      )}
     </Page>
   );
 };

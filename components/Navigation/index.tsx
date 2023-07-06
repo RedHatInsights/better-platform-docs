@@ -10,6 +10,7 @@ import {
 } from "@patternfly/react-core";
 import clsx from "clsx";
 import { ReactNode } from "react";
+import React from "react";
 
 const NavLink: React.FC<{ href?: string; title: ReactNode }> = ({
   href,

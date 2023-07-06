@@ -3,19 +3,21 @@ import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import classnames from "clsx";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
-import { Menu, MenuContent, MenuItem, MenuList } from "@patternfly/react-core";
+import {
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuList,
+  Text,
+  TextContent,
+} from "@patternfly/react-core";
 
 const useStyles = createUseStyles({
-  tableOfContent: {
-    maxHeight: "100vh",
-    overflowY: "auto",
+  menu: {
+    "--pf-c-menu--BackgroundColor": "var(--pf-global--BackgroundColor--200)",
+    borderLeft: "1px solid var(--pf-global--BorderColor--light-100)",
   },
-  list: {
-    width: 250,
-    boxShadow: "none !important",
-    background: "none !important",
-  },
-  listItem: {
+  menuItem: {
     color: "var(--pf-global--palette--black-700)",
     "&:hover": {
       color: "var(--pf-global--palette--black-900)",
@@ -23,15 +25,13 @@ const useStyles = createUseStyles({
   },
   activeLink: {
     color: "var(--pf-global--palette--black-900) !important",
-    background: "var(--pf-global--palette--white) !important",
-    position: "relative",
     "&::before": {
       content: '""',
       position: "absolute",
-      left: -8,
+      left: -1,
       top: 0,
       bottom: 0,
-      borderLeft: "10px solid var(--pf-global--palette--blue-400)",
+      borderLeft: "3px solid var(--pf-global--palette--blue-400)",
     },
   },
 });
@@ -51,7 +51,7 @@ const ContentLink: React.FC<
         setActive(targetId);
       }}
       title={title}
-      className={classnames(classes.listItem, {
+      className={classnames(classes.menuItem, {
         [classes.activeLink]: isActive,
       })}
       to={`#${targetId}`}
@@ -130,9 +130,12 @@ const TableOfContents = () => {
 
   return links.length > 0 ? (
     <div ref={tocRef}>
-      <Menu className={classes.list}>
+      <TextContent className="pf-u-py-md">
+        <Text component="small">Jump to section</Text>
+      </TextContent>
+      <Menu className={classes.menu} isPlain>
         <MenuContent>
-          <MenuList className={classes.tableOfContent}>
+          <MenuList>
             {/* eslint-disable react/prop-types */}
             {links.map(({ targetId, title, ...props }) => (
               <ContentLink
