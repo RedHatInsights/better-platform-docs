@@ -22,6 +22,7 @@ import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
 import { useRouter } from "next/router";
 import React from "react";
+import sections from "../../Navigation/sections/sections.json";
 
 const useStyles = createUseStyles({
   page: {
@@ -78,7 +79,9 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
         navItems.length > 0 ? (
           <PageSection variant={PageSectionVariants.light} isWidthLimited>
             <TextContent>
-              <Text component="h1">Section name</Text>
+              <Text component="h1">
+                {section.substring(0, 1).toUpperCase() + section.substring(1)}
+              </Text>
               <Text component="p">Section Description</Text>
             </TextContent>
           </PageSection>
