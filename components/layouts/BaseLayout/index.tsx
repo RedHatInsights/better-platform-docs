@@ -20,6 +20,7 @@ import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
 import { useRouter } from "next/router";
+import Footer from "../../footer/Footer";
 
 const useStyles = createUseStyles({
   page: {
@@ -98,6 +99,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       ) : (
         children
       )}
+      <Footer />
     </Page>
   );
 };
