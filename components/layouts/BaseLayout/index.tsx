@@ -16,7 +16,7 @@ import {
 } from "@patternfly/react-core";
 import Link from "next/link";
 import classnames from "clsx";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState, useRef } from "react";
 import { createUseStyles } from "react-jss";
 import Image from "next/image";
 import Navigation from "../../Navigation";
@@ -72,7 +72,12 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       }
     >
       {route !== "/" ? (
-        <Sidebar className={classes.sidebar} isPanelRight hasGutter>
+        <Sidebar
+          id="content-wrapper"
+          className={classes.sidebar}
+          isPanelRight
+          hasGutter
+        >
           <SidebarPanel
             variant="sticky"
             className="pf-u-background-color-200 pf-u-pl-lg pf-u-pl-0-on-lg"

@@ -71,7 +71,11 @@ function addLinkAnchor(
           : (props?.children as any)?.props?.children || "";
       const anchor = text.replace(/\s/gm, "");
       return (
-        <Component className={clsx(className, "docs-content-link")} {...props}>
+        <Component
+          data-toc-ref={text}
+          className={clsx(className, "docs-content-link")}
+          {...props}
+        >
           <a id={anchor} className={classes.anchor} href={`#${anchor}`}>
             {props.children}
             <Button
