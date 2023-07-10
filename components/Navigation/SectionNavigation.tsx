@@ -37,7 +37,13 @@ const useStyles = createUseStyles({
 type SectionType = keyof typeof sections;
 type SectionItem = { title: string; href: string };
 
-const SectionNavigation = () => {
+const SectionNavigation = ({
+  width,
+  height,
+}: {
+  width?: string | number;
+  height?: string | number;
+}) => {
   const classes = useStyles();
   return (
     <Gallery
@@ -60,7 +66,7 @@ const SectionNavigation = () => {
                 color="orange"
                 className={classnames(classes.label, "pf-u-float-right")}
               >
-                <CommandLineIcon />
+                <CommandLineIcon width="16" height="16" />
               </Label>
               {/*<Label color="purple" className={classnames(classes.label, "pf-u-float-right")}><PenToolIcon/></Label>*/}
             </CardTitle>

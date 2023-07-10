@@ -37,35 +37,45 @@ const useStyles = createUseStyles({
   },
 });
 
-const Header = () => {
+const Header = ({
+  width,
+  height,
+}: {
+  width?: string | number;
+  height?: string | number;
+}) => {
   const classes = useStyles();
   return (
     <Fragment>
       <MastheadMain className="pf-u-pl-lg pf-u-pt-0 pf-u-pb-xs">
-        <MastheadBrand className="pf-u-flex-shrink-0 pf-u-mr-lg">
+        <MastheadBrand className="pf-u-flex-shrink-0 pf-u-mr-lg" href="/">
           <Logo />
         </MastheadBrand>
       </MastheadMain>
-      <MastheadContent className="pf-u-mx-md pf-u-mx-0-on-2xl">
+      <MastheadContent className="pf-u-mx-md">
         <Toolbar isFullHeight>
           <ToolbarContent>
             <ToolbarGroup variant="filter-group">
               <ToolbarItem>
-                <DevelopmentDropdown />
+                <DevelopmentDropdown width={width} height={height} />
               </ToolbarItem>
               <ToolbarItem>
-                <DesignDropdown />
+                <DesignDropdown width={width} height={height} />
               </ToolbarItem>
             </ToolbarGroup>
-            <ToolbarGroup className="pf-m-align-right pf-m-spacer-md">
+            <ToolbarGroup
+              className="pf-m-align-right pf-m-spacer-md"
+              visibility={{ default: "hidden", xl: "visible" }}
+            >
               <ToolbarItem className={clsx("pf-u-px-xl", classes.toolbarItem)}>
                 <TextContent className={classes.link}>
                   <Text
                     component="a"
                     href="https://consoledot.pages.redhat.com/docs/dev/index.html"
+                    target="_blank"
                   >
                     ConsoleDot Documentation
-                    <Icon className="pf-u-ml-sm" size="sm" isInline>
+                    <Icon className="pf-u-ml-sm" iconSize="sm" isInline>
                       <ExternalLinkAltIcon />
                     </Icon>
                   </Text>
@@ -76,6 +86,7 @@ const Header = () => {
                   component="a"
                   variant="plain"
                   href="https://github.com/RedHatInsights/better-platform-docs"
+                  target="_blank"
                 >
                   <GithubIcon />
                 </Button>
