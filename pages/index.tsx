@@ -86,7 +86,7 @@ const Home: NextPage = () => {
         </PageSection>
         <PageSection id="docs-content">
           <TextContent className="pf-u-pt-md pf-u-text-align-center">
-            <Text component="h1">Search trough all documentation</Text>
+            <Text component="h1">Search through all documentation</Text>
           </TextContent>
           <div className={classes.search_wrapper}>
             <Icon className={classes.icon}>

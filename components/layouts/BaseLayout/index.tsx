@@ -21,8 +21,7 @@ import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
 import { useRouter } from "next/router";
-import React from "react";
-import sections from "../../Navigation/sections/sections.json";
+import Footer from "../../footer/Footer";
 
 const useStyles = createUseStyles({
   page: {
@@ -82,7 +81,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
               <Text component="h1">
                 {section.substring(0, 1).toUpperCase() + section.substring(1)}
               </Text>
-              <Text component="p">Section Description</Text>
+              <Text component="p">{window.location.href}</Text>
             </TextContent>
           </PageSection>
         ) : undefined
@@ -103,6 +102,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       ) : (
         children
       )}
+      <Footer />
     </Page>
   );
 };
