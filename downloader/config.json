@@ -138,5 +138,13 @@
     "branch": "master",
     "path": "/packages/docs/pages/frontend-components-config",
     "title": "Frontend components"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/best-practices",
+    "title": "Consoledot pages",
+    "source": "gitlab"
   }
 ]
