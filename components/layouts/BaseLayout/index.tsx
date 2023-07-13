@@ -41,6 +41,11 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const classes = useStyles();
   const { section, items: navItems } = useNavSchema();
   const { route, basePath } = useRouter();
+  const sectionList = section.trim().split("-");
+  const capitalizedWords = sectionList.map((word) => {
+    return word.substring(0, 1).toUpperCase() + word.substring(1);
+  });
+  const sectionDisplay = capitalizedWords.join(" ");
   const Header = (
     <PageHeader
       logo={
@@ -78,10 +83,8 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
         navItems.length > 0 ? (
           <PageSection variant={PageSectionVariants.light} isWidthLimited>
             <TextContent>
-              <Text component="h1">
-                {section.substring(0, 1).toUpperCase() + section.substring(1)}
-              </Text>
-              <Text component="p">{window.location.href}</Text>
+              <Text component="h1">{sectionDisplay}</Text>
+              <Text component="p">Section Description</Text>
             </TextContent>
           </PageSection>
         ) : undefined

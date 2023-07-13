@@ -4,139 +4,159 @@
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/frontend-components-config",
-    "title": "Frontend components"
+    "title": "Frontend components",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/fec",
-    "title": "Frontend components"
+    "title": "Frontend components",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/public/feature-flags",
-    "title": "public"
+    "title": "public",
+    "description": "Enabling feature flags in your application"
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/examples",
-    "title": "examples"
+    "title": "examples",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/feature-flags",
-    "title": "Platform experience"
+    "title": "Platform experience",
+    "description": "Docs specific to platform experience and onboarding."
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/platform-experience",
-    "title": "Platform experience"
+    "title": "Platform experience",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/quickstarts",
-    "title": "Platform experience"
+    "title": "Platform experience",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/ui-onboarding",
-    "title": "Platform experience"
+    "title": "Platform experience",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/landing-page",
-    "title": "Landing page"
+    "title": "Landing page",
+    "description": "The landing page for console.redhat.com."
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/hac",
-    "title": "Hac initiative"
+    "title": "Hac initiative",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/csc",
-    "title": "Deployment"
+    "title": "Deployment",
+    "description": "Config files that drive proxy configs and deployments."
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/deployment-process",
-    "title": "Deployment"
+    "title": "Deployment",
+    "description": "Navigating the UI deployment process"
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/chrome",
-    "title": "Chroming service"
+    "title": "Chroming service",
+    "description": "Chroming for Insights apps"
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/analytics",
-    "title": "Chroming service"
+    "title": "Chroming service",
+    "description": "Analytics.js 2.0, the latest version of Segment’s JavaScript source, enables you to send your data to any tool without having to learn, test, or use a new API every time."
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/fed",
-    "title": "Frontend tips and tricks"
+    "title": "Frontend tips and tricks",
+    "description": "Federated modules in chrome apps."
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/common-issues",
-    "title": "Frontend tips and tricks"
+    "title": "Frontend tips and tricks",
+    "description": "These are common issues that you might face."
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/insights-standalone",
-    "title": "Frontend components"
+    "title": "Frontend components",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/proxies",
-    "title": "Frontend components"
+    "title": "Frontend components",
+    "description": ""
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/fec",
-    "title": "Frontend components"
+    "title": "Frontend components",
+    "description": "Monorepo of Red Hat Cloud services Components for applications in a React.js environment.    "
   },
   {
     "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/frontend-components-config",
-    "title": "Frontend components"
+    "title": "Frontend components",
+    "description": "Configuration options of the @redhat-cloud-services/frontend-components-config package."
   }
 ]

@@ -106,13 +106,7 @@ const A: React.FC<
 );
 
 export const H1 = addLinkAnchor(({ className, ...props }) => (
-  <Card
-    isPlain
-    style={{
-      background: "white",
-      marginTop: "15px",
-    }}
-  >
+  <Card isPlain className="pf-u-background-color-100 pf-u-mt-lg">
     <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-lg")}
@@ -124,12 +118,7 @@ export const H1 = addLinkAnchor(({ className, ...props }) => (
 ));
 
 export const H2 = addLinkAnchor(({ className, ...props }) => (
-  <Card
-    isPlain
-    style={{
-      background: "white",
-    }}
-  >
+  <Card isPlain className="pf-u-background-color-100">
     <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
@@ -141,12 +130,7 @@ export const H2 = addLinkAnchor(({ className, ...props }) => (
 ));
 
 export const H3 = addLinkAnchor(({ className, ...props }) => (
-  <Card
-    isPlain
-    style={{
-      background: "white",
-    }}
-  >
+  <Card isPlain className="pf-u-background-color-100">
     <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
@@ -157,7 +141,7 @@ export const H3 = addLinkAnchor(({ className, ...props }) => (
   </Card>
 ));
 export const H4 = addLinkAnchor(({ className, ...props }) => (
-  <Card isPlain style={{ background: "white" }}>
+  <Card isPlain className="pf-u-background-color-100">
     <CardHeader>
       <Title
         className={clsx(className, "pf-u-mb-md pf-u-mt-md")}
@@ -170,7 +154,7 @@ export const H4 = addLinkAnchor(({ className, ...props }) => (
 export const Table: React.FC = (props) => {
   const classes = useTableStyles();
   return (
-    <Card className={clsx("pf-u-mb-lg", classes.card)}>
+    <Card isPlain className={clsx("pf-u-background-color-100", classes.card)}>
       <CardBody>
         <table className="pf-c-table pf-m-grid-md" {...props} />
       </CardBody>
@@ -182,13 +166,8 @@ const Code: React.FC<
   DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 > = ({ children, className }) =>
   /language-(\w+)/.exec(className || "") ? (
-    <Card
-      isPlain
-      style={{
-        background: "white",
-      }}
-    >
-      <CardBody style={{ paddingTop: "0px" }}>
+    <Card isPlain className="pf-u-background-color-100">
+      <CardBody className="pf-u-pt-xs">
         <CodeHighlight
           language={(className ? className.split("-").pop() : "") as Language}
           sourceCode={children as string}
@@ -204,8 +183,8 @@ const Li: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
-  <Card isPlain style={{ background: "white", boxShadow: "none" }}>
-    <CardBody style={{ paddingTop: "0px" }}>
+  <Card isPlain className="pf-u-background-color-100">
+    <CardBody className="pf-u-pt-xs">
       <TextContent>
         <TextList component={TextListVariants.ol}>{children}</TextList>
       </TextContent>
@@ -214,8 +193,8 @@ const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 export const UnorderedList: React.FC<PropsWithChildren> = ({ children }) => (
-  <Card style={{ background: "white", boxShadow: "none" }}>
-    <CardBody style={{ paddingTop: "0px" }}>
+  <Card isPlain className="pf-u-background-color-100">
+    <CardBody className="pf-u-pt-xs">
       <TextContent>
         <TextList component={TextListVariants.ul}>{children}</TextList>
       </TextContent>
@@ -227,13 +206,8 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => (
-  <Card
-    isPlain
-    style={{
-      background: "white",
-    }}
-  >
-    <CardBody style={{ paddingTop: "0px" }}>
+  <Card isPlain className="pf-u-background-color-100">
+    <CardBody className="pf-u-pt-xs">
       <TextContent className={className}>
         <Text component={TextVariants.p}>{children}</Text>
       </TextContent>
