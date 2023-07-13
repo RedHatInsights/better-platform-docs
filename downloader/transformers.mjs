@@ -1,5 +1,5 @@
 import { exec } from "child_process";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, renameSync } from "fs";
 import glob from "glob";
 
 const getSource = (repository, branch, path) =>
@@ -37,7 +37,9 @@ const mmdTitleBlockTransformation = (file) => {
     data.substring(0, mmdTitleIndexEnd.index),
     mmdTitleSubstring
   );
+  // console.log({ file });
   writeFileSync(file, data);
+  renameSync(file, file.replace("/pages/", "/"));
 };
 
 const adocExec = (file) => {
