@@ -4,7 +4,7 @@ import { ensureDirSync } from "fs-extra";
 import glob from "glob";
 
 const getSource = (repository, branch, path) =>
-  `/tmp/${repository}-${branch}/${path}`;
+  `./tmp/${repository}-${branch}/${path}`;
 
 const mmdBlockMap = [
   {
