@@ -65,7 +65,10 @@ const transformerMapper = {
   "consoledot.pages.redhat.com": ({ repository, branch, path, title }) => {
     const sourcePath = getSource(repository, branch, path);
     const adocFiles = glob.sync(`${sourcePath}/**/pages/*.adoc`);
-    const images = glob.sync(`${sourcePath}/**/pages/*.png`);
+    const images = [
+      glob.sync(`${sourcePath}/**/pages/*.png`),
+      glob.sync(`${sourcePath}/**/images/*.png`),
+    ].flat();
     process.env.IMAGE_PREFIX = `./public/${title
       .replaceAll(" ", "-")
       .toLowerCase()}/${path.split("/").pop()}`;
@@ -77,7 +80,7 @@ const transformerMapper = {
     });
 
     images.forEach((image) => {
-      renameSync(image, image.replace("/pages/", "/"));
+      renameSync(image, image.replace("/pages/", "/").replace("/images/", "/"));
     });
   },
 };
