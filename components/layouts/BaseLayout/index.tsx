@@ -1,4 +1,5 @@
 import {
+  Masthead,
   Page,
   PageHeader,
   PageSection,
@@ -20,14 +21,12 @@ import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
 import { useRouter } from "next/router";
+import Header from "../../header/header";
 import Footer from "../../footer/Footer";
 
 const useStyles = createUseStyles({
   page: {
     height: "100vh !important",
-  },
-  logo: {
-    width: 100,
   },
   sidebar: {
     height: "100vh",
@@ -40,24 +39,6 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const classes = useStyles();
   const { section, items: navItems } = useNavSchema();
   const { route, basePath } = useRouter();
-  const Header = (
-    <PageHeader
-      logo={
-        <Link href="/" className={classes.logo}>
-          <Image
-            width={100}
-            height={50}
-            src={`${basePath}/logo.svg`}
-            alt="logo"
-          />
-        </Link>
-      }
-      showNavToggle={navItems.length !== 0}
-      isNavOpen={isNavOpen}
-      logoComponent="div"
-      onNavToggle={() => setIsnavOpen((prev) => !prev)}
-    />
-  );
   return (
     <Page
       sidebar={
@@ -69,7 +50,11 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
         ) : undefined
       }
       className={classes.page}
-      header={Header}
+      header={
+        <Masthead className="chr-c-masthead pf-u-p-0">
+          <Header />
+        </Masthead>
+      }
       groupProps={{
         stickyOnBreakpoint: { default: "top" },
       }}

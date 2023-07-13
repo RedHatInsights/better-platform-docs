@@ -1,7 +1,12 @@
 import React from "react";
 
-const CommandLineIcon = () => (
-  <svg width="16px" height="16px" viewBox="0 0 48 48">
+const CommandLineIcon = ({ height = "100%", width = "100%" }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g fill="#F0AB00" fillRule="nonzero">
         <g>
