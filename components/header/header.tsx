@@ -18,9 +18,15 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Logo from "./logo";
 import DesignDropdown from "../design-dropdown/design-dropdown";
-import DevelopmentDropdown from "../development-dropdown/development-dropdown";
 import ExternalLinkAltIcon from "@patternfly/react-icons/dist/js/icons/external-link-alt-icon";
 import GithubIcon from "@patternfly/react-icons/dist/js/icons/github-icon";
+import dynamic from "next/dynamic";
+const DevelopmentDropdown = dynamic(
+  () => import("../development-dropdown/development-dropdown"),
+  {
+    ssr: false,
+  }
+);
 
 const useStyles = createUseStyles({
   icon: {
