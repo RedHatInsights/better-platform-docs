@@ -18,6 +18,7 @@ import { createUseStyles } from "react-jss";
 import classnames from "clsx";
 import CommandLineIcon from "./command-line";
 import PenToolIcon from "./pen-tool";
+import React from "react";
 
 const useStyles = createUseStyles({
   gallery: {
@@ -34,23 +35,23 @@ const useStyles = createUseStyles({
   },
 });
 
-type SectionType = keyof typeof sections;
-type SectionItem = { title: string; href: string };
+export type SectionType = keyof typeof sections;
+export type SectionItem = {
+  title: string;
+  href: string;
+  groupTitle?: string;
+  groups?: { title: string }[];
+};
+export type NavRecord = Partial<Record<SectionType, SectionItem[]>>;
 
-const SectionNavigation = ({
-  width,
-  height,
-}: {
-  width?: string | number;
-  height?: string | number;
-}) => {
+const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
   const classes = useStyles();
   return (
     <Gallery
       className={classnames(classes.gallery, "pf-u-display-block")}
       hasGutter
     >
-      {Object.keys(sections).map((parentKey) => (
+      {navigations.flatMap((parentKey) => (
         <GalleryItem key={parentKey}>
           <Card
             key={parentKey}
