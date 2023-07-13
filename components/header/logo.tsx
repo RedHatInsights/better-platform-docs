@@ -8,14 +8,14 @@ const Logo = () => (
     <g
       id="Symbols"
       stroke="none"
-      stroke-width="1"
+      strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
+      fillRule="evenodd"
     >
       <g
         id="Masthead-/-full"
         transform="translate(-24, -21)"
-        fill-rule="nonzero"
+        fillRule="nonzero"
       >
         <g
           id="Logo-Red_Hat-Hybrid_Platforms_Engineering_Team-A-Reverse-RGB"

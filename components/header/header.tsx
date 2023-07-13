@@ -37,13 +37,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const Header = ({
-  width,
-  height,
-}: {
-  width?: string | number;
-  height?: string | number;
-}) => {
+const Header = () => {
   const classes = useStyles();
   return (
     <Fragment>
@@ -57,10 +51,10 @@ const Header = ({
           <ToolbarContent>
             <ToolbarGroup variant="filter-group">
               <ToolbarItem>
-                <DevelopmentDropdown width={width} height={height} />
+                <DevelopmentDropdown />
               </ToolbarItem>
               <ToolbarItem>
-                <DesignDropdown width={width} height={height} />
+                <DesignDropdown />
               </ToolbarItem>
             </ToolbarGroup>
             <ToolbarGroup

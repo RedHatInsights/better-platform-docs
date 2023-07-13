@@ -13,10 +13,17 @@ import {
 } from "@patternfly/react-core";
 import Link from "next/link";
 import SectionNavigation from "../components/Navigation/SectionNavigation";
+import type {
+  NavRecord,
+  SectionType,
+  SectionItem,
+} from "../components/Navigation/SectionNavigation";
 import { FilterIcon } from "@patternfly/react-icons/dist/esm/icons";
 import TableOfContents from "../components/table-of-contents";
 import { createUseStyles } from "react-jss";
 import classnames from "clsx";
+import sections from "../components/Navigation/sections/sections.json";
+import { useEffect, useState } from "react";
 
 const useStyles = createUseStyles({
   banner: {
@@ -49,7 +56,54 @@ const useStyles = createUseStyles({
   },
 });
 
+const filterItems = (searchBy: string, items: SectionItem[]) =>
+  items.some(({ groups, groupTitle, title }) => {
+    const findInTitle = title?.toLowerCase().includes(searchBy as string);
+    const findInGroupTitle = groupTitle
+      ?.toLowerCase()
+      .includes(searchBy as string);
+    const foundInGroups = (groups || [])?.some(({ title }) =>
+      title.toLowerCase().includes(searchBy as string)
+    );
+    return findInTitle || findInGroupTitle || foundInGroups;
+  });
+
+const filterNavigations = (searchBy: string, navigations: NavRecord[]) =>
+  navigations.filter((navItem) => {
+    return Object.entries(navItem).some(
+      ([key, items]) =>
+        key
+          .split("-")
+          .join(" ")
+          .includes(searchBy as string) || filterItems(searchBy, items)
+    );
+  });
+
 const Home: NextPage = () => {
+  const [navigations, setNavigations] = useState<NavRecord[]>([]);
+  const [searchBy, setSearchBy] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    const fetchAllNavs = async () => {
+      const allNavs = await Promise.all(
+        Object.entries(sections).flatMap(
+          ([key, { items }]: [string, { items: { href: string }[] }]) =>
+            items.reduce<Promise<NavRecord>>(async (acc, { href }) => {
+              const schema = await import(
+                `../components/Navigation/schemas${href}`
+              );
+              return {
+                [key]: [
+                  ...((await acc)[key as SectionType] || []),
+                  ...(schema.default as SectionItem[]),
+                ],
+              };
+            }, Promise.resolve({}))
+        )
+      );
+      setNavigations(allNavs);
+    };
+    fetchAllNavs();
+  }, []);
   const classes = useStyles();
   return (
     <div>
@@ -96,9 +150,17 @@ const Home: NextPage = () => {
               className={classnames(classes.filter, "pf-u-mt-md pf-u-mb-xl")}
               data-ouia-component-id="app-filter-search"
               placeholder="Find documentation ..."
+              onChange={(value) => setSearchBy(value.toLowerCase())}
             />
           </div>
-          <SectionNavigation />
+          <SectionNavigation
+            navigations={filterNavigations(
+              searchBy || "",
+              navigations
+            ).flatMap<SectionType>(
+              (item) => Object.keys(item) as SectionType[]
+            )}
+          />
           <div className={classes.tableOfContent}>
             <TableOfContents />
           </div>

@@ -2,13 +2,7 @@ import React from "react";
 import { Icon, MenuToggle } from "@patternfly/react-core";
 import PenToolIcon from "../Navigation/pen-tool";
 
-const DesignDropdown = ({
-  width,
-  height,
-}: {
-  width?: string | number;
-  height?: string | number;
-}) => {
+const DesignDropdown = () => {
   return (
     <MenuToggle className="pf-m-full-height">
       <Icon className="pf-u-m-sm" isInline>
