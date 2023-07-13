@@ -185,7 +185,6 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
 export const Img: React.FC<
   PropsWithChildren<{ src?: string; alt?: string }>
 > = ({ src, alt, ...props }) => {
-  const { basePath } = useRouter();
   return (
     <Image
       src={`${basePath}${src}`}

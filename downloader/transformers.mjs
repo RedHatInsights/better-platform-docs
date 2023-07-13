@@ -1,5 +1,6 @@
 import { exec } from "child_process";
 import { readFileSync, writeFileSync, renameSync } from "fs";
+import { ensureDirSync } from "fs-extra";
 import glob from "glob";
 
 const getSource = (repository, branch, path) =>
@@ -44,7 +45,7 @@ const mmdTitleBlockTransformation = (file) => {
 
 const adocExec = (file) => {
   exec(
-    `echo pwd && asciidoc -b docbook ${file} && pandoc -s --base-header-level 2 ${file.replace(
+    `asciidoctor -b docbook -r asciidoctor-diagram ${file} && pandoc -s --base-header-level 2 ${file.replace(
       /\.adoc$/,
       ".xml"
     )} -o ${file.replace(
@@ -61,12 +62,22 @@ const adocExec = (file) => {
 };
 
 const transformerMapper = {
-  "consoledot.pages.redhat.com": ({ repository, branch, path }) => {
+  "consoledot.pages.redhat.com": ({ repository, branch, path, title }) => {
     const sourcePath = getSource(repository, branch, path);
     const adocFiles = glob.sync(`${sourcePath}/**/pages/*.adoc`);
+    const images = glob.sync(`${sourcePath}/**/pages/*.png`);
+    process.env.IMAGE_PREFIX = `./public/${title
+      .replaceAll(" ", "-")
+      .toLowerCase()}/${path.split("/").pop()}`;
+
+    ensureDirSync(process.env.IMAGE_PREFIX);
 
     adocFiles.forEach((file) => {
       adocExec(file);
+    });
+
+    images.forEach((image) => {
+      renameSync(image, image.replace("/pages/", "/"));
     });
   },
 };

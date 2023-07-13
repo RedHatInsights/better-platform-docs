@@ -2,6 +2,8 @@ import data from "./config.json" assert { type: "json" };
 import follow from "follow-redirects";
 import StreamZip from "node-stream-zip";
 import fs from "fs";
+import fse from "fs-extra";
+import glob from "glob";
 import { exec } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -66,18 +68,33 @@ data.forEach(
             `../pages/${title.replaceAll(" ", "-").toLowerCase()}`
           )}`
         );
+        const pagesDir = `./pages/${title.replaceAll(" ", "-").toLowerCase()}`;
         exec(
-          `rsync -a -v ${safePath(
+          `rsync -a -v --exclude '*.xml' --exclude '*.adoc' --exclude '*.png.cache' ${safePath(
             `../tmp/${repository}-${branch}/${path}`
           )} ${safePath(
             `../pages/${title.replaceAll(" ", "-").toLowerCase()}`
-          )}`
+          )}`,
+          (error) => {
+            if (error) {
+              console.log(error);
+            }
+            const imagesInPages = glob.sync(`${pagesDir}/**/*.png`);
+            imagesInPages.forEach((image) => {
+              const imageName = image.replace("/pages/", "/public/");
+              let imgDirname = imageName.split("/");
+              imgDirname.pop();
+              imgDirname = imgDirname.join("/");
+              fse.ensureDirSync(imgDirname);
+              fse.renameSync(image, imageName);
+            });
+          }
         );
       }
     };
     if (fs.existsSync(safePath(`../tmp/${repository}-${branch}`))) {
       console.log("folder exists!");
-      transformers[repository]?.({ repository, branch, path });
+      transformers[repository]?.({ repository, branch, path, title });
       onGenerate();
     } else {
       console.log(
@@ -100,7 +117,7 @@ data.forEach(
               file: `./tmp/${repository}.zip`,
             });
             zip.extract(null, safePath("../tmp")).then(() => {
-              transformers[repository]?.({ repository, branch, path });
+              transformers[repository]?.({ repository, branch, path, title });
               onGenerate();
               zip.close();
             });
