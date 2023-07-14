@@ -38,8 +38,11 @@ const mmdTitleBlockTransformation = (file) => {
     data.substring(0, mmdTitleIndexEnd.index),
     mmdTitleSubstring
   );
-  // console.log({ file });
   writeFileSync(file, data);
+  let distDirectory = file.replace("/pages/", "/").split("/");
+  distDirectory.pop();
+  distDirectory = distDirectory.join("/");
+  ensureDirSync(distDirectory);
   renameSync(file, file.replace("/pages/", "/"));
 };
 
@@ -64,9 +67,9 @@ const adocExec = (file) => {
 const transformerMapper = {
   "consoledot.pages.redhat.com": ({ repository, branch, path, title }) => {
     const sourcePath = getSource(repository, branch, path);
-    const adocFiles = glob.sync(`${sourcePath}/**/pages/*.adoc`);
+    const adocFiles = glob.sync(`${sourcePath}/**/pages/**/*.adoc`);
     const images = [
-      glob.sync(`${sourcePath}/**/pages/*.png`),
+      glob.sync(`${sourcePath}/**/pages/**/*.png`),
       glob.sync(`${sourcePath}/**/images/*.png`),
     ].flat();
     process.env.IMAGE_PREFIX = `./public/${title

@@ -146,5 +146,13 @@
     "path": "/modules/best-practices",
     "title": "Consoledot pages",
     "source": "gitlab"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/containerized-frontends",
+    "title": "Consoledot pages",
+    "source": "gitlab"
   }
 ]

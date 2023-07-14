@@ -70,7 +70,7 @@ data.forEach(
         );
         const pagesDir = `./pages/${title.replaceAll(" ", "-").toLowerCase()}`;
         exec(
-          `rsync -a -v --exclude '*.xml' --exclude '*.adoc' --exclude '*.png.cache' ${safePath(
+          `rsync -a -u -v --prune-empty-dirs --exclude '*.xml' --exclude '*.adoc' --exclude '*.png.cache' ${safePath(
             `../tmp/${repository}-${branch}/${path}`
           )} ${safePath(
             `../pages/${title.replaceAll(" ", "-").toLowerCase()}`
