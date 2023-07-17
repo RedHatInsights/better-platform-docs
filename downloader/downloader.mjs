@@ -37,7 +37,7 @@ const sourceMapper = {
 };
 
 data.forEach(
-  ({ owner, repository, branch, path, title, source = "github" }) => {
+  async ({ owner, repository, branch, path, title, source = "github" }) => {
     console.log(`Repository: ${owner}/${repository}`);
     const onGenerate = () => {
       if (title === "public") {
@@ -94,16 +94,14 @@ data.forEach(
     };
     if (fs.existsSync(safePath(`../tmp/${repository}-${branch}`))) {
       console.log("folder exists!");
-      transformers[repository]?.({ repository, branch, path, title });
+      await transformers[repository]?.({ repository, branch, path, title });
       onGenerate();
     } else {
-      console.log(
-        "Downloading files",
-        `https://github.com/${owner}/${repository}/archive/refs/heads/${branch}.zip`
-      );
+      const URL = sourceMapper[source](owner, repository, branch);
+      console.log("Downloading files", URL);
       const file = fs.createWriteStream(safePath(`../tmp/${repository}.zip`));
       follow.https.get(
-        sourceMapper[source](owner, repository, branch),
+        URL,
         {
           // required for gitlab self signed certificate
           rejectUnauthorized: source !== "gitlab",
@@ -117,9 +115,17 @@ data.forEach(
               file: `./tmp/${repository}.zip`,
             });
             zip.extract(null, safePath("../tmp")).then(() => {
-              transformers[repository]?.({ repository, branch, path, title });
-              onGenerate();
-              zip.close();
+              return (
+                transformers[repository]?.({
+                  repository,
+                  branch,
+                  path,
+                  title,
+                }) || Promise.resolve()
+              ).then(() => {
+                onGenerate();
+                zip.close();
+              });
             });
           });
         }
@@ -127,46 +133,3 @@ data.forEach(
     }
   }
 );
-
-// data.forEach(
-//   ({ owner, repository, branch, path, title, source = "github" }) => {
-//     const onGenerate = () => {
-//       if (title === "public") {
-//         exec(`cp -r /tmp/${repository}-${branch}/${path} ./public`);
-//       } else if (title === "examples") {
-//         exec(`rsync -a -v /tmp/${repository}-${branch}/${path} ./components`);
-//       } else {
-//         exec(
-//           `rsync -a -v --exclude '*.xml' --exclude '*.adoc' /tmp/${repository}-${branch}/${path} ./pages/${title
-//             .replaceAll(" ", "-")
-//             .toLowerCase()}`
-//         );
-//       }
-//     };
-//     if (fs.existsSync(`/tmp/${repository}-${branch}`)) {
-//       console.log("folder exists!");
-//       transformers[repository]?.({ repository, branch, path });
-//       onGenerate();
-//     } else {
-//       console.log(`Downloading ${owner}, ${repository}`);
-//       const file = fs.createWriteStream(`/tmp/${repository}.zip`);
-//       follow.https.get(
-//         sourceMapper[source](owner, repository, branch),
-//         {
-//           // required for gitlab self signed certificate
-//           rejectUnauthorized: source !== "gitlab",
-//         },
-//         async function (response) {
-//           response.pipe(file);
-//           file.on("finish", async () => {
-//             file.close();
-//             const zip = new StreamZip.async({ file: `/tmp/${repository}.zip` });
-//             await zip.extract(null, "/tmp");
-//             transformers[repository]?.({ repository, branch, path });
-//             onGenerate();
-//           });
-//         }
-//       );
-//     }
-//   }
-// );

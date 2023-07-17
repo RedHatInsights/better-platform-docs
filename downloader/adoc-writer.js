@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const pandoc = require("pandoc-filter-promisified");
+const pandoc = require("pandoc-filter");
 const fs = require("fs");
 const { Image } = pandoc;
 
@@ -19,4 +19,5 @@ async function action(elt) {
   }
 }
 
-pandoc.stdio(action);
+const run = async () => await pandoc.stdio(action);
+run();

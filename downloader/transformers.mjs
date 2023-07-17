@@ -47,25 +47,35 @@ const mmdTitleBlockTransformation = (file) => {
 };
 
 const adocExec = (file) => {
-  exec(
-    `asciidoctor -b docbook -r asciidoctor-diagram ${file} && pandoc -s --base-header-level 2 ${file.replace(
-      /\.adoc$/,
-      ".xml"
-    )} -o ${file.replace(
-      /\.adoc$/,
-      ".md"
-    )} -f docbook -t markdown_github+mmd_title_block --filter=./downloader/adoc-writer.js --verbose`,
-    (error) => {
-      if (error) {
-        console.log(error);
+  return new Promise((res, rej) => {
+    exec(
+      `asciidoctor -b docbook -r asciidoctor-diagram ${file} && pandoc -s --base-header-level 2 ${file.replace(
+        /\.adoc$/,
+        ".xml"
+      )} -o ${file.replace(
+        /\.adoc$/,
+        ".md"
+      )} -f docbook -t markdown_github+mmd_title_block --filter=./downloader/adoc-writer.js --verbose`,
+      (error) => {
+        if (error) {
+          console.log(error);
+          return rej(error);
+        }
+        // globSync('tmp/consoledot.pages.redhat.com-main/modules/')
+        mmdTitleBlockTransformation(file.replace(/\.adoc$/, ".md"));
+        res();
       }
-      mmdTitleBlockTransformation(file.replace(/\.adoc$/, ".md"));
-    }
-  );
+    );
+  });
 };
 
 const transformerMapper = {
-  "consoledot.pages.redhat.com": ({ repository, branch, path, title }) => {
+  "consoledot.pages.redhat.com": async ({
+    repository,
+    branch,
+    path,
+    title,
+  }) => {
     const sourcePath = getSource(repository, branch, path);
     const adocFiles = glob.sync(`${sourcePath}/**/pages/**/*.adoc`);
     const images = [
@@ -77,10 +87,13 @@ const transformerMapper = {
       .toLowerCase()}/${path.split("/").pop()}`;
 
     ensureDirSync(process.env.IMAGE_PREFIX);
+    const promises = [];
 
     adocFiles.forEach((file) => {
-      adocExec(file);
+      promises.push(adocExec(file));
     });
+    // wait for transformation to finish
+    await Promise.all(promises);
 
     images.forEach((image) => {
       renameSync(image, image.replace("/pages/", "/").replace("/images/", "/"));
