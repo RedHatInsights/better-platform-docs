@@ -1,0 +1,11 @@
+version: '2'
+services:
+  platform-docs:
+    command: sh -c "npm run dev:prepare"
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile.dev'
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/docs

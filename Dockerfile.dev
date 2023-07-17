@@ -1,0 +1,9 @@
+FROM quay.io/cloudservices/releaser:24ff556
+WORKDIR /docs
+COPY . /docs/
+USER root
+RUN chmod -R 777 components
+RUN ls -la
+RUN npm i
+RUN node downloader/downloader.mjs
+EXPOSE 3000 3000

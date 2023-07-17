@@ -8,7 +8,7 @@
 1. install dependencies with `npm install`
 2. run `node downloader/downloader.mjs` to download the doc files
 3. run `npm run dev:compose` to kickstarts development server
-4. open your browser at http://locahost:300
+4. open your browser at http://locahost:3000
 5. add/change `.mdx?` files in the `pages` directory
 
 ## External development
