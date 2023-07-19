@@ -1,8 +1,7 @@
 import React, { PropsWithChildren } from "react";
-import Highlight, { defaultProps } from "prism-react-renderer";
+import { Highlight, themes } from "prism-react-renderer";
 import classnames from "clsx";
 import type { Language } from "prism-react-renderer";
-import codeTheme from "prism-react-renderer/themes/nightOwl";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -23,7 +22,7 @@ const useStyles = createUseStyles({
 const Pre: React.FC<
   PropsWithChildren<{
     className: string;
-    style: React.StyleHTMLAttributes<any>;
+    style: React.CSSProperties;
   }>
 > = ({ children, className, style, ...props }) => {
   const classes = useStyles();
@@ -48,8 +47,8 @@ const CodeHighlight: React.FC<{ sourceCode: string; language: Language }> = ({
 
   return (
     <Highlight
-      {...defaultProps}
-      theme={language ? codeTheme : undefined}
+      // {...defaultProps}
+      theme={language ? themes.nightOwl : undefined}
       language={language}
       code={sourceCode.replace(/\n*$/, "")}
     >

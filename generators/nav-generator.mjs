@@ -1,5 +1,5 @@
 import fsExtra from "fs-extra";
-import glob from "glob";
+import { glob } from "glob";
 import path from "path";
 import { fileURLToPath } from "url";
 import {
