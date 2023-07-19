@@ -1,4 +1,4 @@
-FROM quay.io/cloudservices/releaser:875ee35
+FROM quay.io/cloudservices/releaser:24ff556
 COPY . .
 USER root
 COPY ./Caddyfile /opt/app-root/src/Caddyfile

@@ -11,7 +11,8 @@
     "watch:compose": "node watchers/compose-mdx.mjs",
     "watch:nav": "node watchers/nav-watcher.mjs",
     "watch:sections": "node watchers/sections-watcher.mjs",
-    "dev:compose": "concurrently \"npm run watch:compose\" \"npm run watch:nav\" \"npm run watch:sections\" \"npm run dev\""
+    "dev:prepare": "concurrently \"npm run watch:compose\" \"npm run watch:nav\" \"npm run watch:sections\" \"npm run dev\"",
+    "dev:compose": "docker-compose -f docker-compose-dev.yml up"
   },
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
@@ -49,6 +50,7 @@
     "glob": "^8.0.3",
     "next-transpile-modules": "^10.0.0",
     "node-stream-zip": "^1.15.0",
+    "pandoc-filter": "^2.1.0",
     "prettier": "2.7.1",
     "prettier-eslint": "^15.0.1",
     "raw-loader": "^4.0.2",

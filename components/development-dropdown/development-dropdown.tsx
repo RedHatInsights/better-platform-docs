@@ -117,8 +117,16 @@ const TabWrapper = ({
   return <Tab ref={tabRef} title={title} eventKey={eventKey} />;
 };
 
+type Section = {
+  title: string;
+  items: {
+    title: string;
+    href: string;
+  }[];
+};
+
 const DevelopmentDropdown = () => {
-  const [selectedService, setSelectedService] = useState(
+  const [selectedService, setSelectedService] = useState<Section | undefined>(
     Object.values(sections)[0]
   );
   const [activeTabKey, setActiveTabKey] = useState(Object.keys(sections)[0]);
@@ -207,7 +215,9 @@ const DevelopmentDropdown = () => {
                   <SidebarContent className={classes.sidebarContent}>
                     <Card className={classes.card} isPlain>
                       <CardHeader className="pf-u-pr-xs pf-u-pr-md-on-md">
-                        <Title headingLevel="h2">{selectedService.title}</Title>
+                        <Title headingLevel="h2">
+                          {selectedService?.title}
+                        </Title>
                         <CardActions>
                           <Button
                             variant="plain"
@@ -220,7 +230,7 @@ const DevelopmentDropdown = () => {
                       </CardHeader>
                       <CardBody>
                         <Gallery hasGutter>
-                          {selectedService.items.map((item, key) => (
+                          {selectedService?.items.map((item, key) => (
                             <Link key={key} href={item.href}>
                               <Card
                                 isFullHeight
