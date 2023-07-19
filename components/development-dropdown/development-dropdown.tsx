@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Backdrop,
+  Button,
+  Card,
+  CardActions,
+  CardBody,
+  CardHeader,
   FlexItem,
+  Gallery,
   Icon,
   MenuToggle,
   Panel,
@@ -12,20 +18,93 @@ import {
   Tabs,
   Tab,
   TabTitleText,
+  Text,
+  TextContent,
   SidebarContent,
-  Card,
-  CardHeader,
   Title,
-  CardActions,
-  Button,
-  CardBody,
-  Gallery,
 } from "@patternfly/react-core";
 import CommandLineIcon from "../Navigation/command-line";
 import sections from "../Navigation/sections/sections.json";
 import TimesIcon from "@patternfly/react-icons/dist/esm/icons/times-icon";
 import { SectionType } from "../Navigation/SectionNavigation";
 import Link from "next/link";
+import { createUseStyles } from "react-jss";
+import clsx from "clsx";
+import classnames from "clsx";
+
+const useStyles = createUseStyles({
+  dropdownMenu: {
+    "@media (min-width: 768px)": {
+      height: "calc(100vh - 70px)",
+      transform: "translate(0, 70px) !important",
+    },
+    "@media (max-width: 768px)": {
+      height: "calc(100vh - 118px)",
+      transform: "translate(0, 118px) !important",
+    },
+  },
+  panel: {
+    "@media (max-width: 768px)": {
+      tabs: {
+        background: "var(--pf-global--BackgroundColor--200)",
+        borderBottom:
+          "var(--pf-global--BorderWidth--sm) solid var(--pf-global--BorderColor--dark-100)",
+      },
+      sidebarPanel: {
+        boxShadow: "none",
+      },
+      sidebarContent: {
+        overflow: "auto",
+      },
+    },
+  },
+  sidebar: {
+    "--pf-c-sidebar__panel--md--FlexBasis": "20rem",
+    "--pf-c-sidebar__panel--BackgroundColor":
+      "var(--pf-global--BackgroundColor--200)",
+  },
+  sidebarPanel: {
+    alignSelf: "stretch",
+    boxShadow: "inset -4px 0 4px -4px rgba(0, 0, 0, 0.16)",
+  },
+  sidebarContent: {
+    overflow: "auto",
+  },
+  tabs: {
+    "--pf-c-tabs__link--PaddingRight": "var(--pf-global--spacer--md)",
+    "--pf-c-tabs__link--PaddingLeft": "var(--pf-global--spacer--md)",
+    "--pf-c-tabs__item--m-current__link--after--BorderColor": "transparent",
+    "--pf-c-tabs__item--m-current__link--Color":
+      "var(--pf-global--link--Color)",
+    "--pf-c-tabs__item--m-current__link--BackgroundColor": "#fff",
+    "--pf-c-tabs--m-vertical--MaxWidth": "100%",
+    "--pf-c-tabs--m-vertical__list--before--BorderColor": "transparent",
+    "--pf-c-tabs--m-vertical__link--PaddingTop": "var(--pf-global--spacer--sm)",
+    "--pf-c-tabs--m-vertical__link--PaddingBottom":
+      "var(--pf-global--spacer--sm)",
+    "--pf-c-tabs__link--after--BorderLeftWidth":
+      "var(--pf-c-tabs__link--after--BorderWidth)",
+    "& .pf-c-tabs__item:hover, & .pf-c-tabs__item:focus": {
+      "& button": {
+        backgroundColor: "var(--pf-global--BackgroundColor--100)",
+        color: "var(--pf-global--primary-color--200)",
+      },
+    },
+    "& .pf-c-tabs__item.pf-m-current": {
+      "--pf-c-tabs__link--BackgroundColor":
+        "var(--pf-global--BackgroundColor--100)",
+    },
+  },
+  card: {
+    "--pf-c-card--first-child--PaddingTop": "var(--pf-global--spacer--md)",
+    "& .pf-m-flat:hover": {
+      backgroundColor: "var(--pf-global--palette--blue-50)",
+    },
+    "& a:hover": {
+      textDecoration: "none",
+    },
+  },
+});
 
 const TabWrapper = ({
   title,
@@ -52,6 +131,7 @@ const DevelopmentDropdown = () => {
     ev.stopPropagation();
     setIsOpen(!isOpen);
   };
+  const classes = useStyles();
 
   const toggle = (
     <MenuToggle
@@ -73,12 +153,26 @@ const DevelopmentDropdown = () => {
       appendTo={document.body}
       isVisible={isOpen}
       popper={
-        <div ref={menuRef}>
+        <div
+          ref={menuRef}
+          className={classnames(classes.dropdownMenu, "pf-u-w-100")}
+        >
           <Backdrop>
-            <Panel variant="raised" className="pf-u-p-0">
+            <Panel
+              variant="raised"
+              className={classnames(
+                classes.panel,
+                "pf-c-dropdown__menu pf-u-p-0 pf-u-w-100"
+              )}
+            >
               <PanelMain>
-                <Sidebar>
-                  <SidebarPanel className="pf-l-flex pf-u-flex-direction-column">
+                <Sidebar className={classes.sidebar}>
+                  <SidebarPanel
+                    className={classnames(
+                      classes.sidebarPanel,
+                      "pf-l-flex pf-u-flex-direction-column"
+                    )}
+                  >
                     <Tabs
                       inset={{
                         default: "insetNone",
@@ -94,9 +188,12 @@ const DevelopmentDropdown = () => {
                         md: "nonExpandable",
                       }}
                       isExpanded={isExpanded}
-                      toggleText="Foo"
+                      toggleText={activeTabKey}
                       role="region"
-                      className="pf-u-p-md pf-u-pr-0"
+                      className={classnames(
+                        classes.tabs,
+                        "pf-u-p-md pf-u-pr-0 pf-u-w-100"
+                      )}
                     >
                       {Object.entries(sections).map(([key, section]) => (
                         <TabWrapper
@@ -107,8 +204,8 @@ const DevelopmentDropdown = () => {
                       ))}
                     </Tabs>
                   </SidebarPanel>
-                  <SidebarContent>
-                    <Card isPlain>
+                  <SidebarContent className={classes.sidebarContent}>
+                    <Card className={classes.card} isPlain>
                       <CardHeader className="pf-u-pr-xs pf-u-pr-md-on-md">
                         <Title headingLevel="h2">{selectedService.title}</Title>
                         <CardActions>
@@ -128,10 +225,21 @@ const DevelopmentDropdown = () => {
                               <Card
                                 isFullHeight
                                 isFlat
-                                isSelectableRaised
                                 onClick={() => setIsOpen(!isOpen)}
                               >
-                                {item.title}
+                                {" "}
+                                <CardHeader>{item.title}</CardHeader>
+                                <CardBody>
+                                  <TextContent>
+                                    <Text
+                                      component="small"
+                                      className="pf-u-color-100"
+                                    >
+                                      Lorem ipsum dolor sit amet, consectetur
+                                      adipiscing elit, sed do eiusmod tempor.
+                                    </Text>
+                                  </TextContent>
+                                </CardBody>
                               </Card>
                             </Link>
                           ))}
