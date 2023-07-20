@@ -78,10 +78,6 @@ const transformerMapper = {
   }) => {
     const sourcePath = getSource(repository, branch, path);
     const adocFiles = glob.sync(`${sourcePath}/**/pages/**/*.adoc`);
-    const images = [
-      glob.sync(`${sourcePath}/**/pages/**/*.png`),
-      glob.sync(`${sourcePath}/**/images/*.png`),
-    ].flat();
     process.env.IMAGE_PREFIX = `./public/${title
       .replaceAll(" ", "-")
       .toLowerCase()}/${path.split("/").pop()}`;
@@ -94,7 +90,10 @@ const transformerMapper = {
     });
     // wait for transformation to finish
     await Promise.all(promises);
-
+    const images = [
+      glob.sync(`${sourcePath}/**/pages/**/*.png`),
+      glob.sync(`${sourcePath}/**/images/*.png`),
+    ].flat();
     images.forEach((image) => {
       renameSync(image, image.replace("/pages/", "/").replace("/images/", "/"));
     });
