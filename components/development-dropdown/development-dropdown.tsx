@@ -97,9 +97,6 @@ const useStyles = createUseStyles({
   },
   card: {
     "--pf-c-card--first-child--PaddingTop": "var(--pf-global--spacer--md)",
-    "& .pf-m-flat:hover": {
-      backgroundColor: "var(--pf-global--palette--blue-50)",
-    },
     "& a:hover": {
       textDecoration: "none",
     },
@@ -235,6 +232,7 @@ const DevelopmentDropdown = () => {
                               <Card
                                 isFullHeight
                                 isFlat
+                                isSelectableRaised
                                 onClick={() => setIsOpen(!isOpen)}
                               >
                                 {" "}
