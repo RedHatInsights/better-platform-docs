@@ -1,4 +1,4 @@
-FROM quay.io/cloudservices/releaser:24ff556
+FROM quay.io/cloudservices/releaser:6969d44
 WORKDIR /docs
 COPY . /docs/
 USER root
