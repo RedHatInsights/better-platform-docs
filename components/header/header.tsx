@@ -69,8 +69,8 @@ const Header = () => {
               </ToolbarItem>
             </ToolbarGroup>
             <ToolbarGroup
-              className="pf-m-align-right pf-m-spacer-md"
-              visibility={{ default: "hidden", xl: "visible" }}
+              className="pf-m-align-right pf-m-spacer-md pf-u-mr-xs"
+              visibility={{ default: "hidden", lg: "visible" }}
             >
               <ToolbarItem className={clsx("pf-u-px-xl", classes.toolbarItem)}>
                 <TextContent className={classes.link}>
