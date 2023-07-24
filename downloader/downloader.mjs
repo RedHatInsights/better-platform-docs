@@ -37,7 +37,15 @@ const sourceMapper = {
 };
 
 data.forEach(
-  async ({ owner, repository, branch, path, title, source = "github" }) => {
+  async ({
+    owner,
+    repository,
+    branch,
+    path,
+    title,
+    source = "github",
+    customNav,
+  }) => {
     console.log(`Repository: ${owner}/${repository}`);
     const onGenerate = () => {
       if (title === "public") {
@@ -94,7 +102,13 @@ data.forEach(
     };
     if (fs.existsSync(safePath(`../tmp/${repository}-${branch}`))) {
       console.log("folder exists!");
-      await transformers[repository]?.({ repository, branch, path, title });
+      await transformers[repository]?.({
+        repository,
+        branch,
+        path,
+        title,
+        customNav,
+      });
       onGenerate();
     } else {
       const URL = sourceMapper[source](owner, repository, branch);
@@ -121,6 +135,7 @@ data.forEach(
                   branch,
                   path,
                   title,
+                  customNav,
                 }) || Promise.resolve()
               ).then(() => {
                 onGenerate();

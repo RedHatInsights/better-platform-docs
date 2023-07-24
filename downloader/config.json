@@ -145,7 +145,8 @@
     "branch": "main",
     "path": "/modules/best-practices",
     "title": "Consoledot pages",
-    "source": "gitlab"
+    "source": "gitlab",
+    "customNav": "nav.adoc"
   },
   {
     "owner": "consoledot",
@@ -153,6 +154,7 @@
     "branch": "main",
     "path": "/modules/containerized-frontends",
     "title": "Consoledot pages",
-    "source": "gitlab"
+    "source": "gitlab",
+    "customNav": "nav.adoc"
   }
 ]
