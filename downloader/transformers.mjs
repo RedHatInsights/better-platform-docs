@@ -1,4 +1,5 @@
 import { exec } from "child_process";
+import { resolve } from "path";
 import { readFileSync, writeFileSync, renameSync, fstat } from "fs";
 import { ensureDirSync } from "fs-extra";
 import xmlJS from "xml-js";
@@ -110,6 +111,23 @@ const transformNav = (file) => {
   });
 };
 
+const patchIncludes = (file, plantUmlPluginsRoot, sharedRoot) => {
+  let content = readFileSync(file, { encoding: "utf-8" });
+  content = content
+    .replace(/^\!include plantuml\//gm, `!include ${plantUmlPluginsRoot}/`)
+    .replace(
+      /^include::shared:partial\$/gm,
+      `include::${sharedRoot}/partials/`
+    );
+  writeFileSync(file, content);
+};
+
+const patchSharedDirectory = (plantUmlPluginsRoot, sharedRoot) => {
+  glob.sync(`${sharedRoot}/**/*.adoc`).forEach((file) => {
+    patchIncludes(file, plantUmlPluginsRoot, sharedRoot);
+  });
+};
+
 const transformerMapper = {
   "consoledot.pages.redhat.com": async ({
     repository,
@@ -118,6 +136,13 @@ const transformerMapper = {
     title,
     customNav,
   }) => {
+    const ASCIIDOCTOR_ROOT = resolve(`./tmp/${repository}-${branch}`);
+    const PLANT_UML_PLUGINS_ROOT = resolve(ASCIIDOCTOR_ROOT, "plantuml");
+    const SHARED_MODULES_PATH = resolve(ASCIIDOCTOR_ROOT, "modules", "shared");
+
+    // adjust for relative antora includes within console dot pages in shared directory
+    patchSharedDirectory(PLANT_UML_PLUGINS_ROOT, SHARED_MODULES_PATH);
+
     const sourcePath = getSource(repository, branch, path);
     const adocFiles = glob.sync(`${sourcePath}/**/pages/**/*.adoc`);
     process.env.IMAGE_PREFIX = `./public/${title
@@ -128,6 +153,8 @@ const transformerMapper = {
     const promises = [];
 
     adocFiles.forEach((file) => {
+      // adjust for relative antora includes within console dot pages file
+      patchIncludes(file, PLANT_UML_PLUGINS_ROOT, SHARED_MODULES_PATH);
       promises.push(adocExec(file));
     });
 
