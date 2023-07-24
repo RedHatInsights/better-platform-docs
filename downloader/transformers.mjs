@@ -212,7 +212,14 @@ const transformerMapper = {
       glob.sync(`${sourcePath}/**/images/*.png`),
     ].flat();
     images.forEach((image) => {
-      renameSync(image, image.replace("/pages/", "/").replace("/images/", "/"));
+      // remove any folder nesting after `/pages`. Images links are only scoped for module
+      renameSync(
+        image,
+        image
+          .replace(/\/pages\/.*\//, "/")
+          .replace("/pages/", "/")
+          .replace("/images/", "/")
+      );
     });
   },
 };
