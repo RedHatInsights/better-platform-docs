@@ -34,32 +34,38 @@ const NavLink: React.FC<{ href?: string; title: ReactNode }> = ({
 };
 
 export type NavItem = {
-  title?: string;
-  href?: string;
+  title: string;
+  href: string;
+};
+
+export type NavGroup = {
+  groups: (NavItem | NavGroup)[];
+  groupName: string;
+  groupTitle: string;
 };
 
 export type NavigationProps = {
-  items: (NavItem & {
-    groups?: NavItem[];
-    groupName?: string;
-    groupTitle?: string;
-  })[];
+  items: (NavItem | NavGroup)[];
   section: string;
 };
+
+export function isNavGroup(item: NavItem | NavGroup): item is NavGroup {
+  return typeof (item as any).groupName === "string";
+}
 
 const Navigation: React.FC<NavigationProps> = ({ items, section }) => {
   return (
     <Nav title={section} ouiaId="docs-nav">
       <NavList>
-        {items.map(({ title, href, groupName, groupTitle, groups }) =>
-          groupName ? (
-            <NavExpandable title={groupTitle || ""}>
-              {groups?.map(({ title: navTitle, href: navHref }) => (
+        {items.map((item) =>
+          isNavGroup(item) ? (
+            <NavExpandable title={item.groupTitle || ""}>
+              {item.groups?.map(({ title: navTitle, href: navHref }) => (
                 <NavLink key={navHref} href={navHref} title={navTitle} />
               ))}
             </NavExpandable>
           ) : (
-            <NavLink key={href} href={href} title={title} />
+            <NavLink key={item.href} href={item.href} title={item.title} />
           )
         )}
       </NavList>

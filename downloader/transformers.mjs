@@ -94,6 +94,34 @@ const extractNavFromXML = (navJSON) => {
   return sectionNav;
 };
 
+const constructNestedNav = (flatNav, nestedNav = [], groupId) => {
+  let nestedNavInternal = nestedNav;
+  flatNav.forEach((item) => {
+    if (!item.href.includes("/")) {
+      nestedNavInternal.push(item);
+    } else {
+      const hrefFragments = item.href.split("/");
+      const groupName = hrefFragments.shift();
+      let groupRoot = nestedNav.find((item) => item.groupName === groupName);
+      if (!groupRoot) {
+        groupRoot = {
+          groupName,
+          groups: [],
+        };
+        nestedNavInternal.push(groupRoot);
+      }
+      if (item.href.match(/index$/)) {
+        groupRoot.groupTitle = item.title;
+      }
+      groupRoot.groups.push({
+        href: item.href.replace(/index$/, ""),
+        title: item.title,
+      });
+    }
+  });
+  return nestedNavInternal;
+};
+
 const transformNav = (file) => {
   return new Promise((res, rej) => {
     exec(`asciidoctor -b docbook -r asciidoctor-diagram ${file}`, (error) => {
@@ -106,7 +134,15 @@ const transformNav = (file) => {
         encoding: "utf-8",
       });
       const navJson = xmlJS.xml2js(navXml);
-      res(extractNavFromXML(navJson));
+      const flatNav = extractNavFromXML(navJson);
+      const nestedNav = constructNestedNav(flatNav);
+      res(
+        nestedNav.map((item) => {
+          return item.groups && item.groups.length === 1
+            ? item.groups[0]
+            : item;
+        })
+      );
     });
   });
 };
