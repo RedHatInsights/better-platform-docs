@@ -2,7 +2,7 @@
 
 const pandoc = require("pandoc-filter");
 const fs = require("fs");
-const { Image, Link, Str } = pandoc;
+const { Image, Link, Str, CodeBlock } = pandoc;
 
 const outputLogger = new console.Console(fs.createWriteStream("./output.log"));
 
@@ -30,7 +30,6 @@ async function action(elt) {
         ? [Str(""), Str(href.find(Boolean))]
         : label;
     const newLink = Link(meta, newLabel, href);
-    outputLogger.log({ label, newLabel, href });
 
     return newLink;
   }
