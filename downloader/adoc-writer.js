@@ -2,7 +2,7 @@
 
 const pandoc = require("pandoc-filter");
 const fs = require("fs");
-const { Image, Link, Str } = pandoc;
+const { Image, Link, Str, CodeBlock } = pandoc;
 
 const outputLogger = new console.Console(fs.createWriteStream("./output.log"));
 
@@ -14,7 +14,10 @@ async function action(elt) {
   if (elt.t === "Image") {
     const imagePrefix = process.env.IMAGE_PREFIX;
     const [headers, meta, [src, alt]] = elt.c;
-    const serverSrc = `${imagePrefix}/${src}`.replace(/^\.\/public/, "");
+    const serverSrc = `/platform-docs${imagePrefix}/${src}`.replace(
+      /\.\/public/,
+      ""
+    );
     return Image(headers, meta, [serverSrc, alt]);
   }
 
@@ -27,7 +30,6 @@ async function action(elt) {
         ? [Str(""), Str(href.find(Boolean))]
         : label;
     const newLink = Link(meta, newLabel, href);
-    outputLogger.log({ label, newLabel, href });
 
     return newLink;
   }
