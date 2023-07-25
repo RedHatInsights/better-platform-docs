@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import {
   Nav,
   NavItem,
-  NavItemProps,
   NavList,
   NavGroup,
   NavExpandable,
@@ -34,32 +33,45 @@ const NavLink: React.FC<{ href?: string; title: ReactNode }> = ({
 };
 
 export type NavItem = {
-  title?: string;
-  href?: string;
+  title: string;
+  href: string;
+};
+
+export type NavGroup = {
+  groups: (NavItem | NavGroup)[];
+  groupName: string;
+  groupTitle: string;
 };
 
 export type NavigationProps = {
-  items: (NavItem & {
-    groups?: NavItem[];
-    groupName?: string;
-    groupTitle?: string;
-  })[];
+  items: (NavItem | NavGroup)[];
   section: string;
 };
+
+export function isNavGroup(item: NavItem | NavGroup): item is NavGroup {
+  return typeof (item as any).groupName === "string";
+}
+
+const NavItemLink = ({ href, title }: NavItem) => (
+  <NavLink href={href} title={title} />
+);
+const NavItemGroup: React.FC<NavGroup> = ({ groups, groupTitle }) => (
+  <NavExpandable title={groupTitle}>
+    {groups.map((item) =>
+      isNavGroup(item) ? <NavItemGroup {...item} /> : <NavItemLink {...item} />
+    )}
+  </NavExpandable>
+);
 
 const Navigation: React.FC<NavigationProps> = ({ items, section }) => {
   return (
     <Nav title={section} ouiaId="docs-nav">
       <NavList>
-        {items.map(({ title, href, groupName, groupTitle, groups }) =>
-          groupName ? (
-            <NavExpandable title={groupTitle || ""}>
-              {groups?.map(({ title: navTitle, href: navHref }) => (
-                <NavLink key={navHref} href={navHref} title={navTitle} />
-              ))}
-            </NavExpandable>
+        {items.map((item) =>
+          isNavGroup(item) ? (
+            <NavItemGroup {...item} />
           ) : (
-            <NavLink key={href} href={href} title={title} />
+            <NavItemLink key={item.href} {...item} />
           )
         )}
       </NavList>

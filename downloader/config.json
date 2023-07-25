@@ -156,5 +156,14 @@
     "title": "Consoledot pages",
     "source": "gitlab",
     "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/creating-a-new-app",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
   }
 ]

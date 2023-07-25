@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { NavigationProps } from ".";
+import { NavigationProps, isNavGroup } from ".";
 
 const useNavSchema = () => {
   const router = useRouter();
@@ -8,6 +8,27 @@ const useNavSchema = () => {
     items: [],
     section: "",
   });
+
+  const fixLinks = (
+    currSection: string,
+    currNav: string,
+    items: NavigationProps["items"]
+  ): NavigationProps["items"] => {
+    return items.map((item) =>
+      isNavGroup(item)
+        ? {
+            ...item,
+            groups: fixLinks(currSection, currNav, item.groups),
+          }
+        : {
+            ...item,
+            href: `/${currSection}/${currNav}/${item.href}`.replace(
+              /index$/,
+              "/"
+            ),
+          }
+    );
+  };
 
   const getNavigationSegment = async (
     currSection: string,
@@ -20,10 +41,7 @@ const useNavSchema = () => {
       import(`../../pages/${currSection}/${currNav}/navigation.json`).then(
         (m) => ({
           // add absolute fragment to relative link
-          default: m.default.map((l: any) => ({
-            ...l,
-            href: `/${currSection}/${currNav}/${l.href}`.replace(/index$/, "/"),
-          })),
+          default: fixLinks(currSection, currNav, m.default),
         })
       )
     );

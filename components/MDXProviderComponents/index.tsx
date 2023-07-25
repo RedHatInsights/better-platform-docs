@@ -17,7 +17,6 @@ import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import { LinkIcon } from "@patternfly/react-icons";
 import Link from "next/link";
-import Image from "next/image";
 import React, {
   DetailedHTMLProps,
   HTMLAttributes,
