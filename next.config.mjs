@@ -70,6 +70,11 @@ export default withTM({
         "./components/example-component"
       ),
       "@docs/examples": path.resolve(process.cwd(), "./components/examples"),
+      "@docs/consoledot-pages": path.resolve(
+        process.cwd(),
+        "./components/consoledot-pages"
+      ),
+      "@docs/parser": path.resolve(process.cwd(), "./components/parser"),
       "@docs/deprecation-warn": path.resolve(
         process.cwd(),
         "./components/deprecation-warn"
