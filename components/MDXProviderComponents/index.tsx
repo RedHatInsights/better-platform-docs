@@ -133,7 +133,7 @@ export const H4 = addLinkAnchor(({ className, ...props }) => (
     {...props}
   />
 ));
-export const Table: React.FC<{ className: string }> = ({
+export const Table: React.FC<{ className?: string }> = ({
   className,
   ...props
 }) => {
