@@ -87,7 +87,7 @@ const useTableStyles = createUseStyles({
   },
 });
 
-const A: React.FC<
+export const A: React.FC<
   Omit<
     PropsWithChildren<
       React.DetailedHTMLProps<
@@ -133,18 +133,24 @@ export const H4 = addLinkAnchor(({ className, ...props }) => (
     {...props}
   />
 ));
-export const Table: React.FC = (props) => {
+export const Table: React.FC<{ className?: string }> = ({
+  className,
+  ...props
+}) => {
   const classes = useTableStyles();
   return (
     <Card className={clsx("pf-u-mb-lg", classes.card)}>
       <CardBody>
-        <table className="pf-c-table pf-m-grid-md" {...props} />
+        <table
+          {...props}
+          className={clsx("pf-c-table pf-m-grid-md", className)}
+        />
       </CardBody>
     </Card>
   );
 };
 
-const Code: React.FC<
+export const Code: React.FC<
   DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 > = ({ children, className }) =>
   /language-(\w+)/.exec(className || "") ? (
@@ -156,11 +162,11 @@ const Code: React.FC<
     <code>{children}</code>
   );
 
-const Li: React.FC<PropsWithChildren> = ({ children }) => (
+export const Li: React.FC<PropsWithChildren> = ({ children }) => (
   <TextListItem component={TextListItemVariants.li}>{children}</TextListItem>
 );
 
-const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
+export const OrderedList: React.FC<PropsWithChildren> = ({ children }) => (
   <TextContent>
     <TextList component={TextListVariants.ol}>{children}</TextList>
   </TextContent>
@@ -183,9 +189,15 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
 
 export const Img: React.FC<
   PropsWithChildren<{ src?: string; alt?: string }>
-> = ({ src, alt, ...props }) => {
+> = ({ children, src, alt, ...props }) => {
   const { basePath } = useRouter();
-  return <img src={`${basePath}${src}`} alt={alt || ""} {...props} />;
+  return (
+    <img
+      alt={alt || ""}
+      {...props}
+      src={`${basePath}/${src}`.replaceAll("//", "/")}
+    />
+  );
 };
 
 const MDXProviderComponents = {

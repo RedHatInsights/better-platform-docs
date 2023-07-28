@@ -39,12 +39,12 @@ class MyDocument extends Document {
           <link
             rel="stylesheet"
             type="text/css"
-            href="https://unpkg.com/@patternfly/patternfly@latest/patternfly.min.css"
+            href="https://unpkg.com/@patternfly/patternfly@4.224.4/patternfly.min.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="https://unpkg.com/@patternfly/patternfly@latest/patternfly-addons.css"
+            href="https://unpkg.com/@patternfly/patternfly@4.224.4/patternfly-addons.css"
           />
         </Head>
         <body>

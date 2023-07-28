@@ -108,3 +108,4 @@ components/Navigation/schemas
 components/Navigation/sections
 components/examples
 tmp
+components/consoledot-pages/*/
