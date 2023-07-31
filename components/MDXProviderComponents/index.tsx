@@ -81,9 +81,14 @@ function addLinkAnchor(
   };
 }
 
-const useTableStyles = createUseStyles({
-  card: {
-    overflowY: "auto",
+const useStyles = createUseStyles({
+  table: {
+    "& th": {
+      textTransform: "capitalize",
+    },
+    "& td:not(:first-child)": {
+      wordBreak: "break-all",
+    },
   },
 });
 
@@ -137,16 +142,12 @@ export const Table: React.FC<{ className?: string }> = ({
   className,
   ...props
 }) => {
-  const classes = useTableStyles();
+  const classes = useStyles();
   return (
-    <Card className={clsx("pf-u-mb-lg", classes.card)}>
-      <CardBody>
-        <table
-          {...props}
-          className={clsx("pf-c-table pf-m-grid-md", className)}
-        />
-      </CardBody>
-    </Card>
+    <table
+      {...props}
+      className={clsx("pf-c-table pf-m-grid-md", classes.table)}
+    />
   );
 };
 
