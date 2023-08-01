@@ -1,4 +1,6 @@
 import {
+  Card,
+  CardBody,
   Masthead,
   Page,
   PageHeader,
@@ -78,7 +80,11 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
             <TableOfContents />
           </SidebarPanel>
           <SidebarContent id="docs-content">
-            <PageSection>{children}</PageSection>
+            <PageSection className="pf-u-pl-0">
+              <Card>
+                <CardBody>{children}</CardBody>
+              </Card>
+            </PageSection>
           </SidebarContent>
         </Sidebar>
       ) : (
