@@ -149,7 +149,9 @@ const moveTemplate = (file) => {
   const htmlPromise = move(file, `./components/consoledot-pages${target}`, {
     overwrite: true,
   });
-  const JSData = parserTemplate.replace("@@html-path", target);
+  const JSData = parserTemplate
+    .replace("@@html-path", target)
+    .replaceAll("//", "/");
   const writePromies = fse.outputFile(
     `./pages/consoledot-pages${target.replace(/\.html$/, ".js")}`,
     JSData
