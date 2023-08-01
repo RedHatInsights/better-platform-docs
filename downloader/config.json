@@ -165,5 +165,68 @@
     "title": "Consoledot pages",
     "source": "gitlab",
     "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/developer-references",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/faqs",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/getting-started",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/operating-your-app",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/platform-documentation",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/services",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
+  },
+  {
+    "owner": "consoledot",
+    "repository": "consoledot.pages.redhat.com",
+    "branch": "main",
+    "path": "/modules/writing-docs",
+    "title": "Consoledot pages",
+    "source": "gitlab",
+    "customNav": "nav.adoc"
   }
 ]
