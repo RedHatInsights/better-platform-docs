@@ -2,8 +2,6 @@
 /* eslint-disable react/prop-types */
 import {
   Button,
-  Card,
-  CardBody,
   Text,
   TextContent,
   TextList,
@@ -26,13 +24,7 @@ import CodeHighlight from "../example-component/code-highlight";
 import { Language } from "prism-react-renderer";
 import { useRouter } from "next/router";
 
-const useAnchorStyles = createUseStyles({
-  anchorIcon: {
-    display: "none !important",
-    padding: "0px !important",
-    margin: "0px !important",
-    marginLeft: "4px !important",
-  },
+const useStyles = createUseStyles({
   anchor: {
     display: "flex",
     alignItems: "center",
@@ -42,13 +34,30 @@ const useAnchorStyles = createUseStyles({
       display: "inline-block !important",
     },
   },
+  anchorIcon: {
+    display: "none !important",
+    padding: "0px !important",
+    margin: "0px !important",
+    marginLeft: "4px !important",
+  },
+  code: {
+    textWrap: "wrap",
+  },
+  table: {
+    "& th": {
+      textTransform: "capitalize",
+    },
+    "& td:not(:first-child)": {
+      wordBreak: "break-all",
+    },
+  },
 });
 
 function addLinkAnchor(
   Component: React.FC<PropsWithChildren<{ className?: string }>>
 ): React.FC<PropsWithChildren<{ className?: string }>> {
   return ({ className, ...props }) => {
-    const classes = useAnchorStyles();
+    const classes = useStyles();
     if (typeof props?.children !== "undefined") {
       /**
        * We know the title is always either a string or a element with a string child.
@@ -80,17 +89,6 @@ function addLinkAnchor(
     return <Component {...props} />;
   };
 }
-
-const useStyles = createUseStyles({
-  table: {
-    "& th": {
-      textTransform: "capitalize",
-    },
-    "& td:not(:first-child)": {
-      wordBreak: "break-all",
-    },
-  },
-});
 
 export const A: React.FC<
   Omit<
@@ -153,15 +151,17 @@ export const Table: React.FC<{ className?: string }> = ({
 
 export const Code: React.FC<
   DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
-> = ({ children, className }) =>
-  /language-(\w+)/.exec(className || "") ? (
+> = ({ children, className }) => {
+  const classes = useStyles();
+  return /language-(\w+)/.exec(className || "") ? (
     <CodeHighlight
       language={(className ? className.split("-").pop() : "") as Language}
       sourceCode={children as string}
     />
   ) : (
-    <code>{children}</code>
+    <code className={classes.code}>{children}</code>
   );
+};
 
 export const Li: React.FC<PropsWithChildren> = ({ children }) => (
   <TextListItem component={TextListItemVariants.li}>{children}</TextListItem>
