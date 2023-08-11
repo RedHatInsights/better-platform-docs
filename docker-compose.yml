@@ -4,6 +4,6 @@ services:
     command: sh -c "npm ci && npm run dev:compose"
     ports:
       - "3000:3000"
-    image: quay.io/mmarosi/platform-docs
+    image: quay.io/cloudservices/better-platform-docs
     volumes:
       - ./docs:/pages/<repo-name>
