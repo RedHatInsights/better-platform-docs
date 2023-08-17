@@ -4,6 +4,8 @@
 !.gitignore
 !components
 !contributing
+!guides/
+!guides/**
 !_app.tsx
 !index.tsx
 !_document.tsx
