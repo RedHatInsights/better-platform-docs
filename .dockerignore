@@ -7,7 +7,11 @@ components/examples
 pages/*
 !pages/.gitignore
 !pages/components
+!pages/components/*
 !pages/contributing
+!pages/contributing/*
+!pages/guides
+!pages/guides/*
 !pages/_app.tsx
 !pages/index.tsx
 !pages/_document.tsx
