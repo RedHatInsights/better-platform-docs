@@ -1,65 +1,20 @@
 import { createUseStyles } from "react-jss";
-import PropTypes from "prop-types";
 import { useRouter } from "next/router";
-import classnames from "clsx";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import {
+  JumpLinks,
+  JumpLinksItem,
   Menu,
   MenuContent,
-  MenuItem,
-  MenuList,
-  Text,
-  TextContent,
 } from "@patternfly/react-core";
 
 const useStyles = createUseStyles({
-  menu: {
-    "--pf-c-menu--BackgroundColor": "var(--pf-global--BackgroundColor--200)",
-    borderLeft: "1px solid var(--pf-global--BorderColor--light-100)",
-  },
-  menuItem: {
-    color: "var(--pf-global--palette--black-700)",
-    "&:hover": {
-      color: "var(--pf-global--palette--black-900)",
-    },
-  },
-  activeLink: {
-    color: "var(--pf-global--palette--black-900) !important",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      left: -1,
-      top: 0,
-      bottom: 0,
-      borderLeft: "3px solid var(--pf-global--palette--blue-400)",
-    },
+  list: {
+    maxWidth: 250,
+    boxShadow: "none !important",
+    background: "none !important",
   },
 });
-
-const ContentLink: React.FC<
-  PropsWithChildren<{
-    title: string;
-    setActive: (targetId: string) => void;
-    isActive: boolean;
-    targetId: string;
-  }>
-> = ({ title, setActive, isActive, targetId }) => {
-  const classes = useStyles();
-  return (
-    <MenuItem
-      onClick={() => {
-        setActive(targetId);
-      }}
-      title={title}
-      className={classnames(classes.menuItem, {
-        [classes.activeLink]: isActive,
-      })}
-      to={`#${targetId}`}
-    >
-      {title}
-    </MenuItem>
-  );
-};
 
 const TableOfContents = () => {
   const tocRef = useRef<HTMLDivElement>(null);
@@ -74,21 +29,42 @@ const TableOfContents = () => {
     }[]
   >([]);
   const [activeItem, setActive] = useState<string>();
-  let isMounted = true;
 
-  const scrollListener = (setActive: any) => {
-    const contentElement = document.getElementById("docs-content");
-    const anchors = Array.from(
-      contentElement?.getElementsByClassName("docs-content-link") || []
-    );
-    const min = -20;
-    const max = 20;
-    const elem = anchors.find((elem) => {
-      const { top } = elem.getBoundingClientRect();
-      return top > min && top < max;
-    });
-    if (isMounted && elem) {
-      setActive(elem?.firstElementChild?.id);
+  const intersectionObserver = () => {
+    const wrapper = document.getElementById("content-wrapper");
+    if (wrapper) {
+      const options = {
+        root: wrapper,
+        rootMargin: `0px 0px -${
+          wrapper.getBoundingClientRect().height / 1.3
+        }px`,
+        threshold: 0.5,
+      };
+      const contentLinks: HTMLAnchorElement[] =
+        Array.from(document.querySelectorAll(".docs-content-link")) || [];
+      const callback: IntersectionObserverCallback = (elements, observer) => {
+        const firstElement = elements.reduce((acc, curr) => {
+          if (!curr.isIntersecting) {
+            return acc;
+          }
+
+          return curr;
+        }, elements[0]);
+
+        if (firstElement) {
+          Array.from(contentLinks).forEach((link) => {
+            if (link === firstElement?.target) {
+              setActive(link.innerText.replace(/\s/gm, ""));
+            }
+          });
+        }
+      };
+      let observer = new IntersectionObserver(callback, options);
+
+      for (let index = 0; index < contentLinks.length; index++) {
+        const element = contentLinks[index];
+        observer.observe(element);
+      }
     }
   };
 
@@ -98,20 +74,7 @@ const TableOfContents = () => {
       tocRef.current.style.right = "20px";
       tocRef.current.style.top = "0px";
     }
-  }, []);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    isMounted = true;
-    document
-      ?.querySelector(".pf-c-page__main")
-      ?.addEventListener("scroll", () => scrollListener(setActive));
-    scrollListener(setActive);
-
-    return () => {
-      isMounted = false;
-      document.removeEventListener("scroll", scrollListener);
-    };
+    intersectionObserver();
   }, []);
 
   useEffect(() => {
@@ -130,25 +93,26 @@ const TableOfContents = () => {
 
   return links.length > 0 ? (
     <div ref={tocRef}>
-      <TextContent className="pf-u-py-md">
-        <Text component="small">Jump to section</Text>
-      </TextContent>
-      <Menu className={classes.menu} isPlain>
-        <MenuContent>
-          <MenuList>
+      <Menu className={classes.list}>
+        <MenuContent className="pf-u-p-md">
+          <JumpLinks isVertical label="Jump to section">
             {/* eslint-disable react/prop-types */}
             {links.map(({ targetId, title, ...props }) => (
-              <ContentLink
-                setActive={setActive}
+              <JumpLinksItem
                 key={targetId}
                 isActive={targetId === activeItem}
-                targetId={targetId as string}
-                title={title as string}
+                data-toc-ref={targetId}
                 {...props}
-              />
+                onClick={() => {
+                  document.location.href = ("#" + targetId) as string;
+                  setActive(targetId);
+                }}
+              >
+                {title}
+              </JumpLinksItem>
             ))}
             {/* eslint-enable react/prop-types */}
-          </MenuList>
+          </JumpLinks>
         </MenuContent>
       </Menu>
     </div>
