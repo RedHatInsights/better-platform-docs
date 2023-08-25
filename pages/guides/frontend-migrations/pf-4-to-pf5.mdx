@@ -1,0 +1,494 @@
+import { Alert } from '@patternfly/react-core'
+
+# Patternfly @4 -> @5 migration
+
+<Alert isInline title="This guide was tested only on a handful of UI modules.">
+If you encounter any inaccuracies, errors,did not find the information you need, please contact the `@crc-experience-services-team` on the `#forum-consoledot-ui` channel.
+
+The guide was tested on both Platform Experience's UIs and UIs outside of the Platform Experience team. There are more than 60 individual UI modules hosted by the Chrome UI. It is likely that edge cases were missed. Please do not hesitate to contact the team with any questions or suggestions. The guide and/or the tooling will be updated based on your feedback.
+</Alert>
+
+## Affected packages
+
+- `@patternfly/*`
+- `@redhat-cloud-services/*`
+- `@data-driven-forms/pf4-component-mapper`
+- `react`
+- `react-dom`
+
+## Pre-requisites
+
+Your application has to first upgrade `react` and `react-dom` core dependencies to `^18.2.0`. Modules have been deployed already using this version so do not expect any regressions. For runtime, this is just a formal dependency bump in your `package.json`.
+
+If there are any instances of your application, unit tests, or any tests that are not done inside the Chrome UI environment, these might be impacted.
+
+It is very likely that some of your dependencies will require updates because they have `react` and/or `react-dom` as **peerDependencies** and might be locked to `react@17.0.0`. Examples of such packages are `react-redux`, `@testing-library/react`, `react-intl`, etc.
+
+
+Your package manager might throw a few errors while upgrading your dependencies. **These are expected**. There is no need to panic. You can return to the errors after you are done with bumping all dependency versions listed below. 
+
+Most of the time, we are talking about a formal dependency bump with no actual code changes.
+
+### Sample installation error
+
+Here is an example error of `npm ci` with invalid peer dependencies:
+
+```sh
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! 
+npm ERR! While resolving: @testing-library/react@12.1.5
+npm ERR! Found: react@18.2.0
+npm ERR! node_modules/react
+npm ERR!   react@"^18.2.0" from the root project
+npm ERR!   peer react@"^16.13.1 || ^17.0.2 || ^18.0.0" from @data-driven-forms/common@3.21.0
+npm ERR!   node_modules/@data-driven-forms/common
+npm ERR!     @data-driven-forms/common@"^3.20.2" from @data-driven-forms/pf4-component-mapper@3.20.2
+npm ERR!     node_modules/@data-driven-forms/pf4-component-mapper
+npm ERR!       @data-driven-forms/pf4-component-mapper@"^3.20.2" from the root project
+npm ERR!   23 more (@data-driven-forms/pf4-component-mapper, ...)
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"<18.0.0" from @testing-library/react@12.1.5
+npm ERR! node_modules/@testing-library/react
+npm ERR!   dev @testing-library/react@"^12.1.4" from the root project
+npm ERR! 
+npm ERR! Conflicting peer dependency: react@17.0.2
+npm ERR! node_modules/react
+npm ERR!   peer react@"<18.0.0" from @testing-library/react@12.1.5
+npm ERR!   node_modules/@testing-library/react
+npm ERR!     dev @testing-library/react@"^12.1.4" from the root project
+npm ERR! 
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR! 
+npm ERR! See /home/username/.npm/eresolve-report.txt for a full report.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/username/.npm/_logs/2023-08-24T11_51_07_436Z-debug-0.log
+
+```
+
+## Upgrading @patternfly/* packages and dependent packages
+
+The first step is to upgrade your PatternFly dependencies. Make sure to look at the [release highlights](https://www.patternfly.org/get-started/release-highlights/) to learn about the release.
+
+Go through your `package.json` and update your set of PatternFly dependencies. 
+
+### List of PatternFly dependencies
+
+**Core packages**
+- @patternfly/patternfly@5.0.2
+- @patternfly/react-charts@7.0.0
+- @patternfly/react-code-editor@5.0.0
+- @patternfly/react-core@5.0.0
+- @patternfly/react-icons@5.0.0
+- @patternfly/react-styles@5.0.0
+- @patternfly/react-table@5.0.0
+- @patternfly/react-tokens@5.0.0
+
+**PatternFly extensions**
+- @patternfly/react-catalog-view-extension@5.0.0 (changelog)
+- @patternfly/react-console@5.0.0 (changelog)
+- @patternfly/react-log-viewer@5.0.0 (changelog)
+- @patternfly/react-topology@5.0.0 (changelog)
+- @patternfly/react-user-feedback@5.0.0 (changelog)
+- @patternfly/react-virtualized-extension@5.0.0 (changelog)
+- @patternfly/quickstarts@5.0.0 (changelog)
+
+### List of @data-driven-forms dependencies
+
+The `@data-driven-forms` packages require a version bump. There are no breaking changes in the DDF API. 
+
+- @data-driven-forms/react-form-renderer@3.21.0
+- @data-driven-forms/pf4-component-mapper@3.21.0
+
+### List of @redhat-cloud-services dependencies
+
+> Note: there are additional steps to update your `@redhat-cloud-services/frontend-components-config` and your project build. Detailed description is provided later in this document.
+
+**Stable releases**
+
+- @redhat-cloud-services/chrome@1.0.0
+- @redhat-cloud-services/frontend-components@4.0.1
+- @redhat-cloud-services/frontend-components-config@6.0.2
+- @redhat-cloud-services/frontend-components-notifications@4.0.0
+- @redhat-cloud-services/frontend-components-pdf-generator@4.0.0
+- @redhat-cloud-services/types@1.0.0
+- @redhat-cloud-services/frontend-components-utilities@4.0.0
+
+**Beta releases**
+- @redhat-cloud-services/frontend-components-advisor-components@2.0.0-beta.0
+- @redhat-cloud-services/frontend-components-charts@4.0.0-beta.0
+- @redhat-cloud-services/frontend-components-remediations@4.0.0-beta.0
+- @redhat-cloud-services/rule-components@4.0.0-beta.0
+
+## Installing dependencies
+
+In an ideal world, running `npm i` or `yarn` would install with no issues. However, due to the number of peer dependencies, it is possible that your package manager will not be able to overcome its own safeguards.
+
+If that is the case, and even after you fix all `ERESOLVE unable to resolve dependency tree` errors, you will have to remove both the `node_modules` directory and your lock file: `package-lock.json` or `yarn.lock`.
+
+If you are still getting errors about invalid peer dependencies from packages that are not listed above, please follow the package documentation to a find version compatible with `react@18`.
+
+After all `peerDependencies` issues are resolved your install command will pass. We also recommend running `npm ci` or its `yarn` equivalent to double check for a clean installation. These scripts are used during CI builds and can sometimes fail.
+
+Your `package.json` diff can look something similar to this:
+
+```diff
+diff --git a/package.json b/package.json
+index e345e776..9899c6b4 100644
+--- a/package.json
++++ b/package.json
+@@ -15,14 +15,14 @@
+   },
+   "license": "Apache-2.0",
+   "dependencies": {
+-    "@data-driven-forms/pf4-component-mapper": "^3.20.2",
+-    "@data-driven-forms/react-form-renderer": "^3.20.2",
+-    "@patternfly/react-core": "^4.276.11",
+-    "@patternfly/react-icons": "^4.93.7",
+-    "@patternfly/react-table": "^4.112.39",
+-    "@redhat-cloud-services/frontend-components": "3.11.5",
+-    "@redhat-cloud-services/frontend-components-notifications": "3.2.16",
+-    "@redhat-cloud-services/frontend-components-utilities": "3.7.6",
++    "@data-driven-forms/pf4-component-mapper": "^3.21.0",
++    "@data-driven-forms/react-form-renderer": "^3.21.0",
++    "@patternfly/react-core": "^5.0.0",
++    "@patternfly/react-icons": "^5.0.0",
++    "@patternfly/react-table": "^5.0.0",
++    "@redhat-cloud-services/frontend-components": "^4.0.1",
++    "@redhat-cloud-services/frontend-components-notifications": "^4.0.0",
++    "@redhat-cloud-services/frontend-components-utilities": "^4.0.0",
+     "@sentry/minimal": "6.19.7",
+     "@unleash/proxy-client-react": "^3.3.0",
+     "awesome-debounce-promise": "^2.1.0",
+@@ -31,8 +31,8 @@
+     "deep-object-diff": "^1.1.7",
+     "lodash": "^4.17.21",
+     "prop-types": "^15.8.1",
+-    "react": "^17.0.2",
+-    "react-dom": "^17.0.2",
++    "react": "^18.2.0",
++    "react-dom": "^18.2.0",
+     "react-intl": "^6.0.5",
+     "react-redux": "^8.0.2",
+     "react-router-dom": "^6.8.0",
+@@ -48,11 +48,10 @@
+     "@babel/plugin-transform-runtime": "^7.18.9",
+     "@babel/preset-env": "^7.18.9",
+     "@babel/preset-react": "^7.18.6",
+-    "@redhat-cloud-services/frontend-components-config": "^5.1.1",
++    "@redhat-cloud-services/frontend-components-config": "^6.0.2",
+     "@testing-library/dom": "^8.16.0",
+     "@testing-library/jest-dom": "^5.16.4",
+-    "@testing-library/react": "^12.1.4",
+-    "@testing-library/react-hooks": "^8.0.1",
++    "@testing-library/react": "^14.0.0",
+     "@testing-library/user-event": "^14.3.0",
+     "axios-mock-adapter": "^1.21.1",
+     "eslint": "^8.20.0",
+
+
+```
+
+## @redhat-cloud-services/frontend-components-config updates
+
+The `patternfly@5` comes with updates to their build output to better support the module federation environment. There are additional steps that have to be done within the build configs to enable the optimizations. There are a few changes in the `@redhat-cloud-services/frontend-components-config` package that enable the optimizations.
+
+### Removing babel in favor of TypeScript.
+
+**Webpack setup for TypeScript is able to transpile JavaScript**. The fact that we will be using TypeScript to transpile JS does not mean your applications will have to fully adopt TypeScript.
+
+This change was made to reduce the number of webpack loaders. There were multiple loaders in previous configurations, which meant that every file was parsed twice. It did nothing but waste resources.
+
+### Installing and patching TypeScript
+
+The `@redhat-cloud-services/frontend-components-config` comes with a script that will install missing dependencies or patch your `typescript` to enable TS plugins that are used to update your code to automatically adopt module federation optimizations.
+
+Run the following script in your project root to start the patch process:
+
+```sh
+./node_modules/.bin/fec patch-ts
+```
+
+This command will attempt to install dependencies and create a new `tsconfig.json` if it does not exist and adds/updates `postinstall` script in your `package.json`. There are multiple scenarios that can happen:
+
+#### Application does not have TypeScript enabled
+
+In this scenario, the patch is the simplest. You can expect a similar console output:
+
+```sh
+[fec] Info:  Installing missing build dependencies:  npm i --save-dev typescript ts-patch @redhat-cloud-services/tsc-transform-imports
+
+added 13 packages, and audited 1697 packages in 9s
+
+200 packages are looking for funding
+  run `npm fund` for details
+
+5 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+[fec] Info:  Patching TS
+[+] ts-patch installed!
+[fec] Info:  Creating base tsconfig.json
+
+```
+
+You should be able to see changes similar to this in your `package.json`:
+
+```diff
+diff --git a/package.json b/package.json
+index 13de4304..dc577fc7 100644
+--- a/package.json
++++ b/package.json
+@@ -49,7 +49,7 @@
+     "@babel/preset-env": "^7.18.9",
+     "@babel/preset-react": "^7.18.6",
+     "@redhat-cloud-services/frontend-components-config": "^6.0.2",
++    "@redhat-cloud-services/tsc-transform-imports": "^1.0.1",
+     "@testing-library/dom": "^8.16.0",
+     "@testing-library/jest-dom": "^5.16.4",
+     "@testing-library/react": "^14.0.0",
+@@ -66,6 +66,8 @@
+     "prettier": "^2.7.1",
+     "redux-logger": "^3.0.6",
+     "redux-mock-store": "^1.5.4",
++    "ts-patch": "^3.0.2",
++    "typescript": "^5.1.6",
+     "webpack-bundle-analyzer": "^4.5.0",
+     "whatwg-fetch": "^3.6.2"
+   },
+@@ -78,6 +80,7 @@
+     "extract:messages": "npx @formatjs/cli extract 'src/**/*.{js,jsx}' --out-file ./translations/messages.json",
+     "start": "HOT=true fec dev",
+     "build": "fec build",
+-    "start:federated": "fec static"
++    "start:federated": "fec static",
++    "postinstall": "ts-patch install"
+   }
+ }
+
+
+```
+
+#### Application has typescript@4 enabled
+
+**The ts-patch will fail**. The ts plugins are developed for `typescript@5`. You will see the following error:
+
+```sh
+[fec] Info:  Installing missing build dependencies:  npm i --save-dev ts-patch @redhat-cloud-services/tsc-transform-imports
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR! 
+npm ERR! While resolving: sources-ui@1.1.0
+npm ERR! Found: typescript@4.9.5
+npm ERR! node_modules/typescript
+npm ERR!   dev typescript@"^4.0.0" from the root project
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer typescript@"^5.0.0" from @redhat-cloud-services/tsc-transform-imports@1.0.0
+npm ERR! node_modules/@redhat-cloud-services/tsc-transform-imports
+npm ERR!   dev @redhat-cloud-services/tsc-transform-imports@"*" from the root project
+npm ERR! 
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR! 
+npm ERR! See /home/username/.npm/eresolve-report.txt for a full report.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/username/.npm/_logs/2023-08-24T13_28_28_459Z-debug-0.log
+node:child_process:946
+    throw err;
+    ^
+
+Error: Command failed: npm i --save-dev ts-patch @redhat-cloud-services/tsc-transform-imports
+    at checkExecSyncError (node:child_process:871:11)
+    at execSync (node:child_process:943:15)
+    at patchTs (/home/username/path/to/repository/node_modules/@redhat-cloud-services/frontend-components-config/bin/fec.js:59:9)
+    at run (/home/username/path/to/repository/node_modules/@redhat-cloud-services/frontend-components-config/bin/fec.js:124:9)
+    at Object.<anonymous> (/home/username/path/to/repository/node_modules/@redhat-cloud-services/frontend-components-config/bin/fec.js:132:1)
+    at Module._compile (node:internal/modules/cjs/loader:1159:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1213:10)
+    at Module.load (node:internal/modules/cjs/loader:1037:32)
+    at Module._load (node:internal/modules/cjs/loader:878:12) {
+  status: 1,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 39061,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v18.12.1
+
+```
+
+If you are not using npm or force the installation of the `@redhat-cloud-services/tsc-transform-imports` and `ts-patch`, you will see a slightly different error:
+
+```sh
+ts-patch install
+
+[!] Some files can't be patched! You can run again with --verbose to get specific error detail. The following files are unable to be patched:
+  - /home/username/path/to/repository/node_modules/typescript/lib/tsc.js
+  - /home/username/path/to/repository/node_modules/typescript/lib/typescript.js
+
+```
+
+If you can, please upgrade to `@typescript@5`. In most cases, it is a drop-in upgrade and should not cause issues in the project. There might be some possible TypeScript/eslint issues, but it should not require any major refactoring effort.
+
+If you can't upgrade, please contact the `@crc-experience-services-team` on the `#forum-consoledot-ui` channel.
+
+### Stricter dependency sharing
+
+Stricter module federation dependency sharing is now enabled. If you are sharing dependencies without a specified version, your build will fail. This is an error you might encounter:
+
+```sh
+[webpack-cli] Failed to load '/home/username/path/to/repository/node_modules/@redhat-cloud-services/frontend-components-config/bin/dev.webpack.config.js' config
+[webpack-cli] Error: Some of your shared dependencies do not have version specified! Dependencies with no version: react-router-dom
+
+```
+
+To fix that error, please add a `version` attribute to your shared dependencies. The changes can look like this:
+
+```diff
+diff --git a/fec.config.js b/fec.config.js
+index 1e230c5e..87295bbb 100644
+--- a/fec.config.js
++++ b/fec.config.js
+@@ -13,7 +13,7 @@ module.exports = {
+   plugins: [],
+   moduleFederation: {
+     exclude: ['react-router-dom'],
+-    shared: [{ 'react-router-dom': { singleton: true } }],
++    shared: [{ 'react-router-dom': { singleton: true, version: '^6.8.0' } }],
+   },
+   _unstableHotReload: process.env.HOT === 'true',
+ };
+
+```
+
+If you are using the `requiredVersion` attribute of the base module federation plugin, change the attribute name to `version`:
+
+```diff
+diff --git a/fec.config.js b/fec.config.js
+index 1e230c5e..87295bbb 100644
+--- a/fec.config.js
++++ b/fec.config.js
+@@ -13,7 +13,7 @@ module.exports = {
+   plugins: [],
+   moduleFederation: {
+     exclude: ['react-router-dom'],
+-    shared: [{ 'react-router-dom': { singleton: true, requiredVersion: '^6.8.0' } }],
++    shared: [{ 'react-router-dom': { singleton: true, version: '^6.8.0' } }],
+   },
+   _unstableHotReload: process.env.HOT === 'true',
+ };
+
+```
+
+
+
+## Migrating PatternFly
+
+Now that dependencies are up to date and the build is configured, it is time to migrate the source code. Follow the [official PatternFly migration guide](https://www.patternfly.org/get-started/upgrade) to migrate your PatternFly modules.  
+
+It is highly recommended to **run the codemods first** for both the JS and CSS. it will save you a lot of time.
+
+## FEC Migration guide
+
+There are only a few breaking changes for frontend components. The majority of them enforce more strict props. Almost all components remain unchanged.
+
+Please follow [this guide](/guides/frontend-migrations/frontend-components-3-to-5) to learn about the changes.
+
+## Verifying updates
+
+Now that your source files are migrated, you should be able to start the development server in the same way you are used to.
+
+If you see no build errors, you are done with the source code migration.
+
+### The build outputs an about about missing source files!
+
+There is a possibility that some PF source files can't be resolved. An error can look similar to this:
+
+```sh
+ERROR in ./src/components/SourceDetail/ApplicationKebab.js
+Module build failed (from ./node_modules/ts-loader/index.js):
+Error: Unable to find source file for module KebabToggle! The module likely does not have unique file as is included within another file. Please add the entry into the COMPONENTS_CACHE in FEC repository
+    at findComponentModule (/home/username/path/to/repository/node_modules/@redhat-cloud-services/tsc-transform-imports/index.js:115:15)
+    at /home/username/path/to/repository/node_modules/@redhat-cloud-services/tsc-transform-imports/index.js:155:33
+    at Array.reduce (<anonymous>)
+    at createDynamicReactCoreImports (/home/username/path/to/repository/node_modules/@redhat-cloud-services/tsc-transform-imports/index.js:152:30)
+    at visitor (/home/username/path/to/repository/node_modules/@redhat-cloud-services/tsc-transform-imports/index.js:203:24)
+    at visitArrayWorker (/home/username/path/to/repository/node_modules/typescript/lib/typescript.js:86542:51)
+    at visitNodes2 (/home/username/path/to/repository/node_modules/typescript/lib/typescript.js:86513:21)
+    at visitLexicalEnvironment (/home/username/path/to/repository/node_modules/typescript/lib/typescript.js:86569:18)
+    at visitEachChildOfSourceFile (/home/username/path/to/repository/node_modules/typescript/lib/typescript.js:87758:13)
+    at Object.visitEachChild (/home/username/path/to/repository/node_modules/typescript/lib/typescript.js:86730:35)
+ @ ./src/components/SourceDetail/ApplicationsCard.js 20:0-50 180:71-87
+ @ ./src/pages/Detail.js 6:0-75 34:36-52
+ @ ./src/Routing.js 8:32-95
+ @ ./src/App.js 7:0-32 33:44-51
+ @ ./src/AppEntry.js 5:0-24 12:24-27
+ @ container entry ./RootApp[0]
+
+```
+
+The patched build checks each PatternFly module and tries to resolve their source files. If it fails to find them, it will throw the above error. The resolution is cached so it will not check one file more than once.
+
+There are two possible reasons for this:
+
+#### The PF migration was not done properly
+
+Some modules no longer exist, were renamed, or were moved to the `@patternfly/react-core/deprecated` directory. Make sure that you have properly migrated your source code and try again.
+
+#### The PF module does not follow naming conventions
+
+Some JS modules do not follow the naming convention so the patched build is unable to retrieve the file. There is a registry of overrides for this case. Please contact the `@crc-experience-services-team` on the `#forum-consoledot-ui` channel and the missing entry will be added.
+
+## Fixing tests
+
+This is probably the longest and most annoying part of the migration. The more tests you have, the longer it will most likely take.
+
+We cannot really help with these except in a general manner. Most tests that try to interact with the components will be using some combination of text or CSS selectors and almost all of these changed.
+
+Any snapshot tests will likely be broken as the DOM has changed for almost every component.
+
+### Babel is gone but it's still handy for tests
+
+Because the build now uses `ts-loader` only, the `babel` transpiler is no longer required. That said, if your application is not written fully in TypeScript and your testing environment is not set up for TypeScript, it is recommended to have a minimal babel setup for your unit tests.
+
+It is easier and more performant to use `babel-jest` (jest default transpiler) rather than `ts-jest` for your JavaScript files.
+
+This is an example of a minimal babel configuration to ensure your jest tests will run:
+
+```js
+// babel.config.js
+// Babel config is used only for jest tests
+module.exports = {
+  presets: [
+    '@babel/preset-env',
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+  ],
+};
+```
+
+You only require these babel dependencies to ensure your test environment will successfully start up. 
+
+- `@babel/core`
+- `@babel/preset-env`
+- `@babel/preset-react`
+- `@babel/preset-typescript`
+
+### Updating babel config
+
+1. Remove all babel-related dependencies from your `package.json` and run `npm install` or `yarn`.
+2. Install only the required babel dev dependencies with `npm i --save-dev @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript` or its yarn equivalent.
+3. Update your babel configuration file.
+4. Your test command should now run properly without any compilation errors. Tests might still fail because of the PF migration changes.
