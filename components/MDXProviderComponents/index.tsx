@@ -187,9 +187,9 @@ export const Paragraph: React.FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => (
-  <TextContent className={className}>
-    <Text component={TextVariants.p}>{children}</Text>
-  </TextContent>
+  <Text className={className} component={TextVariants.p}>
+    {children}
+  </Text>
 );
 
 export const Img: React.FC<
