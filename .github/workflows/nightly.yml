@@ -1,0 +1,17 @@
+name: Trigger nightly build
+on: 
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  nightly-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Nightly build
+          branch: main
+          commit_options: "--allow-empty"
