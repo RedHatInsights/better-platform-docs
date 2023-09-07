@@ -69,6 +69,7 @@ export default withTM({
         process.cwd(),
         "./components/example-component"
       ),
+      "@docs/components": path.resolve(process.cwd(), "./components"),
       "@docs/examples": path.resolve(process.cwd(), "./components/examples"),
       "@docs/consoledot-pages": path.resolve(
         process.cwd(),

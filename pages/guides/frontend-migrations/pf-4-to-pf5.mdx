@@ -1,4 +1,5 @@
 import { Alert } from '@patternfly/react-core'
+import NetworkTransfer from '@docs/components/migrations/network-transfers/NetworkTransfer'
 
 # Patternfly @4 -> @5 migration
 
@@ -492,3 +493,23 @@ You only require these babel dependencies to ensure your test environment will s
 2. Install only the required babel dev dependencies with `npm i --save-dev @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript` or its yarn equivalent.
 3. Update your babel configuration file.
 4. Your test command should now run properly without any compilation errors. Tests might still fail because of the PF migration changes.
+
+
+## Migration impact
+
+The following section will visualize the build impact of applications.
+
+The expect impact is significant reduction of **runtime bandwidth usage**. We also expect the build size to drop however the drop will not be as significant.
+
+What is the reason behind the drops? Thanks to improved PF5 build, we are now able to share the individual JS modules (Button, Card, etc.) without having to bundle and share the entire package. In combination with the module transformation coming from our new `@redhat-cloud-services/tsc-transform-imports` build utility we can further optimize the builds. This has the following impacts:
+
+1. Three shaking is now handled properly even in module federation environment. That means PF shared assets will no longer bloat the bundle output.
+2. The browser module cache will be build module by module instead of sharing the entire package.
+3. At some point in a session, no new PF assets will be loaded when loading new UI module.
+4. We can further extends this system to the FEC packages to further reduce the network bandwidth.  
+
+### Summary
+
+In this section, you can view the bandwidth and build size differences between pf4 and pf5 build versions. We will keep adding more data to observe the trend and validate the new build tooling.
+
+<NetworkTransfer />
