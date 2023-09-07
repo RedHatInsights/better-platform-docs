@@ -19,6 +19,7 @@ import Image from "next/image";
 import Logo from "./logo";
 import ExternalLinkAltIcon from "@patternfly/react-icons/dist/js/icons/external-link-alt-icon";
 import GithubIcon from "@patternfly/react-icons/dist/js/icons/github-icon";
+import Search from "../search/search-input";
 import dynamic from "next/dynamic";
 const DevelopmentDropdown = dynamic(
   () => import("../development-dropdown/development-dropdown"),
@@ -67,6 +68,9 @@ const Header = () => {
               <ToolbarItem>
                 <DesignDropdown />
               </ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarGroup className="pf-u-flex-grow-1" variant="filter-group">
+              <Search />
             </ToolbarGroup>
             <ToolbarGroup
               className="pf-m-align-right pf-m-spacer-md pf-u-mr-xs"
