@@ -1,7 +1,7 @@
 name: Trigger nightly build
 on: 
-  issue_comment:
-    types: [created]
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   nightly-build:
