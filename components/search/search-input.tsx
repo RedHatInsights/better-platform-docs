@@ -1,0 +1,258 @@
+import React, { useRef, useState } from "react";
+import PropTypes from "prop-types";
+import {
+  Bullseye,
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuList,
+  MenuProps,
+  Popper,
+  SearchInput,
+  SearchInputProps,
+  Spinner,
+  Text,
+  TextContent,
+  Title,
+} from "@patternfly/react-core";
+import Link from "next/link";
+import { createUseStyles } from "react-jss";
+import { useRouter } from "next/router";
+import classNames from "classnames";
+import clsx from "clsx";
+
+const useStyles = createUseStyles({
+  searchResultTitle: {},
+  ellipsis: {
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
+  fragment: {
+    color: "var(--pf-v5-global--palette--blue-200)",
+  },
+  fragmentMatch: {
+    textDecoration: "underline",
+    color: "var(--pf-v5-global--link--Color)",
+  },
+});
+
+type ApiPayload = {
+  url: string;
+  term: string;
+  value: string;
+};
+type SearchResult = ApiPayload & {
+  tagName: string;
+};
+
+const fetchSearchResults = async (
+  term: string
+): Promise<{ [tagName: string]: ApiPayload[] }> => {
+  const { data } = await fetch(`/search?term=${term}`).then((r) => r.json());
+  return data;
+};
+
+const adjustResultURL = (url: string) => {
+  const resultUrl = new URL(url);
+  return `${document.location.origin}${resultUrl.pathname}${resultUrl.search}${resultUrl.hash}`;
+};
+
+const processResults = (searchResults: { [tagName: string]: ApiPayload[] }) =>
+  Object.entries(searchResults)
+    .reduce<SearchResult[]>(
+      (acc, [tagName, meta]) => [
+        ...acc,
+        ...meta.map((meta) => ({ ...meta, tagName })),
+      ],
+      []
+    )
+    .slice(0, 10);
+
+const processLinkOption = (
+  term: string,
+  content: string,
+  classes: {
+    fragment: string;
+    fragmentMatch: string;
+  }
+) => {
+  const termMatchPos = content.toLowerCase().match(term.toLowerCase())?.[
+    "index"
+  ];
+  if (typeof termMatchPos === "undefined" || isNaN(termMatchPos)) {
+    return content;
+  }
+  const termLen = term.length;
+  let contentArr = [...content].map((char, index) => (
+    <span
+      key={index}
+      className={classNames(classes.fragment, {
+        [classes.fragmentMatch]:
+          index >= termMatchPos && index < termMatchPos + termLen,
+      })}
+    >
+      {char}
+    </span>
+  ));
+  if (termMatchPos > 15) {
+    contentArr = [
+      <span key="pre-1">.</span>,
+      <span key="pre-2">.</span>,
+      <span key="pre-3">.</span>,
+      ...contentArr.slice(10),
+    ];
+  }
+  return contentArr;
+};
+
+const LoadingItem = (
+  <MenuItem key="loading">
+    <Bullseye>
+      <Spinner className="pf-v5-u-m-xl" size="xl" />
+    </Bullseye>
+  </MenuItem>
+);
+
+const DocSearch = ({ className }: { className?: string }) => {
+  const classes = useStyles();
+  const [value, setValue] = useState<string | number>("");
+  const [autocompleteOptions, setAutocompleteOptions] = useState<JSX.Element[]>(
+    []
+  );
+  const router = useRouter();
+  const resultCache = useRef<{ [key: string]: SearchResult[] }>({});
+
+  const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(false);
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const autocompleteRef = useRef(null);
+
+  const searchCache = (query: string) => {
+    return resultCache.current[query];
+  };
+
+  const updateCache = (query: string, result: SearchResult[]) => {
+    resultCache.current[query] = result;
+  };
+
+  const onClear: SearchInputProps["onClear"] = (e) => {
+    e.preventDefault();
+    setValue("");
+    setIsAutocompleteOpen(false);
+  };
+
+  const onChange = async (newValue: string) => {
+    if (
+      newValue !== "" &&
+      searchInputRef &&
+      searchInputRef.current &&
+      searchInputRef.current.contains(document.activeElement)
+    ) {
+      setValue(newValue);
+      setIsAutocompleteOpen(true);
+      if (autocompleteOptions.length === 0) {
+        setAutocompleteOptions([LoadingItem]);
+      }
+      let trimmedData = searchCache(newValue);
+
+      if (!trimmedData) {
+        try {
+          const searchResults = await fetchSearchResults(newValue);
+          trimmedData = processResults(searchResults);
+          updateCache(newValue, trimmedData);
+        } catch (error) {
+          trimmedData = [];
+          console.error(error);
+        }
+      }
+
+      if (trimmedData.length === 0) {
+        setAutocompleteOptions([
+          <MenuItem key="empty">
+            <Bullseye>
+              <TextContent className="pf-v5-u-m-xl">
+                <Text>
+                  We looked everywhere but found nothing. Try something
+                  different.
+                </Text>
+              </TextContent>
+            </Bullseye>
+          </MenuItem>,
+        ]);
+        return;
+      }
+
+      let options = trimmedData.map((option, index) => {
+        const adjustedUrl = adjustResultURL(option.url);
+        return (
+          <MenuItem
+            onClick={() => router.push(adjustedUrl)}
+            itemId={option.value}
+            key={index}
+          >
+            <Link href={adjustedUrl}>
+              <a>
+                <Title className={classes.ellipsis} headingLevel="h2" size="md">
+                  {processLinkOption(newValue, option.value, classes)}
+                </Title>
+                <TextContent>
+                  <Text className={classes.ellipsis} component="small">
+                    {adjustResultURL(adjustedUrl)}
+                  </Text>
+                </TextContent>
+              </a>
+            </Link>
+          </MenuItem>
+        );
+      });
+      setAutocompleteOptions(options);
+    } else {
+      setIsAutocompleteOpen(false);
+    }
+  };
+
+  const onSelect: MenuProps["onSelect"] = (e, itemId) => {
+    e?.stopPropagation();
+    if (itemId) {
+      setValue(itemId);
+    }
+    setIsAutocompleteOpen(false);
+    searchInputRef.current?.focus();
+  };
+
+  const searchInput = (
+    <SearchInput
+      placeholder="Search for docs"
+      className={clsx(className, "pf-u-flex-grow-1")}
+      value={value.toString()}
+      onChange={onChange}
+      onClear={onClear}
+      ref={searchInputRef}
+      id="autocomplete-search"
+    />
+  );
+
+  const autocomplete = (
+    <Menu ref={autocompleteRef} onSelect={onSelect}>
+      <MenuContent>
+        <MenuList>{autocompleteOptions}</MenuList>
+      </MenuContent>
+    </Menu>
+  );
+  return (
+    <Popper
+      trigger={searchInput}
+      popper={autocomplete}
+      isVisible={isAutocompleteOpen}
+      enableFlip={false}
+      // append the autocomplete menu to the search input in the DOM for the sake of the keyboard navigation experience
+      appendTo={() => document.querySelector("#autocomplete-search")!}
+    />
+  );
+};
+
+DocSearch.propTypes = {
+  className: PropTypes.string,
+};
+
+export default DocSearch;

@@ -4,7 +4,7 @@
 set -m
 
 # Start the first process
-npm run start &
+npm run serve &
 
 caddy run --config /opt/app-root/src/Caddyfile &
 

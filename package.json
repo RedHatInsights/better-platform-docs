@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "npm run generate:all && next build",
     "start": "next start -p 3000",
+    "serve": "node server.js",
     "lint": "next lint",
     "generate:all": "node generators/generate-all.mjs",
     "watch:compose": "node watchers/compose-mdx.mjs",
@@ -32,6 +33,7 @@
     "marked": "^5.1.0",
     "next": "13.2.4",
     "prism-react-renderer": "^1.3.5",
+    "puppeteer": "^21.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-jss": "^10.10.0"
