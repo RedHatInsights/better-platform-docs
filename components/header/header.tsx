@@ -54,7 +54,10 @@ const Header = () => {
   return (
     <Fragment>
       <MastheadMain className="pf-u-pl-lg pf-u-pt-0 pf-u-pb-xs">
-        <MastheadBrand className="pf-u-flex-shrink-0 pf-u-mr-lg" href="/">
+        <MastheadBrand
+          className="pf-u-flex-shrink-0 pf-u-mr-lg"
+          href="/platform-docs"
+        >
           <Logo />
         </MastheadBrand>
       </MastheadMain>
