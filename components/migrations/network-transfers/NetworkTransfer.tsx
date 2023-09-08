@@ -39,6 +39,17 @@ const data: {
       buildSize: 2250,
     },
   },
+  {
+    title: "Developer sandbox",
+    pf4: {
+      transfer: 694,
+      buildSize: 843,
+    },
+    pf5: {
+      transfer: 358,
+      buildSize: 866,
+    },
+  },
 ];
 
 const pf4TData = data.map(({ title, pf4 }) => ({
