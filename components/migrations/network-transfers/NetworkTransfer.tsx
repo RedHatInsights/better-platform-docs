@@ -50,6 +50,17 @@ const data: {
       buildSize: 866,
     },
   },
+  {
+    title: "Service Accounts",
+    pf4: {
+      transfer: 1300,
+      buildSize: 2800,
+    },
+    pf5: {
+      transfer: 430,
+      buildSize: 893,
+    },
+  },
 ];
 
 const pf4TData = data.map(({ title, pf4 }) => ({
