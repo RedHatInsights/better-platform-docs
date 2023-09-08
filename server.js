@@ -91,7 +91,7 @@ app.prepare().then(() => {
      */
 
     const { pathname, query } = parsedUrl;
-    if (pathname === "/search") {
+    if (pathname === "/search" || pathname === "/platform-docs/search") {
       if (!query?.term) {
         return res.end(JSON.stringify({ noResult: true }));
       }
@@ -113,8 +113,8 @@ app.prepare().then(() => {
     // run scraping after server is running
 
     console.log("> Ready on http://localhost:3000");
-    await siteCrawler();
-    await siteScraper();
+    // await siteCrawler();
+    // await siteScraper();
     searchIndex = JSON.parse(
       fs.readFileSync(
         path.resolve(__dirname, "./server-assets/search-index.json"),

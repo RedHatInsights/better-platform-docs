@@ -48,7 +48,9 @@ type SearchResult = ApiPayload & {
 const fetchSearchResults = async (
   term: string
 ): Promise<{ [tagName: string]: ApiPayload[] }> => {
-  const { data } = await fetch(`/search?term=${term}`).then((r) => r.json());
+  const { data } = await fetch(`/platform-docs/search?term=${term}`).then((r) =>
+    r.json()
+  );
   return data;
 };
 
