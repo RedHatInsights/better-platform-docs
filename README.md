@@ -1,5 +1,7 @@
 # Getting started
 
+foo
+
 1. make sure you have an LTS node installed (16.x.x)
 2. to test "external mode", make sure you have docker-compose installed and can pull images from https://quay.io
 
