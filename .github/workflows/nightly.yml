@@ -14,4 +14,4 @@ jobs:
         with:
           commit_message: Nightly build
           branch: main
-          commit_options: "--allow-empty"
+          commit_options: '--allow-empty'
