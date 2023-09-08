@@ -3,6 +3,8 @@ COPY . .
 USER root
 COPY ./Caddyfile /opt/app-root/src/Caddyfile
 RUN chmod -R 777 components
+RUN chmod -R 777 server-search
+RUN chmod -R 777 server-assets
 RUN npm ci 
 RUN node downloader/downloader.mjs
 RUN npm run build

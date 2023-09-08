@@ -3,7 +3,6 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
-const glob = require("glob");
 
 function getNewLinks(allLinks, hrefs, origin) {
   return hrefs.filter((link) => {
@@ -12,32 +11,12 @@ function getNewLinks(allLinks, hrefs, origin) {
   });
 }
 
-function getChromiumExectuablePath() {
-  const paths = [
-    ...glob.sync(
-      path.resolve(
-        __dirname,
-        "../node_modules/puppeteer/.local-chromium/*/chrome-linux/chrome/"
-      )
-    ),
-    ...glob.sync(
-      "/opt/app-root/src/.cache/puppeteer/chrome/*/chrome-linux/chrome"
-    ),
-  ];
-  if (paths.length > 0) {
-    return paths[0];
-  } else {
-    throw new Error("unable to locate chromium executable");
-  }
-}
-
 const siteCrawler = async () => {
   const links = {};
   const file = "site-map.json";
   const origin = "http://localhost:3000";
   const browser = await puppeteer.launch({
     headless: true,
-    // executablePath: getChromiumExectuablePath(),
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
