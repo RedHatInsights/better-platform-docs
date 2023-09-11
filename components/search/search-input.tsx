@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Bullseye,
@@ -14,6 +14,7 @@ import {
   Text,
   TextContent,
   Title,
+  debounce,
 } from "@patternfly/react-core";
 import Link from "next/link";
 import { createUseStyles } from "react-jss";
@@ -143,6 +144,65 @@ const DocSearch = ({ className }: { className?: string }) => {
     setIsAutocompleteOpen(false);
   };
 
+  const populateSearchMenu = async (term: string) => {
+    let trimmedData = searchCache(term);
+
+    if (!trimmedData) {
+      try {
+        const searchResults = await fetchSearchResults(term);
+        trimmedData = processResults(searchResults);
+        updateCache(term, trimmedData);
+      } catch (error) {
+        trimmedData = [];
+        console.error(error);
+      }
+    }
+
+    if (trimmedData.length === 0) {
+      setAutocompleteOptions([
+        <MenuItem key="empty">
+          <Bullseye>
+            <TextContent className="pf-v5-u-m-xl">
+              <Text>
+                We looked everywhere but found nothing. Try something different.
+              </Text>
+            </TextContent>
+          </Bullseye>
+        </MenuItem>,
+      ]);
+      return;
+    }
+
+    let options = trimmedData.map((option, index) => {
+      const adjustedUrl = adjustResultURL(option.url);
+      return (
+        <MenuItem
+          onClick={() => router.push(adjustedUrl)}
+          itemId={option.value}
+          key={index}
+        >
+          <Link href={adjustedUrl}>
+            <a>
+              <Title className={classes.ellipsis} headingLevel="h2" size="md">
+                {processLinkOption(term, option.value, classes)}
+              </Title>
+              <TextContent>
+                <Text className={classes.ellipsis} component="small">
+                  {adjustResultURL(adjustedUrl)}
+                </Text>
+              </TextContent>
+            </a>
+          </Link>
+        </MenuItem>
+      );
+    });
+    setAutocompleteOptions(options);
+  };
+
+  const debouncedPopulateSearchMenu = useCallback(
+    debounce(populateSearchMenu, 500),
+    []
+  );
   const onChange = async (newValue: string) => {
     if (
       newValue !== "" &&
@@ -155,59 +215,7 @@ const DocSearch = ({ className }: { className?: string }) => {
       if (autocompleteOptions.length === 0) {
         setAutocompleteOptions([LoadingItem]);
       }
-      let trimmedData = searchCache(newValue);
-
-      if (!trimmedData) {
-        try {
-          const searchResults = await fetchSearchResults(newValue);
-          trimmedData = processResults(searchResults);
-          updateCache(newValue, trimmedData);
-        } catch (error) {
-          trimmedData = [];
-          console.error(error);
-        }
-      }
-
-      if (trimmedData.length === 0) {
-        setAutocompleteOptions([
-          <MenuItem key="empty">
-            <Bullseye>
-              <TextContent className="pf-v5-u-m-xl">
-                <Text>
-                  We looked everywhere but found nothing. Try something
-                  different.
-                </Text>
-              </TextContent>
-            </Bullseye>
-          </MenuItem>,
-        ]);
-        return;
-      }
-
-      let options = trimmedData.map((option, index) => {
-        const adjustedUrl = adjustResultURL(option.url);
-        return (
-          <MenuItem
-            onClick={() => router.push(adjustedUrl)}
-            itemId={option.value}
-            key={index}
-          >
-            <Link href={adjustedUrl}>
-              <a>
-                <Title className={classes.ellipsis} headingLevel="h2" size="md">
-                  {processLinkOption(newValue, option.value, classes)}
-                </Title>
-                <TextContent>
-                  <Text className={classes.ellipsis} component="small">
-                    {adjustResultURL(adjustedUrl)}
-                  </Text>
-                </TextContent>
-              </a>
-            </Link>
-          </MenuItem>
-        );
-      });
-      setAutocompleteOptions(options);
+      debouncedPopulateSearchMenu(newValue);
     } else {
       setIsAutocompleteOpen(false);
     }
