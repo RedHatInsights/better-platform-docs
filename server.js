@@ -113,15 +113,19 @@ app.prepare().then(() => {
     // run scraping after server is running
 
     console.log("> Ready on http://localhost:3000");
-    await siteCrawler();
-    await siteScraper();
-    searchIndex = JSON.parse(
-      fs.readFileSync(
-        path.resolve(__dirname, "./server-assets/search-index.json"),
-        { encoding: "utf-8" }
-      )
-    );
-    searchCache = {};
-    console.log("> New search index generated");
+    try {
+      await siteCrawler();
+      await siteScraper();
+      searchIndex = JSON.parse(
+        fs.readFileSync(
+          path.resolve(__dirname, "./server-assets/search-index.json"),
+          { encoding: "utf-8" }
+        )
+      );
+      searchCache = {};
+      console.log("> New search index generated");
+    } catch (error) {
+      console.error("> failed to generate search index", error);
+    }
   });
 });

@@ -70,7 +70,7 @@ const siteScraper = async () => {
     // executablePath: getChromiumExectuablePath(),
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
-  const page = await browser.newPage();
+  let page = await browser.newPage();
 
   page.on("console", (msg) => {
     for (let i = 0; i < msg.args.length; ++i)
@@ -130,7 +130,15 @@ const siteScraper = async () => {
   const pagesLinks = Object.keys(allPages);
   for (let index = 0; index < pagesLinks.length; index++) {
     const link = pagesLinks[index];
-    await getPageElements(link);
+    try {
+      await getPageElements(link);
+    } catch (error) {
+      page = await browser.newPage();
+      page.on("console", (msg) => {
+        for (let i = 0; i < msg.args.length; ++i)
+          console.log(`${i}: ${msg.args[i]}`);
+      });
+    }
   }
   await browser.close();
 
