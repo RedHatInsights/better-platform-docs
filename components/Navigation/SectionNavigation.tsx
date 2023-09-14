@@ -39,6 +39,7 @@ export type SectionType = keyof typeof sections;
 export type SectionItem = {
   title: string;
   href: string;
+  indexPage?: string;
   groupTitle?: string;
   groups?: { title: string }[];
 };
@@ -77,12 +78,12 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
                   sections[parentKey as SectionType] as {
                     items: SectionItem[];
                   }
-                ).items.map(({ title, href }, key) => (
+                ).items.map(({ title, href, indexPage }, key) => (
                   <ListItem
                     key={`${parentKey}-${key}`}
                     className="pf-u-font-size-sm pf-u-pb-sm"
                   >
-                    <Link href={href}>{title}</Link>
+                    <Link href={indexPage ?? href}>{title}</Link>
                   </ListItem>
                 ))}
               </List>

@@ -4,7 +4,7 @@ import StreamZip from "node-stream-zip";
 import fs from "fs";
 import fse from "fs-extra";
 import glob from "glob";
-import { exec } from "child_process";
+import { exec, execSync } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
 import transformers from "./transformers.mjs";
@@ -14,6 +14,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const dir = "./tmp";
+
+const INDEX = /\/index\.(html|md|js|ts)x?$/;
+const VALID_PAGE = /\/.*\.(html|md|js|ts)x?$/;
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
@@ -45,6 +48,7 @@ data.forEach(
     title,
     source = "github",
     customNav,
+    linkTitle,
   }) => {
     console.log(`Repository: ${owner}/${repository}`);
     const onGenerate = () => {
@@ -77,26 +81,52 @@ data.forEach(
           )}`
         );
         const pagesDir = `./pages/${title.replaceAll(" ", "-").toLowerCase()}`;
-        exec(
-          `rsync -a -u -v --prune-empty-dirs --exclude '*.xml' --exclude '*.adoc' --exclude '*.png.cache' --exclude '*.png.html' ${safePath(
-            `../tmp/${repository}-${branch}/${path}`
-          )} ${safePath(
-            `../pages/${title.replaceAll(" ", "-").toLowerCase()}`
-          )}`,
-          (error) => {
-            if (error) {
-              console.log(error);
-            }
-            const imagesInPages = glob.sync(`${pagesDir}/**/*.png`);
-            imagesInPages.forEach((image) => {
-              const imageName = image.replace("/pages/", "/public/");
-              let imgDirname = imageName.split("/");
-              imgDirname.pop();
-              imgDirname = imgDirname.join("/");
-              fse.ensureDirSync(imgDirname);
-              fse.renameSync(image, imageName);
-            });
-          }
+        const pagesSources = safePath(`../tmp/${repository}-${branch}/${path}`);
+        const pagesDestination = safePath(
+          `../pages/${title.replaceAll(" ", "-").toLowerCase()}`
+        );
+
+        try {
+          execSync(
+            `rsync -a -u -v --prune-empty-dirs --exclude '*.xml' --exclude '*.adoc' --exclude '*.png.cache' --exclude '*.png.html' ${pagesSources} ${pagesDestination}`
+          );
+          const imagesInPages = glob.sync(`${pagesDir}/**/*.png`);
+          imagesInPages.forEach((image) => {
+            const imageName = image.replace("/pages/", "/public/");
+            let imgDirname = imageName.split("/");
+            imgDirname.pop();
+            imgDirname = imgDirname.join("/");
+            fse.ensureDirSync(imgDirname);
+            fse.renameSync(image, imageName);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+
+        const pagesSectionUrl = pagesSources.split("/").pop();
+        let indexPage = undefined;
+        const validFiles = glob
+          .sync(`${pagesDestination}/${pagesSectionUrl}/*`)
+          .filter((name) => name !== "index.json")
+          .sort();
+        if (
+          validFiles.length > 0 &&
+          !validFiles.find((file) => file.match(INDEX))
+        ) {
+          // no index.* in the folder, use the first alphabetically
+          indexPage = validFiles.find((file) => file.match(VALID_PAGE));
+        }
+        const metadata = {
+          linkTitle,
+          indexPage: indexPage
+            ?.split("pages")
+            .pop()
+            ?.split(/\.(html|md|js|ts)x?$/)
+            .shift(),
+        };
+        fs.writeFileSync(
+          `${pagesDestination}/${pagesSectionUrl}/metadata.json`,
+          JSON.stringify(metadata, null, 2)
         );
       }
     };

@@ -15,11 +15,27 @@ const readSubDir = (SECTIONS_GLOB) =>
 
 export const getSections = (SECTIONS_GLOB) => {
   return readSubDir(SECTIONS_GLOB).flatMap(({ name }) => {
-    return readSubDir(`${SECTIONS_GLOB}/${name}`).map(({ name: subDir }) => ({
-      name: subDir,
-      path: `${name}/${subDir}`,
-      parent: name,
-    }));
+    return readSubDir(`${SECTIONS_GLOB}/${name}`).map(({ name: subDir }) => {
+      let metadata = {};
+      const metadataPath = path.join(
+        SECTIONS_GLOB,
+        name,
+        subDir,
+        "metadata.json"
+      );
+      try {
+        metadata = fse.readJSONSync(metadataPath);
+      } catch (error) {
+        console.warn("Cloud not find metadata file at: ", metadataPath);
+      }
+
+      return {
+        name: subDir,
+        path: `${name}/${subDir}`,
+        parent: name,
+        ...metadata,
+      };
+    });
   });
 };
 
