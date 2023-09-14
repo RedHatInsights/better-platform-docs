@@ -99,6 +99,14 @@
   },
   {
     "owner": "RedHatInsights",
+    "repository": "chrome-service-backend",
+    "branch": "main",
+    "path": "/docs",
+    "linkTitle": "Chrome backend configuration",
+    "title": "Chroming service"
+  },
+  {
+    "owner": "RedHatInsights",
     "repository": "frontend-components",
     "branch": "master",
     "path": "/packages/docs/pages/fed",
