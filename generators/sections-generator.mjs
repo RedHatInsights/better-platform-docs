@@ -10,21 +10,23 @@ import {
 
 export const generateSections = () => {
   const sections = getSections(SECTIONS_GLOB);
-  console.log("list of sections: ", sections);
   const schema = sections.reduce(
-    (acc, { name, path, parent }) => ({
-      ...acc,
-      [parent]: {
-        title: capitalize(parent).replace(/-/gi, " "),
-        items: [
-          ...(acc[parent]?.items || []),
-          {
-            title: capitalize(name),
-            href: `/${path}`,
-          },
-        ],
-      },
-    }),
+    (acc, { linkTitle, name, path, parent, indexPage, ...rest }) => {
+      return {
+        ...acc,
+        [parent]: {
+          title: capitalize(parent).replace(/-/gi, " "),
+          items: [
+            ...(acc[parent]?.items || []),
+            {
+              title: linkTitle || capitalize(name),
+              href: `/${path}`,
+              indexPage,
+            },
+          ],
+        },
+      };
+    },
     {}
   );
   fsExtra.ensureDirSync(SECTIONS_DIR);
