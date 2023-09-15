@@ -42,23 +42,11 @@ function trimContent(content = "") {
   return content.trim().toLocaleLowerCase().replace(/\s/gm, "");
 }
 
-async function handleSearch(term) {
-  // need for debugging in container as we can't reproduce the issue while running locally
-  console.log({ term }, searchCache);
-  if (searchCache[term]) {
-    return searchCache[term];
-  }
+function handleSearch(term) {
   const tagKeys = Object.keys(searchIndex);
   const buckets = tagKeys.map((key) => searchIndex[key]);
-  const searchJobs = buckets.map(
-    (bucket) =>
-      new Promise((res) => {
-        res(searchForTerm(term, bucket));
-      })
-  );
-  const [h1, h2, h3, h4, h5, h6, strong, em, p, table, li] = await Promise.all(
-    searchJobs
-  );
+  const searchJobs = buckets.map((bucket) => searchForTerm(term, bucket));
+  const [h1, h2, h3, h4, h5, h6, strong, em, p, table, li] = searchJobs;
   const result = {
     h1,
     h2,
@@ -73,7 +61,6 @@ async function handleSearch(term) {
     li,
   };
 
-  searchCache[term] = result;
   return result;
 }
 
@@ -97,13 +84,11 @@ app.prepare().then(() => {
       if (!query?.term) {
         return res.end(JSON.stringify({ noResult: true }));
       }
-      return handleSearch(query?.term)
-        .then((data) => {
-          return res.end(JSON.stringify({ data }));
-        })
-        .catch(() => {
-          res.end(JSON.stringify({ searchError: true }));
-        });
+      try {
+        return res.end(JSON.stringify({ data: handleSearch(query?.term) }));
+      } catch (error) {
+        return res.end(JSON.stringify({ searchError: true }));
+      }
     }
 
     handle(req, res, parsedUrl);
