@@ -43,6 +43,8 @@ function trimContent(content = "") {
 }
 
 async function handleSearch(term) {
+  // need for debugging in container as we can't reproduce the issue while running locally
+  console.log({ term }, searchCache);
   if (searchCache[term]) {
     return searchCache[term];
   }
