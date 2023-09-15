@@ -80,8 +80,9 @@ const siteScraper = async () => {
   async function getPageElements(link) {
     console.log(`Scraping page ${link}`);
     await page.goto(link);
-    const elements = await page.evaluate(() => {
-      try {
+    let elements = [];
+    try {
+      elements = await page.evaluate(() => {
         const allowedTags = [
           "h1",
           "h2",
@@ -107,11 +108,10 @@ const siteScraper = async () => {
           );
         });
         return Array.from(elems);
-      } catch (error) {
-        console.log(error);
-        return [];
-      }
-    });
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
     elements.forEach(({ tag, content }) => {
       if (data[tag][content]) {
