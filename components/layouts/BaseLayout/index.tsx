@@ -37,7 +37,7 @@ const useStyles = createUseStyles({
 });
 
 const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
-  const [isNavOpen, setIsnavOpen] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(true);
   const classes = useStyles();
   const { section, items: navItems } = useNavSchema();
   const { route, basePath } = useRouter();
@@ -53,9 +53,11 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       }
       className={classes.page}
       header={
-        <Masthead className="chr-c-masthead pf-u-p-0">
-          <Header />
-        </Masthead>
+        <>
+          <Masthead className="chr-c-masthead pf-u-p-0">
+            <Header />
+          </Masthead>
+        </>
       }
       groupProps={{
         stickyOnBreakpoint: { default: "top" },

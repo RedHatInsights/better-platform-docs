@@ -5,6 +5,8 @@ import {
   MastheadBrand,
   MastheadContent,
   MastheadMain,
+  Stack,
+  StackItem,
   Text,
   TextContent,
   Toolbar,
@@ -14,13 +16,13 @@ import {
 } from "@patternfly/react-core";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import { useRouter } from "next/router";
-import Image from "next/image";
 import Logo from "./logo";
 import ExternalLinkAltIcon from "@patternfly/react-icons/dist/js/icons/external-link-alt-icon";
 import GithubIcon from "@patternfly/react-icons/dist/js/icons/github-icon";
 import Search from "../search/search-input";
 import dynamic from "next/dynamic";
+import { DocsBreadcrumb } from "./breadcrumb";
+
 const DevelopmentDropdown = dynamic(
   () => import("../development-dropdown/development-dropdown"),
   {
@@ -51,6 +53,9 @@ const useStyles = createUseStyles({
 
 const Header = () => {
   const classes = useStyles();
+
+  const [isNavOpen, setOpen] = React.useState(true);
+
   return (
     <Fragment>
       <MastheadMain className="pf-u-pl-lg pf-u-pt-0 pf-u-pb-xs">
@@ -107,6 +112,14 @@ const Header = () => {
           </ToolbarContent>
         </Toolbar>
       </MastheadContent>
+      <Stack>
+        <StackItem>
+          <DocsBreadcrumb
+            isNavOpen={isNavOpen}
+            onNavToggle={() => setOpen(!isNavOpen)}
+          />
+        </StackItem>
+      </Stack>
     </Fragment>
   );
 };
