@@ -2,18 +2,13 @@ import React from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Button,
-  PageSection,
   PageToggleButton,
   Split,
   SplitItem,
 } from "@patternfly/react-core";
 import { BarsIcon } from "@patternfly/react-icons";
 import { style } from "typestyle";
-import {
-  global_spacer_md,
-  global_palette_white,
-} from "@patternfly/react-tokens";
+import { global_palette_white } from "@patternfly/react-tokens";
 
 interface docsBreadCrumbProps {
   isNavOpen: boolean;
