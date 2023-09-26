@@ -1,44 +1,31 @@
 import React from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  PageToggleButton,
-  Split,
-  SplitItem,
-} from "@patternfly/react-core";
-import { BarsIcon } from "@patternfly/react-icons";
-import { style } from "typestyle";
-import { global_palette_white } from "@patternfly/react-tokens";
+import { useRouter } from "next/router";
+import { Breadcrumb, BreadcrumbItem, Skeleton } from "@patternfly/react-core";
 
-interface docsBreadCrumbProps {
-  isNavOpen: boolean;
-  onNavToggle: () => void;
-}
+export const DocsBreadcrumb: React.FunctionComponent = () => {
+  const router = useRouter();
+  const paths = router.pathname.split("/").slice(1);
 
-const docsBreadcrumbClassName = style({
-  color: global_palette_white.value,
-});
+  const breadcrumbs: { title: string; link: string }[] = [];
+  paths.map((p, index) => {
+    breadcrumbs.push({
+      title: `${p}`,
+      link: `/${paths.slice(0, index + 1).join("/")}`,
+    });
+  });
 
-export const DocsBreadcrumb: React.FunctionComponent<docsBreadCrumbProps> = (
-  props
-) => {
   return (
-    <Split>
-      <SplitItem>
-        <PageToggleButton
-          isNavOpen={props.isNavOpen}
-          onNavToggle={props.onNavToggle}
-        >
-          <BarsIcon className="pf-u-mb-md" />
-        </PageToggleButton>
-      </SplitItem>
-      <SplitItem>
-        <Breadcrumb aria-label="Breadcrumb">
-          <BreadcrumbItem to="#">fake text</BreadcrumbItem>
-          <BreadcrumbItem to="#">fake text</BreadcrumbItem>
-          <BreadcrumbItem to="#">fake text</BreadcrumbItem>
-        </Breadcrumb>
-      </SplitItem>
-    </Split>
+    <Breadcrumb aria-label="breadcrumb">
+      {breadcrumbs &&
+        breadcrumbs.map((b, index) =>
+          index !== breadcrumbs.length - 1 ? (
+            <BreadcrumbItem key={b.title} to={b.link}>
+              {b.title}
+            </BreadcrumbItem>
+          ) : (
+            <Skeleton />
+          )
+        )}
+    </Breadcrumb>
   );
 };

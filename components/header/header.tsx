@@ -5,8 +5,6 @@ import {
   MastheadBrand,
   MastheadContent,
   MastheadMain,
-  Stack,
-  StackItem,
   Text,
   TextContent,
   Toolbar,
@@ -53,8 +51,6 @@ const useStyles = createUseStyles({
 
 const Header = () => {
   const classes = useStyles();
-
-  const [isNavOpen, setOpen] = React.useState(true);
 
   return (
     <Fragment>
@@ -112,14 +108,7 @@ const Header = () => {
           </ToolbarContent>
         </Toolbar>
       </MastheadContent>
-      <Stack>
-        <StackItem>
-          <DocsBreadcrumb
-            isNavOpen={isNavOpen}
-            onNavToggle={() => setOpen(!isNavOpen)}
-          />
-        </StackItem>
-      </Stack>
+      <DocsBreadcrumb />
     </Fragment>
   );
 };
