@@ -15,11 +15,16 @@ export const DocsBreadcrumb: React.FunctionComponent = () => {
   });
 
   return (
-    <Breadcrumb aria-label="breadcrumb">
+    <Breadcrumb className="pf-v5-u-pt-sm" aria-label="breadcrumb">
       {breadcrumbs &&
         breadcrumbs.map((b, index) =>
           index !== breadcrumbs.length - 1 ? (
-            <BreadcrumbItem key={b.title} to={b.link}>
+            <BreadcrumbItem
+              key={b.title}
+              to={b.link}
+              isActive
+              className="pf-v5-u-pb-sm"
+            >
               {b.title}
             </BreadcrumbItem>
           ) : (
