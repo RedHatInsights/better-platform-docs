@@ -47,6 +47,10 @@ const useStyles = createUseStyles({
     "--pf-c-content--a--hover--Color": "var(--pf-global--palette--black-100)",
     "--pf-c-content--a--hover--TextDecoration": "none",
   },
+  breadcrumbGroup: {
+    gridColumn: "2 / span 2",
+    gridRow: "3",
+  },
 });
 
 const Header = () => {
@@ -62,7 +66,7 @@ const Header = () => {
           <Logo />
         </MastheadBrand>
       </MastheadMain>
-      <MastheadContent className="pf-u-mx-md">
+      <MastheadContent className="pf-u-mx-md pf-u-mx-0-on-2xl">
         <Toolbar isFullHeight>
           <ToolbarContent>
             <ToolbarGroup variant="filter-group">
@@ -108,7 +112,9 @@ const Header = () => {
           </ToolbarContent>
         </Toolbar>
       </MastheadContent>
-      <DocsBreadcrumb />
+      <ToolbarGroup className={classes.breadcrumbGroup}>
+        <DocsBreadcrumb />
+      </ToolbarGroup>
     </Fragment>
   );
 };

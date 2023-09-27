@@ -1,10 +1,29 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { Breadcrumb, BreadcrumbItem, Skeleton } from "@patternfly/react-core";
+import {
+  Button,
+  Breadcrumb,
+  BreadcrumbItem,
+  Flex,
+  FlexItem,
+  PageBreadcrumb,
+  Skeleton,
+} from "@patternfly/react-core";
+import BarsIcon from "@patternfly/react-icons/dist/js/icons/bars-icon";
+
+import { createUseStyles } from "react-jss";
+import clsx from "clsx";
+
+const useStyles = createUseStyles({
+  breadcrumbs: {
+    backgroundColor: "var(--pf-global--BackgroundColor--dark-300) !important;",
+  },
+});
 
 export const DocsBreadcrumb: React.FunctionComponent = () => {
   const router = useRouter();
   const paths = router.pathname.split("/").slice(1);
+  const classes = useStyles();
 
   const breadcrumbs: { title: string; link: string }[] = [];
   paths.map((p, index) => {
@@ -15,22 +34,38 @@ export const DocsBreadcrumb: React.FunctionComponent = () => {
   });
 
   return (
-    <Breadcrumb className="pf-v5-u-pt-sm" aria-label="breadcrumb">
-      {breadcrumbs &&
-        breadcrumbs.map((b, index) =>
-          index !== breadcrumbs.length - 1 ? (
-            <BreadcrumbItem
-              key={b.title}
-              to={b.link}
-              isActive
-              className="pf-v5-u-pb-sm"
-            >
-              {b.title}
-            </BreadcrumbItem>
-          ) : (
-            <Skeleton />
-          )
-        )}
-    </Breadcrumb>
+    <PageBreadcrumb
+      className={clsx("pf-u-p-0", classes.breadcrumbs)}
+      aria-label="breadcrumb"
+    >
+      <div className="pf-u-display-flex pf-u-justify-content-space-between pf-u-pt-xs pf-u-pb-0 pf-u-pl-md">
+        <FlexItem>
+          <div className="pf-c-masthead__toggle">
+            <Button className="pf-m-plain">
+              <BarsIcon />
+            </Button>
+          </div>
+        </FlexItem>
+        <FlexItem className="pf-u-flex-grow-1">
+          <Breadcrumb className="pf-u-pt-md">
+            {breadcrumbs &&
+              breadcrumbs.map((b, index) =>
+                index !== breadcrumbs.length - 1 ? (
+                  <BreadcrumbItem
+                    key={b.title}
+                    to={b.link}
+                    isActive
+                    className="pf-u-pb-lg"
+                  >
+                    {b.title}
+                  </BreadcrumbItem>
+                ) : (
+                  <Skeleton />
+                )
+              )}
+          </Breadcrumb>
+        </FlexItem>
+      </div>
+    </PageBreadcrumb>
   );
 };

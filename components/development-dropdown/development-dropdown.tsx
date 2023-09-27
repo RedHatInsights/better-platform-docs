@@ -43,6 +43,10 @@ const useStyles = createUseStyles({
       transform: "translate(0, 118px) !important",
     },
   },
+  menuToggle: {
+    "--pf-c-menu-toggle--after--BorderBottomWidth": "0 !important",
+    "--pf-c-menu-toggle--before--BorderBottomColor": "transparent !important",
+  },
   panel: {
     "@media (max-width: 768px)": {
       tabs: {
@@ -140,7 +144,7 @@ const DevelopmentDropdown = () => {
 
   const toggle = (
     <MenuToggle
-      className="pf-m-full-height"
+      className={classnames(classes.menuToggle, "pf-m-full-height")}
       ref={toggleRef}
       onClick={onToggleClick}
       isExpanded={isOpen}
