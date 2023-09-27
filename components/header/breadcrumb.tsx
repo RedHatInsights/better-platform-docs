@@ -4,10 +4,8 @@ import {
   Button,
   Breadcrumb,
   BreadcrumbItem,
-  Flex,
   FlexItem,
   PageBreadcrumb,
-  Skeleton,
 } from "@patternfly/react-core";
 import BarsIcon from "@patternfly/react-icons/dist/js/icons/bars-icon";
 
@@ -48,21 +46,16 @@ export const DocsBreadcrumb: React.FunctionComponent = () => {
         </FlexItem>
         <FlexItem className="pf-u-flex-grow-1">
           <Breadcrumb className="pf-u-pt-md">
-            {breadcrumbs &&
-              breadcrumbs.map((b, index) =>
-                index !== breadcrumbs.length - 1 ? (
-                  <BreadcrumbItem
-                    key={b.title}
-                    to={b.link}
-                    isActive
-                    className="pf-u-pb-lg"
-                  >
-                    {b.title}
-                  </BreadcrumbItem>
-                ) : (
-                  <Skeleton />
-                )
-              )}
+            {breadcrumbs.map((b) => (
+              <BreadcrumbItem
+                key={b.title}
+                to={b.link}
+                isActive
+                className="pf-u-pb-lg"
+              >
+                {b.title}
+              </BreadcrumbItem>
+            ))}
           </Breadcrumb>
         </FlexItem>
       </div>
