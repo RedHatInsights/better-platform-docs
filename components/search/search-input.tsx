@@ -29,11 +29,30 @@ const useStyles = createUseStyles({
     overflow: "hidden",
   },
   fragment: {
-    color: "var(--pf-v5-global--palette--blue-200)",
+    color: "var(--pf-global--palette--blue-200)",
   },
   fragmentMatch: {
     textDecoration: "underline",
-    color: "var(--pf-v5-global--link--Color)",
+    color: "var(--pf-global--link--Color)",
+  },
+  textInputGroup: {
+    "--pf-c-text-input-group--BackgroundColor": "var(--pf-global--palette--black-700) !important",
+    "--pf-c-text-input-group__icon--Color": "var(--pf-global--primary-color--light-100)",
+    "--pf-c-text-input-group__text--after--BorderBottomColor": "var(--pf-global--palette--black-500)",
+    "--pf-c-text-input-group__text--before--BorderColor": "var(--pf-global--palette--black-800)",
+    "--pf-c-text-input-group__text--hover__icon--Color": "var(--pf-global--primary-color--light-100)",
+    "& input::placeholder": {
+      "color": "var(--pf-v5-global--Color--light-300)",
+    },
+    "& input, input:hover::placeholder": {
+      "color": "var(--pf-v5-global--Color--light-100) !important",
+    },
+    "&:hover": {
+      "--pf-v5-c-text-input-group__text--after--BorderBottomColor": "var(--pf-v5-global--active-color--300)",
+    },
+    "& input:focus-visible": {
+      "outline": "var(--pf-v5-global--BorderWidth--sm) solid var(--pf-v5-global--BackgroundColor--dark-100)",
+    },
   },
 });
 
@@ -233,7 +252,7 @@ const DocSearch = ({ className }: { className?: string }) => {
   const searchInput = (
     <SearchInput
       placeholder="Search for docs"
-      className={clsx(className, "pf-u-flex-grow-1")}
+      className={clsx(classes.textInputGroup, "pf-u-flex-grow-")}
       value={value.toString()}
       onChange={onChange}
       onClear={onClear}

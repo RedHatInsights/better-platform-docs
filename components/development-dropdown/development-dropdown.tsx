@@ -31,6 +31,7 @@ import Link from "next/link";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import classnames from "clsx";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 const useStyles = createUseStyles({
   dropdownMenu: {
@@ -42,6 +43,10 @@ const useStyles = createUseStyles({
       height: "calc(100vh - 118px)",
       transform: "translate(0, 118px) !important",
     },
+  },
+  menuToggle: {
+    "--pf-c-menu-toggle--after--BorderBottomWidth": "0 !important",
+    "--pf-c-menu-toggle--before--BorderBottomColor": "transparent !important",
   },
   panel: {
     "@media (max-width: 768px)": {
@@ -137,10 +142,14 @@ const DevelopmentDropdown = () => {
     setIsOpen(!isOpen);
   };
   const classes = useStyles();
+  const { md } = useWindowWidth();
 
   const toggle = (
     <MenuToggle
-      className="pf-m-full-height"
+      className={classnames(
+        classes.menuToggle,
+        "pf-m-full-height pf-u-py-sm pf-u-py-lg-on-2xl"
+      )}
       ref={toggleRef}
       onClick={onToggleClick}
       isExpanded={isOpen}
@@ -148,7 +157,7 @@ const DevelopmentDropdown = () => {
       <Icon className="pf-u-m-sm" isInline>
         <CommandLineIcon width="20" height="20" />
       </Icon>
-      Development
+      {md && "Development"}
     </MenuToggle>
   );
 

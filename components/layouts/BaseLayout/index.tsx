@@ -53,7 +53,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       }
       className={classes.page}
       header={
-        <Masthead className="chr-c-masthead pf-u-p-0">
+        <Masthead className="chr-c-masthead pf-u-p-0" display={{ sm: 'stack', '2xl': 'inline' }}>
           <Header />
         </Masthead>
       }

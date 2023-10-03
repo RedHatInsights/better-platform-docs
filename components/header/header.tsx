@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Button,
   Icon,
@@ -17,10 +17,11 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Logo from "./logo";
-import ExternalLinkAltIcon from "@patternfly/react-icons/dist/js/icons/external-link-alt-icon";
-import GithubIcon from "@patternfly/react-icons/dist/js/icons/github-icon";
 import Search from "../search/search-input";
 import dynamic from "next/dynamic";
+import useWindowWidth from "../../hooks/useWindowWidth";
+import HeaderLinks from "./HeaderLinks";
+
 const DevelopmentDropdown = dynamic(
   () => import("../development-dropdown/development-dropdown"),
   {
@@ -33,24 +34,16 @@ const DesignDropdown = dynamic(
     ssr: false,
   }
 );
-
 const useStyles = createUseStyles({
-  icon: {
-    "--pf-c-icon__content--Color": "var(--pf-global--palette--black-100)",
-  },
-  toolbarItem: {
-    borderLeft: "1px solid var(--pf-global--BorderColor--200)",
-    borderRight: "1px solid var(--pf-global--BorderColor--200)",
-  },
-  link: {
-    "--pf-c-content--a--Color": "var(--pf-global--palette--black-100)",
-    "--pf-c-content--a--hover--Color": "var(--pf-global--palette--black-100)",
-    "--pf-c-content--a--hover--TextDecoration": "none",
+  breadcrumbGroup: {
+    gridColumn: "2 / span 2",
+    gridRow: "3",
   },
 });
 
 const Header = () => {
   const classes = useStyles();
+  const { md, lg, xxl } = useWindowWidth();
   return (
     <Fragment>
       <MastheadMain className="pf-u-pl-lg pf-u-pt-0 pf-u-pb-xs">
@@ -60,8 +53,18 @@ const Header = () => {
         >
           <Logo />
         </MastheadBrand>
+        <Toolbar isFullHeight>
+          <ToolbarContent>
+            <ToolbarGroup
+              className="pf-m-icon-button-group pf-u-ml-auto"
+              visibility={{ "2xl": "hidden" }}
+            >
+              {!xxl && <HeaderLinks />}
+            </ToolbarGroup>
+          </ToolbarContent>
+        </Toolbar>
       </MastheadMain>
-      <MastheadContent className="pf-u-mx-md">
+      <MastheadContent className="pf-u-mx-md pf-u-mx-0-on-2xl">
         <Toolbar isFullHeight>
           <ToolbarContent>
             <ToolbarGroup variant="filter-group">
@@ -72,37 +75,18 @@ const Header = () => {
                 <DesignDropdown />
               </ToolbarItem>
             </ToolbarGroup>
-            <ToolbarGroup className="pf-u-flex-grow-1" variant="filter-group">
+            <ToolbarGroup
+              className="pf-u-flex-grow-1 pf-v5-u-mr-0 pf-v5-u-mr-md-on-2xl"
+              variant="filter-group"
+            >
               <Search />
             </ToolbarGroup>
+
             <ToolbarGroup
-              className="pf-m-align-right pf-m-spacer-md pf-u-mr-xs"
-              visibility={{ default: "hidden", lg: "visible" }}
+              className="pf-m-icon-button-group pf-u-ml-auto"
+              visibility={{ default: "hidden", "2xl": "visible" }}
             >
-              <ToolbarItem className={clsx("pf-u-px-xl", classes.toolbarItem)}>
-                <TextContent className={classes.link}>
-                  <Text
-                    component="a"
-                    href="https://consoledot.pages.redhat.com/docs/dev/index.html"
-                    target="_blank"
-                  >
-                    ConsoleDot Documentation
-                    <Icon className="pf-u-ml-sm" iconSize="sm" isInline>
-                      <ExternalLinkAltIcon />
-                    </Icon>
-                  </Text>
-                </TextContent>
-              </ToolbarItem>
-              <ToolbarItem>
-                <Button
-                  component="a"
-                  variant="plain"
-                  href="https://github.com/RedHatInsights/better-platform-docs"
-                  target="_blank"
-                >
-                  <GithubIcon />
-                </Button>
-              </ToolbarItem>
+              {lg && <HeaderLinks />}
             </ToolbarGroup>
           </ToolbarContent>
         </Toolbar>
