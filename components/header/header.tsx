@@ -14,13 +14,12 @@ import {
 } from "@patternfly/react-core";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
-import { useRouter } from "next/router";
-import Image from "next/image";
 import Logo from "./logo";
 import Search from "../search/search-input";
 import dynamic from "next/dynamic";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import HeaderLinks from "./HeaderLinks";
+import { DocsBreadcrumb } from "./breadcrumb";
 
 const DevelopmentDropdown = dynamic(
   () => import("../development-dropdown/development-dropdown"),
@@ -35,6 +34,10 @@ const DesignDropdown = dynamic(
   }
 );
 const useStyles = createUseStyles({
+  breadcrumbGroup: {
+    gridColumn: "2 / span 2",
+    gridRow: "3",
+  },
   breadcrumbGroup: {
     gridColumn: "2 / span 2",
     gridRow: "3",
@@ -91,6 +94,9 @@ const Header = () => {
           </ToolbarContent>
         </Toolbar>
       </MastheadContent>
+      <ToolbarGroup className={classes.breadcrumbGroup}>
+        <DocsBreadcrumb />
+      </ToolbarGroup>
     </Fragment>
   );
 };

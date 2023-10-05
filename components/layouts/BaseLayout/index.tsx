@@ -3,7 +3,6 @@ import {
   CardBody,
   Masthead,
   Page,
-  PageHeader,
   PageSection,
   PageSectionVariants,
   PageSidebar,
@@ -12,13 +11,9 @@ import {
   SidebarPanel,
   Text,
   TextContent,
-  TextVariants,
 } from "@patternfly/react-core";
-import Link from "next/link";
-import classnames from "clsx";
 import { PropsWithChildren, useState, useRef } from "react";
 import { createUseStyles } from "react-jss";
-import Image from "next/image";
 import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
@@ -37,7 +32,7 @@ const useStyles = createUseStyles({
 });
 
 const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
-  const [isNavOpen, setIsnavOpen] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(true);
   const classes = useStyles();
   const { section, items: navItems } = useNavSchema();
   const { route, basePath } = useRouter();
