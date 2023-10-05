@@ -14,6 +14,7 @@ import {
 } from "@patternfly/react-core";
 import { PropsWithChildren, useState, useRef } from "react";
 import { createUseStyles } from "react-jss";
+import clsx from "clsx";
 import Navigation from "../../Navigation";
 import useNavSchema from "../../Navigation/useNavSchema";
 import TableOfContents from "../../table-of-contents";
@@ -22,6 +23,9 @@ import Header from "../../header/header";
 import Footer from "../../footer/Footer";
 
 const useStyles = createUseStyles({
+  masthead: {
+    "--pf-c-masthead__main--before--Right": "0",
+  },
   page: {
     height: "100vh !important",
   },
@@ -48,7 +52,10 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       }
       className={classes.page}
       header={
-        <Masthead className="chr-c-masthead pf-u-p-0" display={{ sm: 'stack', '2xl': 'inline' }}>
+        <Masthead
+          className={clsx("pf-u-p-0", classes.masthead)}
+          display={{ sm: "stack", "2xl": "inline" }}
+        >
           <Header />
         </Masthead>
       }

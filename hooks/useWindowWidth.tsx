@@ -1,25 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const useWindowWidth = () => {
-  const localWindow = typeof window !== 'undefined' ? window : { innerWidth: 1500 };
-  const [xxl, setXxl] = useState(localWindow?.innerWidth >= 1450);
-  const [xl, setXl] = useState(localWindow?.innerWidth >= 1200);
-  const [lg, setLg] = useState(localWindow?.innerWidth >= 992);
-  const [md, setMd] = useState(localWindow?.innerWidth >= 768);
-  const [sm, setSm] = useState(localWindow?.innerWidth >= 576);
-  const [xs, setXs] = useState(localWindow?.innerWidth < 0);
+  const [xxl, setXxl] = useState(false);
+  const [xl, setXl] = useState(false);
+  const [lg, setLg] = useState(false);
+  const [md, setMd] = useState(false);
+  const [sm, setSm] = useState(false);
+  const [xs, setXs] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setXxl(localWindow?.innerWidth >= 1450);
-      setXl(localWindow?.innerWidth >= 1200);
-      setLg(localWindow?.innerWidth >= 992);
-      setMd(localWindow?.innerWidth >= 768);
-      setSm(localWindow?.innerWidth >= 576);
-      setXs(localWindow?.innerWidth < 0);
+      setXxl(window?.innerWidth >= 1450);
+      setXl(window?.innerWidth >= 1200);
+      setLg(window?.innerWidth >= 992);
+      setMd(window?.innerWidth >= 768);
+      setSm(window?.innerWidth >= 576);
+      setXs(window?.innerWidth < 0);
     };
-    localWindow?.addEventListener?.('resize', handleResize);
-    () => localWindow?.removeEventListener?.('resize', handleResize);
+    window?.addEventListener?.("resize", handleResize);
+    () => window?.removeEventListener?.("resize", handleResize);
+    setXxl(window?.innerWidth >= 1450);
+    setXl(window?.innerWidth >= 1200);
+    setLg(window?.innerWidth >= 992);
+    setMd(window?.innerWidth >= 768);
+    setSm(window?.innerWidth >= 576);
+    setXs(window?.innerWidth >= 0);
   }, []);
 
   return { xs, sm, md, lg, xl, xxl };

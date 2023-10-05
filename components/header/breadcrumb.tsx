@@ -16,6 +16,9 @@ const useStyles = createUseStyles({
   breadcrumbs: {
     backgroundColor: "var(--pf-global--BackgroundColor--dark-300) !important;",
   },
+  breadcrumbItem: {
+    color: "var(--pf-global--link--Color--light)",
+  },
 });
 
 export const DocsBreadcrumb: React.FunctionComponent = () => {
@@ -51,7 +54,7 @@ export const DocsBreadcrumb: React.FunctionComponent = () => {
                 key={b.title}
                 to={b.link}
                 isActive
-                className="pf-u-pb-lg"
+                className={clsx("pf-u-p-0", classes.breadcrumbItem)}
               >
                 {b.title}
               </BreadcrumbItem>

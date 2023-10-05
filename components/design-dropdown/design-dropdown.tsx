@@ -38,18 +38,22 @@ import useWindowWidth from "../../hooks/useWindowWidth";
 
 const useStyles = createUseStyles({
   dropdownMenu: {
-    "@media (min-width: 768px)": {
+    "@media (min-width: 1450px)": {
       height: "calc(100vh - 70px)",
       transform: "translate(0, 70px) !important",
     },
-    "@media (max-width: 768px)": {
-      height: "calc(100vh - 118px)",
-      transform: "translate(0, 118px) !important",
+    "@media (max-width: 1450px)": {
+      height: "calc(100vh - 120px)",
+      transform: "translate(0, 120px) !important",
     },
   },
   menuToggle: {
     "--pf-c-menu-toggle--after--BorderBottomWidth": "0 !important",
     "--pf-c-menu-toggle--before--BorderBottomColor": "transparent !important",
+    "@media (max-width: 768px)": {
+      paddingLeft: "var(--pf-global--spacer--sm)",
+      paddingRight: "var(--pf-global--spacer--sm)",
+    },
   },
   panel: {
     "@media (max-width: 768px)": {

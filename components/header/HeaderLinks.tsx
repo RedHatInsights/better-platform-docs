@@ -16,6 +16,7 @@ import GithubIcon from "@patternfly/react-icons/dist/js/icons/github-icon";
 import { createUseStyles } from "react-jss";
 import { Fragment } from "react";
 import clsx from "clsx";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 const useStyles = createUseStyles({
   icon: {
@@ -32,18 +33,22 @@ const useStyles = createUseStyles({
   },
 });
 
-const HeaderTools = () => {
+const HeaderLinks = () => {
   const classes = useStyles();
+  const { sm } = useWindowWidth();
   return (
     <Fragment>
-      <ToolbarItem className={clsx("pf-u-px-xl", classes.toolbarItem)}>
+      <ToolbarItem
+        className={clsx("pf-u-px-sm pf-u-px-xl-on-md", classes.toolbarItem)}
+      >
         <TextContent className={classes.link}>
           <Text
             component="a"
             href="https://consoledot.pages.redhat.com/docs/dev/index.html"
             target="_blank"
           >
-            ConsoleDot Documentation
+            {sm && "ConsoleDot Documentation"}
+            {!sm && "Documentation"}
             <Icon className="pf-u-ml-sm" iconSize="sm" isInline>
               <ExternalLinkAltIcon />
             </Icon>
@@ -64,4 +69,4 @@ const HeaderTools = () => {
   );
 };
 
-export default HeaderTools;
+export default HeaderLinks;

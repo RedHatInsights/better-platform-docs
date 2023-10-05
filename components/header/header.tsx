@@ -38,10 +38,6 @@ const useStyles = createUseStyles({
     gridColumn: "2 / span 2",
     gridRow: "3",
   },
-  breadcrumbGroup: {
-    gridColumn: "2 / span 2",
-    gridRow: "3",
-  },
 });
 
 const Header = () => {
@@ -79,7 +75,7 @@ const Header = () => {
               </ToolbarItem>
             </ToolbarGroup>
             <ToolbarGroup
-              className="pf-u-flex-grow-1 pf-v5-u-mr-0 pf-v5-u-mr-md-on-2xl"
+              className="pf-u-flex-grow-1 pf-u-mr-0 pf-u-mr-md-on-2xl"
               variant="filter-group"
             >
               <Search />
