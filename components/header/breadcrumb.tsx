@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 import { usePathname } from "next/navigation";
 import {
   Button,
