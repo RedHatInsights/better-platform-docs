@@ -34,21 +34,26 @@ import Link from "next/link";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 import classnames from "clsx";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 const useStyles = createUseStyles({
   dropdownMenu: {
-    "@media (min-width: 768px)": {
+    "@media (min-width: 1450px)": {
       height: "calc(100vh - 70px)",
       transform: "translate(0, 70px) !important",
     },
-    "@media (max-width: 768px)": {
-      height: "calc(100vh - 118px)",
-      transform: "translate(0, 118px) !important",
+    "@media (max-width: 1450px)": {
+      height: "calc(100vh - 120px)",
+      transform: "translate(0, 120px) !important",
     },
   },
   menuToggle: {
     "--pf-c-menu-toggle--after--BorderBottomWidth": "0 !important",
     "--pf-c-menu-toggle--before--BorderBottomColor": "transparent !important",
+    "@media (max-width: 768px)": {
+      paddingLeft: "var(--pf-global--spacer--sm)",
+      paddingRight: "var(--pf-global--spacer--sm)",
+    },
   },
   panel: {
     "@media (max-width: 768px)": {
@@ -144,10 +149,14 @@ const DesignDropdown = () => {
     setIsOpen(!isOpen);
   };
   const classes = useStyles();
+  const { md } = useWindowWidth();
 
   const toggle = (
     <MenuToggle
-      className={classnames(classes.menuToggle, "pf-m-full-height")}
+      className={classnames(
+        classes.menuToggle,
+        "pf-m-full-height pf-u-py-sm pf-u-py-lg-on-2xl"
+      )}
       ref={toggleRef}
       onClick={onToggleClick}
       isExpanded={isOpen}
@@ -155,7 +164,7 @@ const DesignDropdown = () => {
       <Icon className="pf-u-m-sm" isInline>
         <PenToolIcon width="22" height="22" />
       </Icon>
-      Design
+      {md && "Design"}
     </MenuToggle>
   );
 
