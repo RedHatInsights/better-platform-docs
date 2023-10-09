@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import {
   Button,
   Breadcrumb,
@@ -22,15 +22,15 @@ const useStyles = createUseStyles({
 });
 
 export const DocsBreadcrumb: React.FunctionComponent = () => {
-  const router = useRouter();
-  const paths = router.pathname.split("/").slice(1);
+  const paths = usePathname();
+  const setPaths = paths.split("/").slice(1);
   const classes = useStyles();
 
   const breadcrumbs: { title: string; link: string }[] = [];
-  paths.map((p, index) => {
+  setPaths.map((p, index) => {
     breadcrumbs.push({
       title: `${p}`,
-      link: `/${paths.slice(0, index + 1).join("/")}`,
+      link: `/platform-docs/${setPaths.slice(0, index + 1).join("/")}`,
     });
   });
 

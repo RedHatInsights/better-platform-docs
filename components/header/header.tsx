@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import {
   Button,
   Icon,
@@ -20,6 +20,7 @@ import dynamic from "next/dynamic";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import HeaderLinks from "./HeaderLinks";
 import { DocsBreadcrumb } from "./breadcrumb";
+import { useRouter } from "next/router";
 
 const DevelopmentDropdown = dynamic(
   () => import("../development-dropdown/development-dropdown"),
@@ -43,6 +44,9 @@ const useStyles = createUseStyles({
 const Header = () => {
   const classes = useStyles();
   const { md, lg, xxl } = useWindowWidth();
+  const router = useRouter();
+  const showBreadcrumbs = router.pathname === "/" ? false : true;
+
   return (
     <Fragment>
       <MastheadMain className="pf-u-pl-lg pf-u-pt-0 pf-u-pb-xs">
@@ -90,9 +94,11 @@ const Header = () => {
           </ToolbarContent>
         </Toolbar>
       </MastheadContent>
-      <ToolbarGroup className={classes.breadcrumbGroup}>
-        <DocsBreadcrumb />
-      </ToolbarGroup>
+      {showBreadcrumbs && (
+        <ToolbarGroup className={classes.breadcrumbGroup}>
+          <DocsBreadcrumb />
+        </ToolbarGroup>
+      )}
     </Fragment>
   );
 };
