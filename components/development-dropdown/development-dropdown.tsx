@@ -200,6 +200,9 @@ const DevelopmentDropdown = () => {
                         setSelectedService(sections[tabKey as SectionType]);
                         setActiveTabKey(tabKey as string);
                       }}
+                      onClick={() => {
+                        setIsExpanded(!isExpanded);
+                      }}
                       isVertical
                       expandable={{
                         default: "expandable",
