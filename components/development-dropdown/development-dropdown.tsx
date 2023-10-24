@@ -201,7 +201,9 @@ const DevelopmentDropdown = () => {
                         setActiveTabKey(tabKey as string);
                       }}
                       onClick={() => {
-                        setIsExpanded(!isExpanded);
+                        if (!md) {
+                          setIsExpanded(!isExpanded);
+                        }
                       }}
                       isVertical
                       expandable={{
