@@ -136,7 +136,7 @@ const DevelopmentDropdown = () => {
     Object.values(sections)[0]
   );
   const [activeTabKey, setActiveTabKey] = useState(Object.keys(sections)[0]);
-  const [isExpanded, setIsExpanded] = useState();
+  const [isExpanded, setIsExpanded] = useState(false);
   const [] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -200,13 +200,18 @@ const DevelopmentDropdown = () => {
                         setSelectedService(sections[tabKey as SectionType]);
                         setActiveTabKey(tabKey as string);
                       }}
+                      onClick={() => {
+                        if (!md) {
+                          setIsExpanded(!isExpanded);
+                        }
+                      }}
                       isVertical
                       expandable={{
                         default: "expandable",
                         md: "nonExpandable",
                       }}
                       isExpanded={isExpanded}
-                      toggleText={activeTabKey}
+                      toggleText={selectedService?.title}
                       role="region"
                       className={classnames(
                         classes.tabs,
