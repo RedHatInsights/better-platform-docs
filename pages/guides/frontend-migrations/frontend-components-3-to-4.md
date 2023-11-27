@@ -1,6 +1,14 @@
 # Frontend components @3 -> @4 migration
 
-There are a small number of breaking changes in this release. Most of them impose stricter props requirements and  the removal of a some default prop values.
+### Before you start reading... 
+
+Consider migration to the new shared components extension [patternfly/react-component-groups](https://github.com/patternfly/react-component-groups) instead of upgrading your frontend-components version. Component groups bring PatternFly 5, improved and cleaner components, better docs and much more! 
+
+[See the Component groups migration guide](./frontend-components-to-PF-component-groups.md)
+
+---
+
+There is a small number of breaking changes in this release. Most of them impose stricter props requirements and  the removal of a some default prop values.
 
 ## Conditional filter
 
