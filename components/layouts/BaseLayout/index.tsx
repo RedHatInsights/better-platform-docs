@@ -63,7 +63,7 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
         stickyOnBreakpoint: { default: "top" },
       }}
       additionalGroupedContent={
-        navItems.length > 0 ? (
+        navItems.length > 0 && !"Note: Hidden until RHCLOUD-28585 is done" ? (
           <PageSection variant={PageSectionVariants.light} isWidthLimited>
             <TextContent>
               <Text component="h1">Section name</Text>
