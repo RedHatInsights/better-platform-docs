@@ -38,11 +38,15 @@ const useStyles = createUseStyles({
 export type SectionType = keyof typeof sections;
 export type SectionItem = {
   title: string;
-  category?: string;
   href: string;
   indexPage?: string;
   groupTitle?: string;
   groups?: { title: string }[];
+};
+export type NavSection = {
+  title: string;
+  items: SectionItem[];
+  category?: string;
 };
 export type NavRecord = Partial<Record<SectionType, SectionItem[]>>;
 
@@ -77,10 +81,9 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
       hasGutter
     >
       {navigations.flatMap((parentKey) => {
-        const section = sections[parentKey as SectionType];
-        const category = "category" in section ? section.category : "default";
-        const { title, items } = section;
-        const { labelColor, labelIcon } = getLabelProps(category);
+        const section = sections[parentKey as SectionType] as NavSection;
+        const { title, items, category } = section;
+        const { labelColor, labelIcon } = getLabelProps(category || "default");
 
         return (
           <GalleryItem key={parentKey}>
@@ -103,20 +106,12 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
               </CardTitle>
               <CardBody>
                 <List isPlain>
-                  {items.map((item, key) => (
+                  {items.map(({ title, indexPage, href }, key) => (
                     <ListItem
                       key={`${parentKey}-${key}`}
                       className="pf-u-font-size-sm pf-u-pb-sm"
                     >
-                      <Link
-                        href={
-                          "indexPage" in item && item.indexPage
-                            ? item.indexPage
-                            : item.href
-                        }
-                      >
-                        {item.title}
-                      </Link>
+                      <Link href={indexPage || href}>{title}</Link>
                     </ListItem>
                   ))}
                 </List>
