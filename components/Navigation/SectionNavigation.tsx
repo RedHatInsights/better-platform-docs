@@ -86,9 +86,9 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
         const { labelColor, labelIcon } = getLabelProps(category || "default");
 
         return (
-          <GalleryItem key={parentKey}>
+          <GalleryItem key={String(parentKey)}>
             <Card
-              key={parentKey}
+              key={String(parentKey)}
               className={classnames(
                 classes.card,
                 "pf-u-display-block pf-u-mb-md pf-u-background-color-100"
@@ -108,7 +108,7 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
                 <List isPlain>
                   {items.map(({ title, indexPage, href }, key) => (
                     <ListItem
-                      key={`${parentKey}-${key}`}
+                      key={`${String(parentKey)}-${key}`}
                       className="pf-u-font-size-sm pf-u-pb-sm"
                     >
                       <Link href={indexPage || href}>{title}</Link>
