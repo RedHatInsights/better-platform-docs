@@ -38,6 +38,7 @@ const useStyles = createUseStyles({
 export type SectionType = keyof typeof sections;
 export type SectionItem = {
   title: string;
+  category?: string;
   href: string;
   indexPage?: string;
   groupTitle?: string;
@@ -64,13 +65,22 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
           >
             <CardTitle className="pf-u-pb-md">
               {(sections[parentKey as SectionType] as { title: string }).title}
-              <Label
-                color="orange"
-                className={classnames(classes.label, "pf-u-float-right")}
-              >
-                <CommandLineIcon width="16" height="16" />
-              </Label>
-              {/*<Label color="purple" className={classnames(classes.label, "pf-u-float-right")}><PenToolIcon/></Label>*/}
+              {(sections[parentKey as SectionType] as { category: string })
+                .category === "code" ? (
+                <Label
+                  color="orange"
+                  className={classnames(classes.label, "pf-u-float-right")}
+                >
+                  <CommandLineIcon width="16" height="16" />
+                </Label>
+              ) : (
+                <Label
+                  color="purple"
+                  className={classnames(classes.label, "pf-u-float-right")}
+                >
+                  <PenToolIcon width="16" height="16" />
+                </Label>
+              )}
             </CardTitle>
             <CardBody>
               <List isPlain>
