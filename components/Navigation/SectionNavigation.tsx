@@ -77,8 +77,10 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
       hasGutter
     >
       {navigations.flatMap((parentKey) => {
-        const { title, items, category } = sections[parentKey as SectionType];
-        const { labelColor, labelIcon } = getLabelProps(category || "default");
+        const section = sections[parentKey as SectionType];
+        const category = "category" in section ? section.category : "default";
+        const { title, items } = section;
+        const { labelColor, labelIcon } = getLabelProps(category);
 
         return (
           <GalleryItem key={parentKey}>
@@ -101,12 +103,20 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
               </CardTitle>
               <CardBody>
                 <List isPlain>
-                  {items.map(({ title, href, indexPage }, key) => (
+                  {items.map((item, key) => (
                     <ListItem
                       key={`${parentKey}-${key}`}
                       className="pf-u-font-size-sm pf-u-pb-sm"
                     >
-                      <Link href={indexPage || href}>{title}</Link>
+                      <Link
+                        href={
+                          "indexPage" in item && item.indexPage
+                            ? item.indexPage
+                            : item.href
+                        }
+                      >
+                        {item.title}
+                      </Link>
                     </ListItem>
                   ))}
                 </List>
