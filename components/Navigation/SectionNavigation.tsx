@@ -1,5 +1,6 @@
 import Link from "next/link";
 import sections from "./sections/sections.json";
+import sectionMeta from "./section-meta.json";
 import {
   Bullseye,
   Card,
@@ -43,54 +44,84 @@ export type SectionItem = {
   groupTitle?: string;
   groups?: { title: string }[];
 };
+export type NavSection = {
+  title: string;
+  items: SectionItem[];
+  category?: string;
+};
 export type NavRecord = Partial<Record<SectionType, SectionItem[]>>;
 
 const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
   const classes = useStyles();
+
+  const getLabelProps = (
+    category: string
+  ): { labelColor: string; labelIcon: React.ReactNode } => {
+    switch (category) {
+      case "code":
+        return {
+          labelColor: "orange",
+          labelIcon: <CommandLineIcon width="16" height="16" />,
+        };
+      case "design":
+        return {
+          labelColor: "purple",
+          labelIcon: <PenToolIcon width="16" height="16" />,
+        };
+      default:
+        return {
+          labelColor: "purple",
+          labelIcon: <PenToolIcon width="16" height="16" />,
+        };
+    }
+  };
+
   return (
     <Gallery
       className={classnames(classes.gallery, "pf-u-display-block")}
       hasGutter
     >
-      {navigations.flatMap((parentKey) => (
-        <GalleryItem key={parentKey}>
-          <Card
-            key={parentKey}
-            className={classnames(
-              classes.card,
-              "pf-u-display-block pf-u-mb-md pf-u-background-color-100"
-            )}
-            isSelectable
-          >
-            <CardTitle className="pf-u-pb-md">
-              {(sections[parentKey as SectionType] as { title: string }).title}
-              <Label
-                color="orange"
-                className={classnames(classes.label, "pf-u-float-right")}
-              >
-                <CommandLineIcon width="16" height="16" />
-              </Label>
-              {/*<Label color="purple" className={classnames(classes.label, "pf-u-float-right")}><PenToolIcon/></Label>*/}
-            </CardTitle>
-            <CardBody>
-              <List isPlain>
-                {(
-                  sections[parentKey as SectionType] as {
-                    items: SectionItem[];
-                  }
-                ).items.map(({ title, href, indexPage }, key) => (
-                  <ListItem
-                    key={`${parentKey}-${key}`}
-                    className="pf-u-font-size-sm pf-u-pb-sm"
-                  >
-                    <Link href={indexPage ?? href}>{title}</Link>
-                  </ListItem>
-                ))}
-              </List>
-            </CardBody>
-          </Card>
-        </GalleryItem>
-      ))}
+      {navigations.flatMap((parentKey) => {
+        const section = sections[parentKey as SectionType] as NavSection;
+        const { title, items } = section;
+        const category = sectionMeta[parentKey]?.category || "default";
+        const { labelColor, labelIcon } = getLabelProps(category);
+
+        return (
+          <GalleryItem key={String(parentKey)}>
+            <Card
+              key={String(parentKey)}
+              className={classnames(
+                classes.card,
+                "pf-u-display-block pf-u-mb-md pf-u-background-color-100"
+              )}
+              isSelectable
+            >
+              <CardTitle className="pf-u-pb-md">
+                {title}
+                <Label
+                  color={labelColor as "orange" | "purple"}
+                  className={classnames(classes.label, "pf-u-float-right")}
+                >
+                  {labelIcon}
+                </Label>
+              </CardTitle>
+              <CardBody>
+                <List isPlain>
+                  {items.map(({ title, indexPage, href }, key) => (
+                    <ListItem
+                      key={`${String(parentKey)}-${key}`}
+                      className="pf-u-font-size-sm pf-u-pb-sm"
+                    >
+                      <Link href={indexPage || href}>{title}</Link>
+                    </ListItem>
+                  ))}
+                </List>
+              </CardBody>
+            </Card>
+          </GalleryItem>
+        );
+      })}
     </Gallery>
   );
 };
