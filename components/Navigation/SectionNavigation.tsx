@@ -1,5 +1,6 @@
 import Link from "next/link";
 import sections from "./sections/sections.json";
+import sectionMeta from "./section-meta.json";
 import {
   Bullseye,
   Card,
@@ -82,8 +83,9 @@ const SectionNavigation = ({ navigations }: { navigations: SectionType[] }) => {
     >
       {navigations.flatMap((parentKey) => {
         const section = sections[parentKey as SectionType] as NavSection;
-        const { title, items, category } = section;
-        const { labelColor, labelIcon } = getLabelProps(category || "default");
+        const { title, items } = section;
+        const category = sectionMeta[parentKey]?.category || "default";
+        const { labelColor, labelIcon } = getLabelProps(category);
 
         return (
           <GalleryItem key={String(parentKey)}>

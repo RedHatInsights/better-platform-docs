@@ -1,0 +1,29 @@
+{
+    "chroming-service": {
+        "category": "code"
+    },
+    "consoledot-pages": {
+        "category": "design"
+    },
+    "deployment": {
+        "category": "design"
+    },
+    "frontend-components": {
+        "category": "design"
+    },
+    "frontend-tips-and-tricks": {
+        "category": "code"
+    },
+    "guides": {
+        "category": "design"
+    },
+    "hac-initiative": {
+        "category": "code"
+    },
+    "landing-page": {
+        "category": "design"
+    },
+    "platform-experience": {
+        "category": "design"
+    }
+}
