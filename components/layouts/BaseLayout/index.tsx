@@ -62,16 +62,16 @@ const BaseLayout: React.FC<PropsWithChildren> = ({ children }) => {
       groupProps={{
         stickyOnBreakpoint: { default: "top" },
       }}
-      additionalGroupedContent={
-        navItems.length > 0 ? (
-          <PageSection variant={PageSectionVariants.light} isWidthLimited>
-            <TextContent>
-              <Text component="h1">Section name</Text>
-              <Text component="p">Section Description</Text>
-            </TextContent>
-          </PageSection>
-        ) : undefined
-      }
+      // additionalGroupedContent={
+      //   navItems.length > 0 ? (
+      //     <PageSection variant={PageSectionVariants.light} isWidthLimited>
+      //       <TextContent>
+      //         <Text component="h1">Section name</Text>
+      //         <Text component="p">Section Description</Text>
+      //       </TextContent>
+      //     </PageSection>
+      //   ) : undefined
+      // }
     >
       {route !== "/" ? (
         <Sidebar
