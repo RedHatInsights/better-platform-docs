@@ -1,6 +1,9 @@
 node_modules
 .git
 .next
+.docker
+.podman
+.kube
 components/Navigation/schemas
 components/Navigation/sections
 components/examples
