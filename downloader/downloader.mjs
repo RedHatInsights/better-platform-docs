@@ -36,7 +36,8 @@ function gitlabTemplate(owner, repository, branch) {
 
 const sourceMapper = {
   github: githubTemplate,
-  gitlab: gitlabTemplate,
+  //TODO: fix gitlab downloader
+  // gitlab: gitlabTemplate,
 };
 
 data.forEach(
@@ -141,40 +142,42 @@ data.forEach(
       });
       onGenerate();
     } else {
-      const URL = sourceMapper[source](owner, repository, branch);
-      console.log("Downloading files", URL);
-      const file = fs.createWriteStream(safePath(`../tmp/${repository}.zip`));
-      follow.https.get(
-        URL,
-        {
-          // required for gitlab self signed certificate
-          rejectUnauthorized: source !== "gitlab",
-        },
-        function (response) {
-          console.log("Status: ", response.statusCode);
-          response.pipe(file);
-          file.on("finish", () => {
-            file.close();
-            const zip = new StreamZip.async({
-              file: `./tmp/${repository}.zip`,
-            });
-            zip.extract(null, safePath("../tmp")).then(() => {
-              return (
-                transformers[repository]?.({
-                  repository,
-                  branch,
-                  path,
-                  title,
-                  customNav,
-                }) || Promise.resolve()
-              ).then(() => {
-                onGenerate();
-                zip.close();
+      const URL = sourceMapper[source]?.(owner, repository, branch);
+      if (URL) {
+        console.log("Downloading files", URL);
+        const file = fs.createWriteStream(safePath(`../tmp/${repository}.zip`));
+        follow.https.get(
+          URL,
+          {
+            // required for gitlab self signed certificate
+            rejectUnauthorized: source !== "gitlab",
+          },
+          function (response) {
+            console.log("Status: ", response.statusCode);
+            response.pipe(file);
+            file.on("finish", () => {
+              file.close();
+              const zip = new StreamZip.async({
+                file: `./tmp/${repository}.zip`,
+              });
+              zip.extract(null, safePath("../tmp")).then(() => {
+                return (
+                  transformers[repository]?.({
+                    repository,
+                    branch,
+                    path,
+                    title,
+                    customNav,
+                  }) || Promise.resolve()
+                ).then(() => {
+                  onGenerate();
+                  zip.close();
+                });
               });
             });
-          });
-        }
-      );
+          }
+        );
+      }
     }
   }
 );
