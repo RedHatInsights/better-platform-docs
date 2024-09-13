@@ -1,0 +1,20 @@
+docs_dir: ./pages
+site_name: Platform Documentation
+
+markdown_extensions:
+  - toc:
+      permalink: "#"
+
+nav:
+- Contributing:
+  - About: 'contributing/index.md'
+  - Test: 'contributing/test.md'
+- Guides:
+  - About: 'guides/frontend-migrations/index.md'
+  - Frontend components @3 -> @4 migration: 'guides/frontend-migrations/frontend-components-3-to-4.md'
+  - Frontend components -> patternfly/react-component-groups migration: 'guides/frontend-components-to-PF-component-groups.md'
+
+- Namespaces: namespaces.md
+- Apps: apps.md
+- Cluster: cluster.md
+- User Menu: user_menu.md
